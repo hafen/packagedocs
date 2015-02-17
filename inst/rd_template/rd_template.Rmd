@@ -1,0 +1,52 @@
+
+# {{name}} #
+
+<h3>{{{title}}}</h3>
+
+{{#description}}
+{{{description}}}
+{{/description}}
+
+{{#usage}}
+<h4>Usage</h4>
+<pre class="r"><code>{{{usage}}}</code></pre>
+{{/usage}}
+
+{{#has_args}}
+<h4>Arguments</h4>
+<dl class="rd-dl">
+{{#arguments}}
+  <dt>{{name}}</dt>
+  <dd class="rd-dd">{{{description}}}</dd>
+{{/arguments}}
+</dl>
+{{/has_args}}
+
+{{#sections}}
+  <h4>{{title}}</h4>
+
+  {{#contents}}
+  <p class="rd-p">{{{.}}}</p>
+
+  {{/contents}}
+
+{{/sections}}
+
+{{#examples }}
+
+<h4>Examples</h4>
+<pre class="r"><code>{{{ examples }}}</code></pre>
+{{/examples}}
+
+{{#seealso}}
+<h4>See also</h4>
+{{{ seealso }}}
+{{/seealso}}
+
+{{#author}}
+<h4>Author</h4>
+{{{ author }}}
+{{/author}}
+
+
+

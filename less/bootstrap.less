@@ -1,0 +1,28 @@
+@import "bower_components/bootstrap/less/bootstrap.less";
+@import "bower_components/bootswatch/cosmo/variables.less";
+@import "bower_components/bootswatch/cosmo/bootswatch.less";
+@import "bower_components/bootstrap/less/utilities.less";
+
+// @import url("//fonts.googleapis.com/css?family=Nixie+One");
+// @import url("//fonts.googleapis.com/css?family=PT+Sans:400");
+@import url("//fonts.googleapis.com/css?family=PT+Mono");
+
+@font-size-base: 18px;
+@font-size-h1:   floor((@font-size-base * 2)); // ~36px
+@font-size-h2:   floor((@font-size-base * 1.75)); // ~30px
+@font-size-h3:   ceil((@font-size-base * 1.5)); // ~24px
+@font-size-h4:   ceil((@font-size-base * 1.25)); // ~18px
+@font-size-h5:   @font-size-base;
+@font-size-h6:   ceil((@font-size-base * 0.85)); // ~12px
+
+@font-size-code: ceil((@font-size-base * 0.75));
+
+code,
+kbd,
+pre,
+samp {
+  font-size: @font-size-code;
+}
+
+@pre-bg:           #f9f9f9;
+@pre-border-color: #f5f5f5;
