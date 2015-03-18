@@ -72,7 +72,6 @@
   $include-before$
   $endfor$
 
-  $if(navpills)$
   <header class="navbar navbar-white navbar-fixed-top" role="banner" id="header">
     <div class="container">
       <div class="navbar-header">
@@ -84,14 +83,15 @@
         </button>
         <a href="#" class="navbar-brand">$title$$if(subtitle)$ - $subtitle$$endif$</a>
       </div>
+      $if(navpills)$
       <nav class="collapse navbar-collapse" role="navigation">
         <ul class="nav nav-pills pull-right">
 $navpills$
         </ul>
       </nav>
+      $endif$
     </div>
   </header>
-  $endif$
 
   <!-- Begin Body -->
   <div class="container">

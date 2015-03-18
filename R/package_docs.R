@@ -37,7 +37,7 @@ html_dependency_boot <- function() {
   htmltools::htmlDependency(name = "bootstrap",
     version = "3.3.2",
     src = system.file("html_assets/bootstrap", package = "packagedocs"),
-    script = c("js/bootstrap.min.js",
+    script = c("js/bootstrap.min.js", "js/custom.js",
      "shim/html5shiv.min.js",
      "shim/respond.min.js"),
     stylesheet = c("css/custom.css", "css/bootstrap.min.css"))
