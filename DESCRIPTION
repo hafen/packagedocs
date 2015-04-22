@@ -11,11 +11,11 @@ LazyData: true
 Imports:
   rmarkdown,
   htmltools,
-  staticdocs,
   stringr,
   tools,
   whisker,
   gsubfn
 Suggests:
-    testthat
+  staticdocs,
+  testthat
 

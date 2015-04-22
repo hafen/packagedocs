@@ -5,12 +5,13 @@
 #' @param exclude vector of Rd entry names to exclude from the resulting document
 #' @importFrom tools Rd_db
 #' @importFrom whisker whisker.render
-#' @import staticdocs
 #' @import stringr
 #' @importFrom gsubfn gsubfn
 #' @export
 function_ref_template <- function(package_name, code_path, exclude = NULL) {
   options(gsubfn.engine = "R")
+
+  require(staticdocs)
 
   # library(gsubfn); library(whisker); library(staticdocs); library(tools); library(stringr)
   # exclude <- c("pipe", "scales")
