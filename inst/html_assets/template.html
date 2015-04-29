@@ -81,7 +81,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="#" class="navbar-brand">$title$$if(subtitle)$ - $subtitle$$endif$</a>
+        $if(brand)$
+        <span class="navbar-brand">
+$brand$
+        </span>
+        $endif$
+        <a href="#content-top" class="navbar-brand page-scroll">
+        $title$$if(subtitle)$ - $subtitle$$endif$
+        </a>
       </div>
       $if(navpills)$
       <nav class="collapse navbar-collapse" role="navigation">
@@ -107,6 +114,7 @@ $navpills$
       <div class="col-md-12">
       $endif$
 
+<div id="content-top"></div>
 $body$
 
 $for(include-after)$
@@ -129,54 +137,6 @@ $endfor$
       </div>
     </div>
   </div>
-
-  <script type="text/javascript">
-    function handleSticky() {
-      if($$(window).width() > 979) {
-        var stickBottom = true;
-        if($$(window).height() > $$("#sidebar-col").height())
-          stickBottom = false;
-        $$("#sidebar-col").stick_in_parent({offset_top: 60, bottoming: stickBottom});
-      } else {
-        $$("#sidebar-col").trigger("sticky_kit:detach");
-      }
-    }
-
-    $$(document).ready(function() {
-      $$('#toc ul:first').addClass('nav nav-stacked');
-      $$('#toc ul:first').attr('id', 'sidebar');
-
-      // add class to toc sub-elements
-      $$('#toc ul:first ul').addClass("nav nav-stacked")
-
-      handleSticky();
-
-      $$('tr.header').parent('thead').parent('table').addClass('table table-condensed');
-
-      var $$body    = $$(document.body);
-      var navHeight = $$('.navbar').outerHeight(true) + 10;
-
-      $$body.scrollspy({
-        target: '#toc',
-        offset: navHeight
-      });
-
-      hljs.initHighlightingOnLoad();
-    });
-
-    // let a user resize for 250ms before triggering actions
-    $$(window).resize(function() {
-       if(this.resizeTO) clearTimeout(this.resizeTO);
-       this.resizeTO = setTimeout(function() {
-          $$(this).trigger('resizeEnd');
-       }, 250);
-    });
-
-    $$(window).bind('resizeEnd', function() {
-      handleSticky();
-    });
-
-  </script>
 
   $if(mathjax-url)$
   <!-- dynamically load mathjax for compatibility with self-contained -->

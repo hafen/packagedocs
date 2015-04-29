@@ -1,0 +1,12 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+
+.gitignore
+bower.json
+gulpfile.js
+package.json
+^node_modules$
+^bower_components$
+^_ignore$
+^less$
+packagedocs.sublime*

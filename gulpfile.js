@@ -19,17 +19,18 @@ gulp.task('less', function () {
 });
 
 gulp.task('render', function () {
-  run('Rscript -e "library(packagedocs); library(rmarkdown); render(\'_ignore/test/test.Rmd\', output_format = package_docs()); file.copy(\'\', \'bootstrap.min.css\', overwrite = TRUE)"').exec()
+  run('rm -rf _ignore/test/test_files/*;Rscript -e "library(packagedocs); library(rmarkdown); render(\'_ignore/test/test.Rmd\', output_format = package_docs());"').exec()
 })
+// file.copy(\'\', \'bootstrap.min.css\', overwrite = TRUE)
 
 gulp.task('copyboot', function() {
   gulp.src('inst/html_assets/bootstrap/css/bootstrap.min.css')
-    .pipe(gulp.dest('_ignore/test/test_files/custboot-0.1/css/'))
+    .pipe(gulp.dest('_ignore/test/test_files/bootstrap-3.3.2/css/'))
 })
 
 gulp.task('copycust', function() {
   gulp.src('inst/html_assets/bootstrap/css/custom.css')
-    .pipe(gulp.dest('_ignore/test/test_files/custboot-0.1/css/'))
+    .pipe(gulp.dest('_ignore/test/test_files/bootstrap-3.3.2/css/'))
 })
 
 gulp.task('watch', function() {
