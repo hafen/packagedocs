@@ -6,7 +6,7 @@
 #' @export
 #' @import rmarkdown
 #' @import htmltools
-package_docs <- function(toc = TRUE, toc_depth = 2, extra_dependencies = NULL, ...) {
+package_docs <- function(toc = TRUE, toc_depth = 2, toc_collapse = FALSE, extra_dependencies = NULL, ...) {
 
   template <-  system.file("html_assets/template.html", package = "packagedocs")
   # header <- system.file("assets/header.html", package = "packagedocs")
@@ -14,9 +14,16 @@ package_docs <- function(toc = TRUE, toc_depth = 2, extra_dependencies = NULL, .
   if(toc_depth > 2)
     stop("toc_depth must be 2 or smaller", call. = FALSE)
 
+  pddep <- html_dependency_packagedocs()
+  if(toc_collapse) {
+    pddep$script <- setdiff(pddep$script, "pd-sticky-toc.js")
+  } else {
+    pddep$script <- setdiff(pddep$script, "pd-collapse-toc.js")
+  }
+
   extra_dependencies <- c(list(rmarkdown:::html_dependency_jquery(),
     html_dependency_boot(), html_dependency_hglt(), html_dependency_fnta(),
-    html_dependency_sticky_kit(), html_dependency_jquery_easing(), html_dependency_packagedocs_custom()), extra_dependencies)
+    html_dependency_sticky_kit(), html_dependency_jquery_easing(), pddep), extra_dependencies)
 
   # call the base html_document function
   rmarkdown::html_document(toc = toc,
@@ -37,10 +44,8 @@ html_dependency_boot <- function() {
   htmltools::htmlDependency(name = "bootstrap",
     version = "3.3.2",
     src = system.file("html_assets/bootstrap", package = "packagedocs"),
-    script = c("js/bootstrap.min.js",
-     "shim/html5shiv.min.js",
-     "shim/respond.min.js"),
-    stylesheet = c("css/custom.css", "css/bootstrap.min.css"))
+    script = c("js/bootstrap.min.js", "shim/html5shiv.min.js", "shim/respond.min.js"),
+    stylesheet = c("css/bootstrap.min.css"))
 }
 
 html_dependency_sticky_kit <- function() {
@@ -57,11 +62,12 @@ html_dependency_jquery_easing <- function() {
     script = c("jquery.easing.min.js"))
 }
 
-html_dependency_packagedocs_custom <- function() {
-  htmltools::htmlDependency(name = "packagedocscustom",
+html_dependency_packagedocs <- function() {
+  htmltools::htmlDependency(name = "packagedocs",
     version = "0.0.1",
-    src = system.file("html_assets/packagedocs-custom", package = "packagedocs"),
-    script = c("custom.js"))
+    src = system.file("html_assets/packagedocs", package = "packagedocs"),
+    script = c("pd.js", "pd-sticky-toc.js", "pd-collapse-toc.js"),
+    stylesheet = "pd.css")
 }
 
 html_dependency_hglt <- function() {

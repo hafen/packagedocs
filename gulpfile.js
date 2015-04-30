@@ -29,8 +29,8 @@ gulp.task('copyboot', function() {
 })
 
 gulp.task('copycust', function() {
-  gulp.src('inst/html_assets/bootstrap/css/custom.css')
-    .pipe(gulp.dest('_ignore/test/test_files/bootstrap-3.3.2/css/'))
+  gulp.src('inst/html_assets/packagedocs/pd.css')
+    .pipe(gulp.dest('_ignore/test/test_files/packagedocs-0.0.1/'))
 })
 
 gulp.task('watch', function() {
@@ -40,7 +40,7 @@ gulp.task('watch', function() {
       ['render','copyboot','copycust']);
   gulp.watch('inst/html_assets/bootstrap/css/bootstrap.min.css',
       ['copyboot']);
-  gulp.watch('inst/html_assets/bootstrap/css/custom.css',
+  gulp.watch('inst/html_assets/packagedocs/pd.css',
       ['copycust']);
 });
 
