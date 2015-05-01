@@ -19,6 +19,20 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   # code_path <- "~/Documents/Code/Tessera/hafen/datadr"
 
   db <- Rd_db(package_name)
+  names(db) <- gsub("\\.Rd", "", names(db))
+
+  x <- db[["drRead.table"]]
+
+  usgs <- lapply(db, function(x) {
+    tags <- sapply(x, function(a) attr(a, "Rd_tag"))
+    tags <- gsub("\\\\", "", tags)
+    if(any(tags == "examples")) {
+      x <- paste(unlist(x[[which(tags == "usage")]]), collapse = "")
+      gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
+    } else {
+      NULL
+    }
+  })
 
   exs <- lapply(db, function(x) {
     tags <- sapply(x, function(a) attr(a, "Rd_tag"))
@@ -57,7 +71,7 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
         rd_index[[ii]]$topics <- setdiff(rd_index[[ii]]$topics, unknown_topics)
     }
   } else {
-    rd_index <- list(name = "Package", desc = "", topics = sort(nms))
+    rd_index <- list(list(section_name = "Package", desc = "", topics = sort(nms)))
   }
 
   dat <- list(
@@ -75,7 +89,7 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   rd_template <- paste(readLines(file.path(system.file(package = "packagedocs"), "/rd_template/rd_template.Rmd")), collapse = "\n")
 
   entries <- lapply(nms, function(nm) {
-    try(get_rd_data(nm, package_name, package, exs))
+    try(get_rd_data(nm, package_name, package, exs, usgs))
   })
 
   idx <- which(sapply(entries, function(x) inherits(x, "try-error")))
@@ -111,14 +125,6 @@ valid_id <- function(x) {
   x
 }
 
-fix_usage <- function(u) {
-  u <- gsub("<div>", "", u)
-  u <- gsub("</div>", "", u)
-  u <- gsub("&nbsp;", " ", u)
-
-  str_wrap(u, 60, 0, 2)
-}
-
 # to avoid gsubfn
 fix_hrefs <- function(x) {
   tmp <- strsplit(x, "'")
@@ -129,12 +135,13 @@ fix_hrefs <- function(x) {
   }))
 }
 
-get_rd_data <- function(nm, package_name, package, exs) {
+get_rd_data <- function(nm, package_name, package, exs, usgs) {
   cat(nm, "\n")
   b <- parse_rd(nm, package_name)
   data <- to_html(b, pkg = package)
 
   data$examples <- exs[[nm]]
+  data$usage <- usgs[[nm]]
 
   data$id <- valid_id(data$name)
 
@@ -164,8 +171,8 @@ get_rd_data <- function(nm, package_name, package, exs) {
   data$seealso <- fix_hrefs(data$seealso)
 
   # same for usage
-  data$usage <- fix_hrefs(data$usage)
-  data$usage <- gsub("\\n    ", "\n  ", data$usage)
+  # data$usage <- fix_hrefs(data$usage)
+  # data$usage <- gsub("\\n    ", "\n  ", data$usage)
 
   for(jj in seq_along(data$sections)) {
     if("contents" %in% names(data$sections[[jj]]))
@@ -179,8 +186,6 @@ get_rd_data <- function(nm, package_name, package, exs) {
 
   if(data$title == data$description)
     data$description <- NULL
-
-  data$usage <- fix_usage(data$usage)
 
   data
 }

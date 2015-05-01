@@ -55,6 +55,7 @@ $(function() {
     $(document).data("scroll", 1);
     var $anchor = $(this);
     var id = $anchor.attr('href').replace(/\./g, '\\.');
+    id = id.replace(/\-/g, '\\-');
     $('html, body').stop().animate({
         scrollTop: $(id).offset().top - 80
     }, 300, 'easeInOutExpo', function() {

@@ -36,17 +36,28 @@ $(document).ready(function() {
   });
 
   // get rid of dots in Rd ids to work with bootstrap's dumb scrollspy
-  $('.section').each(function() {
+  $('.section.level1 .section.level2').each(function() {
     var obj = $(this);
     var id = obj.attr('id');
-    if(id.indexOf('.') !== -1) {
-      var new_id = id.replace(/\./g, '_')
+    if(id.indexOf('.') !== -1 || id.indexOf('-') !== -1) {
+      var new_id = id.replace(/\./g, '_');
+      new_id = new_id.replace(/\-/g, '_');
       obj.attr('id', new_id);
-      $('a[href$="' + id + '"]').attr('href', '#' + new_id);
+      var ahrefs = $('a[href$="' + id + '"]');
+      ahrefs.attr('href', '#' + new_id);
+      ahrefs.addClass("page-scroll");
     }
   });
 
   $('body').scrollspy('refresh');
 });
 
+$(window).load(function() {
+  // if there is a hash on page load, scroll to it
+  if(window.location.hash.length > 0) {
+    $('html, body').stop().animate({
+        scrollTop: $(window.location.hash).offset().top - 80
+    }, 100, 'easeInOutExpo');
+  }
+});
 

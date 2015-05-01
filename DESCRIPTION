@@ -1,6 +1,6 @@
 Package: packagedocs
 Title: Build Webstite of Package Documentation
-Version: 0.3.1
+Version: 0.3.2
 Date: 2015-05-01
 Authors@R: "Ryan Hafen <rhafen@gmail.com> [aut, cre]"
 Description: Use rmarkdown to build a package documentation site.

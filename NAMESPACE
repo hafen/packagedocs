@@ -2,11 +2,13 @@
 
 export(check_output)
 export(package_docs)
+export(purl_docs)
 export(rd_template)
 export(render_rd)
 import(htmltools)
 import(rmarkdown)
 import(stringr)
+importFrom(knitr,purl)
 importFrom(tools,Rd_db)
 importFrom(whisker,whisker.render)
 importFrom(yaml,yaml.load_file)
