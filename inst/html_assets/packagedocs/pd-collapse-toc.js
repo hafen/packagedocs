@@ -54,14 +54,13 @@ $(function() {
   $('#sidebar li a, .page-scroll').bind('click', function(event) {
     $(document).data("scroll", 1);
     var $anchor = $(this);
+    var id = $anchor.attr('href').replace(/\./g, '\\.');
     $('html, body').stop().animate({
-        scrollTop: $($anchor.attr('href')).offset().top - 80
+        scrollTop: $(id).offset().top - 80
     }, 300, 'easeInOutExpo', function() {
       // window.location.hash = $anchor.attr('href');
       $(document).data("scroll", 0);
-      var id = $anchor.attr('href');
       id = id + "-toc-collapse";
-      console.log("click: " + id);
       $(id).collapse("show");
     });
     event.preventDefault();

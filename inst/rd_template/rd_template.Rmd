@@ -1,5 +1,13 @@
 
-# {{name}} #
+{{#.}}
+
+# {{{section_name}}}
+
+{{#entries}}
+
+{{#.}}
+
+## {{name}}
 
 <h3>{{{title}}}</h3>
 
@@ -32,7 +40,7 @@
 
 {{/sections}}
 
-{{#examples }}
+{{#examples}}
 
 <h4>Examples</h4>
 <pre class="r"><code>{{{ examples }}}</code></pre>
@@ -48,5 +56,8 @@
 {{{ author }}}
 {{/author}}
 
+{{/.}}
+{{/entries}}
 
+{{/.}}
 

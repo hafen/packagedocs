@@ -4,7 +4,8 @@
 \alias{package_docs}
 \title{Generate package docs}
 \usage{
-package_docs(toc = TRUE, toc_depth = 2, ...)
+package_docs(toc = TRUE, toc_depth = 2, toc_collapse = FALSE,
+  extra_dependencies = NULL, ...)
 }
 \arguments{
 \item{toc}{should a table of contents be included?}

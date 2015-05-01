@@ -26,6 +26,27 @@ $(document).ready(function() {
   });
 
   hljs.initHighlightingOnLoad();
+
+  // make hrefs in Rd scrollable
+  $(".section code a").each(function() {
+    var obj = $(this);
+    if(obj.attr('href').charAt(0) == "#")  {
+      obj.addClass("page-scroll");
+    }
+  });
+
+  // get rid of dots in Rd ids to work with bootstrap's dumb scrollspy
+  $('.section').each(function() {
+    var obj = $(this);
+    var id = obj.attr('id');
+    if(id.indexOf('.') !== -1) {
+      var new_id = id.replace(/\./g, '_')
+      obj.attr('id', new_id);
+      $('a[href$="' + id + '"]').attr('href', '#' + new_id);
+    }
+  });
+
+  $('body').scrollspy('refresh');
 });
 
 

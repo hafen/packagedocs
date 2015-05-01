@@ -4,8 +4,8 @@
 \alias{render_rd}
 \title{Generate rd.html file}
 \usage{
-render_rd(rd_skeleton, package_name, code_path, exclude = NULL,
-  output = ".")
+render_rd(rd_skeleton, package_name, code_path, rd_index = NULL,
+  exclude = NULL, output_format = NULL, output = ".")
 }
 \arguments{
 \item{rd_skeleton}{path to a .Rmd file that contains the header to use for the rd.Rmd}
@@ -13,6 +13,8 @@ render_rd(rd_skeleton, package_name, code_path, exclude = NULL,
 \item{package_name}{the name of the package, e.g. "packagedocs"}
 
 \item{code_path}{path to the source code directory of the package}
+
+\item{rd_index}{path to yaml file with index layout information}
 
 \item{exclude}{vector of Rd entry names to exclude from the resulting document}
 
