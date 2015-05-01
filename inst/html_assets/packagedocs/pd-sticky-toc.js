@@ -31,8 +31,14 @@ $(function() {
   $('#sidebar li a, .page-scroll').bind('click', function(event) {
     $(document).data("scroll", 1);
     var $anchor = $(this);
+    var id = $anchor.attr('href').replace(/\./g, '\\.');
+    id = id.replace(/\-/g, '\\-');
     $('html, body').stop().animate({
-        scrollTop: $($anchor.attr('href')).offset().top - 80
+        scrollTop: $(id).offset().top - 80
     }, 300, 'easeInOutExpo');
+    if (history && history.replaceState) {
+      history.replaceState({}, "", $anchor.attr('href'));
+    }
+    // window.location.hash = $anchor.attr('href');
   });
 });

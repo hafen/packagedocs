@@ -43,7 +43,7 @@ $(document).ready(function() {
       var new_id = id.replace(/\./g, '_');
       new_id = new_id.replace(/\-/g, '_');
       obj.attr('id', new_id);
-      var ahrefs = $('a[href$="' + id + '"]');
+      var ahrefs = $('a[href$="#' + id + '"]');
       ahrefs.attr('href', '#' + new_id);
       ahrefs.addClass("page-scroll");
     }
@@ -52,12 +52,35 @@ $(document).ready(function() {
   $('body').scrollspy('refresh');
 });
 
+// update window.location.hash as user scrolls
+$(function() {
+  $('body').on('activate.bs.scrollspy', function() {
+    if($(document).data("scroll") != 1) {
+      var activeLI = $("#sidebar li.active");
+      if(activeLI.length > 0) {
+        var id = $(activeLI[activeLI.length - 1]).find('a').first().attr('href');
+        if (history && history.replaceState) {
+          history.replaceState({}, "", id);
+        }
+      }
+    }
+  });
+});
+
+
 $(window).load(function() {
   // if there is a hash on page load, scroll to it
   if(window.location.hash.length > 0) {
-    $('html, body').stop().animate({
-        scrollTop: $(window.location.hash).offset().top - 80
-    }, 100, 'easeInOutExpo');
+    if($(window.location.hash).length > 0) {
+      setTimeout(function() {
+        $('html, body').stop().animate({
+            scrollTop: $(window.location.hash).offset().top - 80
+        }, 100, 'easeInOutExpo');
+      }, 1);
+    }
   }
 });
 
+$( window ).unload(function() {
+  window.location.hash = window.location.hash;
+});

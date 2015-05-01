@@ -24,23 +24,13 @@ $(function () {
   });
 });
 
-// $(function() {
-//   $('body').on('activate.bs.scrollspy', function() {
-//     if($(document).data("scroll") != 1) {
-//       var id = $("#sidebar>li.active>ul").attr("id");
-//       id = "#" + id;
-//       $(id).collapse("show");
-//     }
-//   });
-// });
-
+// ensure that collapsible toc elements collapse at end of scroll
 $(window).scroll(function() {
    if(this.scrollTO) clearTimeout(this.scrollTO);
    this.scrollTO = setTimeout(function() {
       $(this).trigger('scrollEnd');
    }, 100);
 });
-
 $(window).bind('scrollEnd', function() {
   if($(document).data("scroll") != 1) {
     var id = $("#sidebar>li.active>ul").attr("id");
@@ -59,6 +49,9 @@ $(function() {
     $('html, body').stop().animate({
         scrollTop: $(id).offset().top - 80
     }, 300, 'easeInOutExpo', function() {
+      if (history && history.replaceState) {
+        history.replaceState({}, "", $anchor.attr('href'));
+      }
       // window.location.hash = $anchor.attr('href');
       $(document).data("scroll", 0);
       id = id + "-toc-collapse";

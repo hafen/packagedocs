@@ -1,7 +1,10 @@
 body {
-  height: 100%;
   position: relative;
   padding-top: 60px;
+}
+
+html {
+  height: 100%;
 }
 
 .navbar-white {
