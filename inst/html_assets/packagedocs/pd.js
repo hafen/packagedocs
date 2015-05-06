@@ -80,7 +80,3 @@ $(window).load(function() {
     }
   }
 });
-
-$( window ).unload(function() {
-  window.location.hash = window.location.hash;
-});
