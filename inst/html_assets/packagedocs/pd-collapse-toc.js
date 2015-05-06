@@ -57,6 +57,7 @@ $(function() {
       id = id + "-toc-collapse";
       $(id).collapse("show");
     });
+    $(this).blur(); // avoids ugly outline in firefox
     event.preventDefault();
   });
 });

@@ -21,8 +21,6 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   db <- Rd_db(package_name)
   names(db) <- gsub("\\.Rd", "", names(db))
 
-  x <- db[["drRead.table"]]
-
   usgs <- lapply(db, function(x) {
     tags <- sapply(x, function(a) attr(a, "Rd_tag"))
     tags <- gsub("\\\\", "", tags)
@@ -77,13 +75,19 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   dat <- list(
      title = package$title,
      version = package$version,
-     date = package$date,
      description = package$description,
      license = package$license,
      depends = package$depends,
+     imports = package$imports,
      suggests = package$suggests,
-     author = package$author
+     enhances = package$enhances,
+     author = package$authors
   )
+
+  for(ii in seq_along(dat)) {
+    if(is.null(dat[[ii]]))
+      dat[[ii]] <- "(none)"
+  }
 
   main_template <- paste(readLines(file.path(system.file(package = "packagedocs"), "/rd_template/rd_main_template.Rmd")), collapse = "\n")
   rd_template <- paste(readLines(file.path(system.file(package = "packagedocs"), "/rd_template/rd_template.Rmd")), collapse = "\n")

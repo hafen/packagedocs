@@ -39,6 +39,8 @@ $(function() {
     if (history && history.replaceState) {
       history.replaceState({}, "", $anchor.attr('href'));
     }
+    $(this).blur(); // avoids ugly outline in firefox
     // window.location.hash = $anchor.attr('href');
+    event.preventDefault();
   });
 });

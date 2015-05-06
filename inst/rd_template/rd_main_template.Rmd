@@ -1,8 +1,7 @@
 <h1>{{title}}</h1>
 
-<p><strong>Author:</strong> {{{author}}}</p>
+<p><strong>Authors:</strong> {{{author}}}</p>
 <p><strong>Version:</strong> {{{version}}}</p>
-<p><strong>Date:</strong> {{{date}}}</p>
 <p><strong>License:</strong> {{{license}}}</p>
 
 <h4>Description</h4>
@@ -11,5 +10,11 @@
 <h4>Depends</h4>
 <p>{{{depends}}}</p>
 
+<h4>Imports</h4>
+<p>{{{imports}}}</p>
+
 <h4>Suggests</h4>
 <p>{{{suggests}}}</p>
+
+<h4>Enhances</h4>
+<p>{{{enhances}}}</p>
