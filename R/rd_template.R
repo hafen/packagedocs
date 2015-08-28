@@ -20,17 +20,22 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
 
   db <- Rd_db(package_name)
   names(db) <- gsub("\\.Rd", "", names(db))
+  
 
-  usgs <- lapply(db, function(x) {
-    tags <- sapply(x, function(a) attr(a, "Rd_tag"))
-    tags <- gsub("\\\\", "", tags)
-    if(any(tags == "examples")) {
-      x <- paste(unlist(x[[which(tags == "usage")]]), collapse = "")
-      gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
-    } else {
-      NULL
-    }
-  })
+  if(FALSE){
+  	## let staticdocs handle this
+  	usgs <- lapply(db, function(x) {
+  		tags <- sapply(x, function(a) attr(a, "Rd_tag"))
+  		tags <- gsub("\\\\", "", tags)
+  		## we may still want usage, even if examples are missing.
+  		if(any(tags == "examples")) {
+  			x <- paste(unlist(x[[which(tags == "usage")]]), collapse = "")
+  			gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
+  		} else {
+  			NULL
+  		}
+  	})
+  }
 
   exs <- lapply(db, function(x) {
     tags <- sapply(x, function(a) attr(a, "Rd_tag"))
@@ -142,10 +147,11 @@ fix_hrefs <- function(x) {
 get_rd_data <- function(nm, package_name, package, exs, usgs) {
   cat(nm, "\n")
   b <- parse_rd(nm, package_name)
-  data <- to_html(b, pkg = package)
+  data <- to_html.Rd_doc(b, pkg = package)
 
   data$examples <- exs[[nm]]
-  data$usage <- usgs[[nm]]
+  ## to_html does a good job of getting usage.
+  #data$usage <- usgs[[nm]]
 
   data$id <- valid_id(data$name)
 
@@ -188,8 +194,14 @@ get_rd_data <- function(nm, package_name, package, exs, usgs) {
     data$arguments[[jj]]$description <- fix_hrefs(data$arguments[[jj]]$description)
   }
 
-  if(data$title == data$description)
+  ## other sections assume description to be of length 1
+  if(!is.null(data$description))
+    data$description = paste(data$description, collapse = "\n")
+
+    ## assuming description may have multiple sentences
+  if(data$title == data$description[1])
     data$description <- NULL
+  
 
   data
 }
