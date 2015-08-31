@@ -12,7 +12,7 @@
 <h3>{{{title}}}</h3>
 
 {{#description}}
-{{{description}}}
+<p class="rd-p">{{{description}}}</p>
 {{/description}}
 
 {{#usage}}
