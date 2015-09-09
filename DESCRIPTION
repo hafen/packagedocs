@@ -14,7 +14,8 @@ Imports:
   stringr,
   tools,
   yaml,
-  whisker
+  whisker,
+  knitr
 Suggests:
   staticdocs,
   testthat
