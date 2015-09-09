@@ -21,13 +21,12 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   db <- Rd_db(package_name)
   names(db) <- gsub("\\.Rd", "", names(db))
 
-
 	## let staticdocs handle this
 	usgs <- lapply(db, function(x) {
 		tags <- sapply(x, function(a) attr(a, "Rd_tag"))
 		tags <- gsub("\\\\", "", tags)
 		## we may still want usage, even if examples are missing.
-		if(any(tags == "examples")) {
+		if(any(tags == "usage")) {
 			x <- paste(unlist(x[[which(tags == "usage")]]), collapse = "")
 			gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
 		} else {

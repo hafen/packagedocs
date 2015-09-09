@@ -1,0 +1,13 @@
+---
+title: "{{{title}}}"
+subtitle: "{{{subtitle}}}"
+author: {{{author}}}
+copyright: {{{author}}}
+output:
+  packagedocs:
+    toc: true
+navpills: |
+  <li><a href='index.html'>Docs</a></li>
+  <li class="active"><a href='rd.html'>Package Ref</a></li>{{{github_ref}}}
+---
+

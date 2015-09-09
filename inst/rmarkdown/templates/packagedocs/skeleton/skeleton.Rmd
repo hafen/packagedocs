@@ -1,17 +1,24 @@
 ---
-title: "Untitled"
+title: "{{{title}}}"
+subtitle: "{{{subtitle}}}"
+author: {{{author}}}
+copyright: {{{author}}}
 output:
   packagedocs:
-    self_contained: false
     toc: true
+navpills: |
+  <li class="active"><a href='index.html'>Docs</a></li>
+  <li><a href='rd.html'>Package Ref</a></li>{{{github_ref}}}
 ---
 
 ```{r global_options, include=FALSE}
-# R output pre blocks are styled to indicate output
+# R output pre blocks are styled by default to indicate output
 # so we don't need to comment out the output
 knitr::opts_chunk$set(comment = NA)
 ```
 
-## Overview
+# Header 1 #
 
-## Details
+Welcome to this packagedocs documentation page.
+
+R markdown stuff goes here...
