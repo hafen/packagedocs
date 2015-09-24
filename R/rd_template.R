@@ -147,6 +147,7 @@ fix_hrefs <- function(x) {
 get_rd_data <- function(nm, package_name, package, exs, usgs) {
   cat(nm, "\n")
   b <- parse_rd(nm, package_name)
+  class(b) = "Rd_doc" ## make sure this is Rd_doc
   data <- to_html(b, pkg = package)
 
   data$examples <- exs[[nm]]
