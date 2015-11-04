@@ -7,7 +7,7 @@
 // @import url("//fonts.googleapis.com/css?family=PT+Sans:400");
 @import url("//fonts.googleapis.com/css?family=PT+Mono");
 
-@font-size-base: 18px;
+@font-size-base: 20px;
 @font-size-h1:   floor((@font-size-base * 2)); // ~36px
 @font-size-h2:   floor((@font-size-base * 1.75)); // ~30px
 @font-size-h3:   ceil((@font-size-base * 1.5)); // ~24px
@@ -22,6 +22,10 @@ kbd,
 pre,
 samp {
   font-size: @font-size-code;
+}
+
+body {
+  font-weight: 300;
 }
 
 @pre-bg:     #f9f9f9;
