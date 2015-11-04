@@ -1,7 +1,8 @@
 # layout the order in which topics are presented in the rd docs
 # 1. get a list of topics with the following:
 #    db <- tools::Rd_db("{{{package_name}}}")
-#    gsub("\\.Rd", "", names(db))
+#    topics <- gsub("\\.Rd", "", names(db))
+#    cat(paste(topics, collapse = "\n"))
 # 2. arrange the topic names into sections as desired in the format below:
 -
   section_name: Plotting
