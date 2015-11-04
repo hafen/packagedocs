@@ -50,7 +50,9 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
 
   package <- as.sd_package(code_path, examples = FALSE)
 
-  nms <- gsub("\\.Rd", "", names(db))
+  # nms <- gsub("\\.Rd", "", names(db))
+  # want to be able to list all aliases (more functions can exist than .Rd files)
+  nms <- unname(unlist(lapply(db, tools:::.Rd_get_metadata, "alias")))
 
   exclude <- c(exclude, package_name)
   message("ignoring: ", paste(exclude, collapse = ", "))
@@ -154,7 +156,8 @@ get_rd_data <- function(nm, package_name, package, exs, usgs) {
   ## to_html does a good job of getting usage.
   data$usage <- usgs[[nm]]
 
-  data$id <- valid_id(data$name)
+  data$id <- valid_id(nm)
+  data$name <- nm
 
   desc_ind <- which(sapply(data$sections, function(a) {
     if(!is.null(names(a))) {
