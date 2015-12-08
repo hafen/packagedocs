@@ -60,7 +60,12 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
 
   if(!is.null(rd_index)) {
     rd_index <- yaml.load_file(rd_index)
-    rd_topics <- unlist(lapply(rd_index, function(x) x$topics))
+    rd_topics <- unlist(lapply(rd_index, function(x) {
+      res <- try(x$topics, silent = TRUE)
+      if(inherits(res, "try-error"))
+        stop("error in rd index yaml file - not a valid section", call. = FALSE)
+      res
+    }))
     missing_topics <- setdiff(nms, rd_topics)
     if(length(missing_topics) > 0) {
       message("topics in package that were not found in rd_index (will not be included): ", paste(missing_topics, collapse = ", "))
