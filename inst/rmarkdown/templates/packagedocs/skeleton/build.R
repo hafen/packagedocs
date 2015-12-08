@@ -1,3 +1,8 @@
+## install packagedocs if not installed:
+# options(repos = c(tessera = "http://packages.tessera.io",
+#   getOption("repos")))
+# install.packages("packagedocs")
+
 knitr::opts_knit$set(root.dir = normalizePath("{{{docs_path}}}"))
 
 packagedocs::render_docs(
