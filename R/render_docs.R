@@ -9,7 +9,7 @@
 #' @param render_main render main page
 #' @param render_rd render rd page
 #' @param view_output look at the output after render
-#' @param rd_index optional path to rd layout yaml
+#' @param rd_index optional path to rd layout yaml (if NULL, will search for "docs_path/rd_index.yaml" and use it if available)
 #' @export
 render_docs <- function(code_path, docs_path, package_name,
   main_toc_collapse = TRUE, rd_toc_collapse = TRUE,
@@ -21,6 +21,22 @@ render_docs <- function(code_path, docs_path, package_name,
 
   wd <- getwd()
 
+  # if inst is not in package repo, create it
+  if(!file.exists(inst_path <- file.path(code_path, "inst"))) {
+    dir.create(inst_path)
+    existed_inst_path <- FALSE
+  } else {
+    existed_inst_path <- TRUE
+  }
+
+  # if inst/staticdocs is not there, create it
+  if(!file.exists(staticdoc_path <- file.path(inst_path, "staticdocs"))) {
+    dir.create(staticdoc_path)
+    existed_staticdoc_path <- FALSE
+  } else {
+    existed_staticdoc_path <- TRUE
+  }
+
   setwd(docs_path)
 
   if(file.exists("assets")) {
@@ -30,6 +46,13 @@ render_docs <- function(code_path, docs_path, package_name,
   }
 
   on.exit({
+    # remove the staticdocs directory if it didn't previously exist
+    if(!existed_staticdoc_path)
+      unlink(staticdoc_path, recursive = TRUE)
+    # remove the inst directory if it didn't previously exist
+    if(!existed_inst_path)
+      unlink(inst_path, recursive = TRUE)
+
     if(!file.exists("assets")) {
       file.rename("assets_bak", "assets")
     } else {
