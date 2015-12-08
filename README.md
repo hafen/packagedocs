@@ -1,10 +1,19 @@
 packagedocs
 -----------
 
-Build an R package documentation website using [rmarkdown](http://rmarkdown.rstudio.com).  Example [here](http://hafen.github.io/rbokeh/).
-
+Build an R package documentation website using [rmarkdown](http://rmarkdown.rstudio.com).  Example [here](http://hafen.github.io/rbokeh/) or ([here](http://tessera.io/docs-datadr/).
 
 ## Installation
+
+Simple installation:
+
+```s
+options(repos = c(tessera = "http://packages.tessera.io",
+  getOption("repos")))
+install.packages("packagedocs")
+```
+
+From github with devtools:
 
 ```s
 devtools::install_github("hadley/staticdocs")
@@ -28,3 +37,8 @@ This was built primarily for my purposes where the goal is to have a main page f
 Essentially this package provides a special template and format for rmarkdown with a few extra functions for building the web-based .Rd files.  If you like the template you can use it for non-package documentation purposes.
 
 The template style is based on bootstrap with several customizations.  These are built using less and gulp with node.js.  These are not necessary for using the package, but for development, you can do `bower install` to get a dev environment going.
+
+Tip: Usually I put my package docs inside a "docs" directory inside my package root directory.  However, I really dislike checking this directory in with the package repository on github, or even in the same repository's `gh-pages` branch.  The reason for this is that package documentation can carry a lot of baggage (raster images, large js, css, html files, etc.) that can be github-unfriendly or have nothing to do with the R package and quickly contaminate and bloat the source code repository.  Instead I usually create a separate github repo called "docs-*packagename*" and track the docs in the `gh-pages` directory of this repo.
+
+
+
