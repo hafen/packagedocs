@@ -7,7 +7,7 @@
 ## If you need to see which topics are missing, do the following in addition:
 # cur <- yaml::yaml.load_file("rd_index.yaml")
 # cur <- unlist(lapply(cur, function(x) x$topics))
-# cat(paste(setdiff(topics, cur), collapse = "\n")
+# cat(paste(setdiff(topics, cur), collapse = "\n"))
 -
   section_name: Plotting
   topics:
