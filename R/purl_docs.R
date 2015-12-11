@@ -8,7 +8,8 @@
 purl_docs <- function(docs_base = "docs", code_base = "code") {
 
   ff <- list.files(docs_base, ".Rmd", full.names = TRUE)
-  ff <- setdiff(ff, c("rd.Rmd", "rd_skeleton.Rmd"))
+  if(length(ff) > 0)
+    ff <- ff[!grepl("^rd\\.Rmd$|^rd_skeleton\\.Rmd$", basename(ff))]
 
   if(length(ff) == 0)
     stop("There are no .Rmd files in ", docs_base)

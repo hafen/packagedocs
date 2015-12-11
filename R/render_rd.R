@@ -6,6 +6,7 @@
 #' @param code_path path to the source code directory of the package
 #' @param rd_index path to yaml file with index layout information
 #' @param exclude vector of Rd entry names to exclude from the resulting document
+#' @param output_format passed to \code{\link[rmarkdown]{render}} - \code{\link{package_docs}} is used by default
 #' @param output directory to put the output rd.Rmd and rd.html file
 #' @export
 render_rd <- function(rd_skeleton, package_name, code_path, rd_index = NULL, exclude = NULL, output_format = NULL, output = ".") {

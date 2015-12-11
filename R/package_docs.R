@@ -2,6 +2,8 @@
 #'
 #' @param toc should a table of contents be included?
 #' @param toc_depth depth of the table of contents (max is 2 for this template)
+#' @param toc_collapse should the table of contents have collapsible subsections?
+#' @param extra_dependencies passed to \code{\link[rmarkdown]{html_document}}
 #' @param \ldots parameters passed to \code{\link[rmarkdown]{html_document}}
 #' @export
 #' @import rmarkdown

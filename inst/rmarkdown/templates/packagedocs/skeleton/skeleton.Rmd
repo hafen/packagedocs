@@ -13,8 +13,10 @@ navpills: |
 
 ```{r global_options, include=FALSE}
 # R output pre blocks are styled by default to indicate output
-# so we don't need to comment out the output
 knitr::opts_chunk$set(comment = NA)
+
+# shorthand for rd_link() - see ?packagedocs::rd_link for more information
+rdl <- function(x) packagedocs::rd_link(deparse(substitute(x)))
 ```
 
 # Header 1 #

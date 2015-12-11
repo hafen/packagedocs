@@ -8,10 +8,9 @@
 #' @importFrom whisker whisker.render
 #' @importFrom yaml yaml.load_file
 #' @import stringr
+# @import staticdocs
 #' @export
 rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL) {
-
-  require(staticdocs)
 
   # library(whisker); library(staticdocs); library(tools); library(stringr)
   # exclude <- "pipe"
@@ -48,7 +47,7 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   })
   names(exs) <- gsub("\\.Rd$", "", names(exs))
 
-  package <- as.sd_package(code_path, examples = FALSE)
+  package <- staticdocs::as.sd_package(code_path, examples = FALSE)
 
   # nms <- gsub("\\.Rd", "", names(db))
   # want to be able to list all aliases (more functions can exist than .Rd files)
