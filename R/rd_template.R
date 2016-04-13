@@ -53,8 +53,16 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   # want to be able to list all aliases (more functions can exist than .Rd files)
   nms <- unname(unlist(lapply(db, tools:::.Rd_get_metadata, "alias")))
 
-  exclude <- c(exclude, package_name)
-  message("ignoring: ", paste(exclude, collapse = ", "))
+  # Under what conditions do we add `package_name` to exclude?
+  # Only of there doesn't exist a function or alias with the same name as the package
+  if(!(package_name %in% nms)){
+    exclude <- unique(c(exclude, package_name))
+  }
+
+  if(!is.null(exclude)){
+    message("ignoring: ", paste(exclude, collapse = ", "))      
+  }
+
   nms <- setdiff(nms, exclude)
 
   if(!is.null(rd_index)) {
