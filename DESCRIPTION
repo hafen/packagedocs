@@ -16,7 +16,8 @@ Imports:
     yaml,
     whisker,
     staticdocs,
-    knitr
+    knitr,
+    lazyrmd
 Suggests:
     testthat
 RoxygenNote: 5.0.1

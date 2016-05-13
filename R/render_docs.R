@@ -1,7 +1,7 @@
 #' Render packagedocs
 #'
-#' @param code_path location of docs directory
-#' @param docs_path location of code directory
+#' @param docs_path location of R Markdown docs directory
+#' @param code_path location of R package source directory
 #' @param package_name the name of the package, e.g. "packagedocs"
 #' @param main_toc_collapse use collapsing toc on main page
 #' @param rd_toc_collapse use collapsing toc on rd page
@@ -11,7 +11,7 @@
 #' @param view_output look at the output after render
 #' @param rd_index optional path to rd layout yaml (if NULL, will search for "docs_path/rd_index.yaml" and use it if available)
 #' @export
-render_docs <- function(code_path, docs_path, package_name,
+render_docs <- function(docs_path, code_path, package_name,
   main_toc_collapse = TRUE, rd_toc_collapse = TRUE,
   lib_dir = "assets", render_main = TRUE, render_rd = TRUE,
   view_output = TRUE, rd_index = NULL) {

@@ -4,14 +4,14 @@
 \alias{render_docs}
 \title{Render packagedocs}
 \usage{
-render_docs(code_path, docs_path, package_name, main_toc_collapse = TRUE,
+render_docs(docs_path, code_path, package_name, main_toc_collapse = TRUE,
   rd_toc_collapse = TRUE, lib_dir = "assets", render_main = TRUE,
   render_rd = TRUE, view_output = TRUE, rd_index = NULL)
 }
 \arguments{
-\item{code_path}{location of docs directory}
+\item{docs_path}{location of R Markdown docs directory}
 
-\item{docs_path}{location of code directory}
+\item{code_path}{location of R package source directory}
 
 \item{package_name}{the name of the package, e.g. "packagedocs"}
 

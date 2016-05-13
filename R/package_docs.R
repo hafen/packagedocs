@@ -23,9 +23,19 @@ package_docs <- function(toc = TRUE, toc_depth = 2, toc_collapse = FALSE, extra_
     pddep$script <- setdiff(pddep$script, "pd-collapse-toc.js")
   }
 
-  extra_dependencies <- c(list(rmarkdown:::html_dependency_jquery(),
-    html_dependency_boot(), html_dependency_hglt(), html_dependency_fnta(),
-    html_dependency_sticky_kit(), html_dependency_jquery_easing(), pddep), extra_dependencies)
+  extra_dependencies <- c(
+    list(
+      rmarkdown:::html_dependency_jquery(),
+      html_dependency_boot(),
+      html_dependency_hglt(),
+      html_dependency_fnta(),
+      html_dependency_sticky_kit(),
+      html_dependency_jquery_easing(),
+      lazyrmd::html_dependency_recliner(),
+      pddep
+    ),
+    extra_dependencies
+  )
 
   # call the base html_document function
   rmarkdown::html_document(toc = toc,
