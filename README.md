@@ -1,7 +1,7 @@
 packagedocs
 -----------
 
-Build an R package documentation website using [rmarkdown](http://rmarkdown.rstudio.com).  Example [here](http://hafen.github.io/rbokeh/) or ([here](http://tessera.io/docs-datadr/).
+Build an R package documentation website using [rmarkdown](http://rmarkdown.rstudio.com).  Example [here](http://hafen.github.io/rbokeh/) or ([here](http://tessera.io/docs-datadr/)).
 
 ## Installation
 
