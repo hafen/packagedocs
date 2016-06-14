@@ -1,0 +1,25 @@
+
+language: r
+# https://blog.rstudio.org/2016/03/09/r-on-travis-ci/
+sudo: false
+cache: packages
+
+
+# install locally to avoid rev dep
+r_github_packages:
+  # - jimhester/covr # code coverage check
+  - jimhester/lintr # code lint
+
+# after_success:
+#   - Rscript -e 'covr::codecov()'
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+
+branches:
+  only:
+    - master
+    - dev
+    - travis
