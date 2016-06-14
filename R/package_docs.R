@@ -25,7 +25,7 @@ package_docs <- function(toc = TRUE, toc_depth = 2, toc_collapse = FALSE, extra_
 
   extra_dependencies <- c(
     list(
-      rmarkdown:::html_dependency_jquery(),
+      html_dependency_jquery(),
       html_dependency_boot(),
       html_dependency_hglt(),
       html_dependency_fnta(),
@@ -51,6 +51,8 @@ package_docs <- function(toc = TRUE, toc_depth = 2, toc_collapse = FALSE, extra_
     pandoc_args = c("--variable", paste("current_year", format(Sys.time(), "%Y"), sep = "=")), ...)
     # includes = includes(before_body = header))
 }
+
+html_dependency_jquery <- getFromNamespace("html_dependency_jquery", "rmarkdown")
 
 html_dependency_boot <- function() {
   htmltools::htmlDependency(name = "bootstrap",

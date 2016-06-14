@@ -1,3 +1,13 @@
+
+rd_get_metadata <- getFromNamespace(".Rd_get_metadata", loadNamespace("tools"))
+get_help_file <- getFromNamespace(".getHelpFile", loadNamespace("utils"))
+rd_path <- getFromNamespace("rd_path", ns = loadNamespace("staticdocs"))
+set_classes <- getFromNamespace("set_classes", loadNamespace("staticdocs"))
+to_html_rd_doc <- getFromNamespace("to_html.Rd_doc", loadNamespace("staticdocs"))
+
+
+
+
 #' Generate the text to put in a rd.rmd file to build a package function reference
 #'
 #' @param package_name the name of the package, e.g. "packagedocs"
@@ -51,7 +61,7 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
 
   # nms <- gsub("\\.Rd", "", names(db))
   # want to be able to list all aliases (more functions can exist than .Rd files)
-  nms <- unname(unlist(lapply(db, tools:::.Rd_get_metadata, "alias")))
+  nms <- unname(unlist(lapply(db, rd_get_metadata, "alias")))
 
   # Under what conditions do we add `package_name` to exclude?
   # Only of there doesn't exist a function or alias with the same name as the package
@@ -158,11 +168,11 @@ fix_hrefs <- function(x) {
 get_rd_data <- function(nm, package_name, package, exs, usgs) {
   cat(nm, "\n")
 
-  b <- utils:::.getHelpFile(staticdocs:::rd_path(nm, package_name))
-  b <- structure(staticdocs:::set_classes(b), class = "Rd_content")
+  b <- get_help_file(rd_path(nm, package_name))
+  b <- structure(set_classes(b), class = "Rd_content")
   attr(b, "Rd_tag") <- "Rd file"
 
-  data <- staticdocs:::to_html.Rd_doc(b, pkg = package)
+  data <- to_html_rd_doc(b, pkg = package)
 
   data$examples <- exs[[nm]]
   ## to_html does a good job of getting usage.
