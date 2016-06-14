@@ -8,10 +8,13 @@
 #' @param author author (can be changed later)
 #' @param github_ref the "user/repo" part of a link to github - if NULL or "", the github link will not be displayed
 #' @export
-packagedocs_init <- function(code_path = ".",
+packagedocs_init <- function(
+  code_path = ".",
   docs_path = file.path(code_path, "docs"),
-  package_name = NULL, title = NULL, subtitle = "",
-  author = "author", github_ref = "user/repo") {
+  package_name = NULL,
+  title = NULL, subtitle = "",
+  author = NULL, github_ref = "user/repo"
+) {
 
   if(file.exists(file.path(docs_path, "index.Rmd"))) {
     ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite index.Rmd, rd_skeleton.Rmd, rd_index.yaml, and build.R? (y = yes) ", sep = ""))

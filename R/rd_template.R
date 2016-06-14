@@ -60,7 +60,7 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   }
 
   if(!is.null(exclude)){
-    message("ignoring: ", paste(exclude, collapse = ", "))      
+    message("ignoring: ", paste(exclude, collapse = ", "))
   }
 
   nms <- setdiff(nms, exclude)
@@ -221,5 +221,3 @@ get_rd_data <- function(nm, package_name, package, exs, usgs) {
 
   data
 }
-
-
