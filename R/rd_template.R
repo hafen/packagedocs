@@ -1,7 +1,6 @@
 
 rd_get_metadata <- getFromNamespace(".Rd_get_metadata", loadNamespace("tools"))
-get_help_file <- getFromNamespace(".getHelpFile", loadNamespace("utils"))
-rd_path <- getFromNamespace("rd_path", ns = loadNamespace("staticdocs"))
+rd_path <- getFromNamespace("rd_path", loadNamespace("staticdocs"))
 set_classes <- getFromNamespace("set_classes", loadNamespace("staticdocs"))
 to_html_rd_doc <- getFromNamespace("to_html.Rd_doc", loadNamespace("staticdocs"))
 
@@ -179,6 +178,7 @@ fix_hrefs <- function(x) {
 get_rd_data <- function(nm, package_name, package, exs, usgs) {
   cat(nm, "\n")
 
+  get_help_file <- getFromNamespace(".getHelpFile", loadNamespace("utils"))
   b <- get_help_file(rd_path(nm, package_name))
   b <- structure(set_classes(b), class = "Rd_content")
   attr(b, "Rd_tag") <- "Rd file"
