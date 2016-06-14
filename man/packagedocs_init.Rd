@@ -5,7 +5,7 @@
 \title{Initialize a new packagedocs project}
 \usage{
 packagedocs_init(code_path = ".", docs_path = file.path(code_path, "docs"),
-  package_name = NULL, title = NULL, subtitle = "", author = "author",
+  package_name = NULL, title = NULL, subtitle = "", author = NULL,
   github_ref = "user/repo")
 }
 \arguments{
