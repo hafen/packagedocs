@@ -18,8 +18,9 @@ packagedocs_init <- function(
 
   if(file.exists(file.path(docs_path, "index.Rmd"))) {
     ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite index.Rmd, rd_skeleton.Rmd, rd_index.yaml, and build.R? (y = yes) ", sep = ""))
-    if(!tolower(substr(ans, 1, 1)) == "y")
+    if(!tolower(substr(ans, 1, 1)) == "y") {
       stop("Backing out...", call. = FALSE)
+    }
   }
 
   desc <- NULL
