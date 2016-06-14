@@ -9,15 +9,15 @@ Depends:
 License: MIT + file LICENSE
 LazyData: true
 Imports:
-    rmarkdown,
     htmltools,
+    knitr,
+    lazyrmd,
+    rmarkdown,
+    staticdocs,
     stringr,
     tools,
-    yaml,
     whisker,
-    staticdocs,
-    knitr,
-    lazyrmd
+    yaml
 Suggests:
     testthat
 RoxygenNote: 5.0.1
