@@ -21,7 +21,7 @@ devtools::install_github("hafen/packagedocs")
 
 ## Usage
 
-To initialize a packagedocs project, there is a simple intialization function to get things set up:
+To initialize a packagedocs project, there is a simple initialization function to get things set up:
 
 ```s
 packagedocs::packagedocs_init()
