@@ -200,7 +200,7 @@ get_rd_data <- function(nm, package_name, package, exs, usgs) {
   if(length(zero_ind) > 0)
     data$sections <- data$sections[-zero_ind]
 
-  rgxp <- "([a-zA-Z0-9\\.\\_]+)\\.html"
+  # rgxp <- "([a-zA-Z0-9\\.\\_]+)\\.html"
 
 
   # replace seealso links with hashes
@@ -210,23 +210,25 @@ get_rd_data <- function(nm, package_name, package, exs, usgs) {
   # data$usage <- fix_hrefs(data$usage)
   # data$usage <- gsub("\\n    ", "\n  ", data$usage)
 
-  for(jj in seq_along(data$sections)) {
+  for (jj in seq_along(data$sections)) {
     if("contents" %in% names(data$sections[[jj]]))
       data$sections[[jj]]$contents <- fix_hrefs(data$sections[[jj]]$contents)
   }
   # "#\\L\\1"
 
-  for(jj in seq_along(data$arguments)) {
+  for (jj in seq_along(data$arguments)) {
     data$arguments[[jj]]$description <- fix_hrefs(data$arguments[[jj]]$description)
   }
 
   ## other sections assume description to be of length 1
-  if(!is.null(data$description))
-    data$description = paste(data$description, collapse = "\n")
+  if (!is.null(data$description)) {
+    data$description <- paste(data$description, collapse = "\n")
+  }
 
     ## assuming description may have multiple sentences
-  if(data$title == data$description[1])
+  if (data$title == data$description[1]) {
     data$description <- NULL
+  }
 
 
   data

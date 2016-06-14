@@ -30,5 +30,3 @@ purl_docs <- function(docs_base = "docs", code_base = "code") {
     writeLines(gsub("## ----.*", "## ", tmp), of)
   }
 }
-
-

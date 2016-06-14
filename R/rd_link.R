@@ -20,5 +20,5 @@ rd_link <- function(txt, rd_page = "rd.html") {
   txt2 <- gsub("(.*)\\(.*", "\\1", txt)
   txt2 <- gsub("\\.", "_", tolower(gsub("\\(\\)", "", txt2)))
 
-  paste0("<code><a target='_blank' href='", rd_page, "#", txt2, "'>", txt,"</a></code>")
+  paste0("<code><a target='_blank' href='", rd_page, "#", txt2, "'>", txt, "</a></code>")
 }
