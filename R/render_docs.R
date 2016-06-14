@@ -22,7 +22,7 @@ render_docs <- function(docs_path, code_path, package_name,
   wd <- getwd()
 
   # if inst is not in package repo, create it
-  if(!file.exists(inst_path <- file.path(code_path, "inst"))) {
+  if (!file.exists(inst_path <- file.path(code_path, "inst"))) {
     dir.create(inst_path)
     existed_inst_path <- FALSE
   } else {
@@ -30,7 +30,7 @@ render_docs <- function(docs_path, code_path, package_name,
   }
 
   # if inst/staticdocs is not there, create it
-  if(!file.exists(staticdoc_path <- file.path(inst_path, "staticdocs"))) {
+  if (!file.exists(staticdoc_path <- file.path(inst_path, "staticdocs"))) {
     dir.create(staticdoc_path)
     existed_staticdoc_path <- FALSE
   } else {
@@ -39,21 +39,21 @@ render_docs <- function(docs_path, code_path, package_name,
 
   setwd(docs_path)
 
-  if(file.exists("assets")) {
-    if(file.exists("assets_bak"))
+  if (file.exists("assets")) {
+    if (file.exists("assets_bak"))
       unlink("assets_bak", recursive = TRUE)
     file.rename("assets", "assets_bak")
   }
 
   on.exit({
     # remove the staticdocs directory if it didn't previously exist
-    if(!existed_staticdoc_path)
+    if (!existed_staticdoc_path)
       unlink(staticdoc_path, recursive = TRUE)
     # remove the inst directory if it didn't previously exist
-    if(!existed_inst_path)
+    if (!existed_inst_path)
       unlink(inst_path, recursive = TRUE)
 
-    if(!file.exists("assets")) {
+    if (!file.exists("assets")) {
       file.rename("assets_bak", "assets")
     } else {
       unlink("assets_bak", recursive = TRUE)
@@ -62,20 +62,20 @@ render_docs <- function(docs_path, code_path, package_name,
   })
 
   # generate index.html
-  if(render_main) {
+  if (render_main) {
     render("index.Rmd", output_format = pdof1)
     check_output("index.html")
-    if(view_output)
+    if (view_output)
       browseURL("index.html")
   }
 
-  if(render_rd) {
-    if(!file.exists(file.path(code_path, "inst/staticdocs")))
+  if (render_rd) {
+    if (!file.exists(file.path(code_path, "inst/staticdocs")))
       dir.create(file.path(code_path, "inst/staticdocs"), recursive = TRUE)
     render_rd("rd_skeleton.Rmd", package_name, code_path,
       rd_index = rd_index, output_format = pdof2)
     check_output("rd.html")
-    if(view_output)
+    if (view_output)
       browseURL("rd.html")
   }
 

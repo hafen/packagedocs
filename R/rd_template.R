@@ -35,7 +35,7 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
     tags <- sapply(x, function(a) attr(a, "Rd_tag"))
     tags <- gsub("\\\\", "", tags)
     ## we may still want usage, even if examples are missing.
-    if(any(tags == "usage")) {
+    if (any(tags == "usage")) {
       x <- paste(unlist(x[[which(tags == "usage")]]), collapse = "")
       gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
     } else {
@@ -46,7 +46,7 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   exs <- lapply(db, function(x) {
     tags <- sapply(x, function(a) attr(a, "Rd_tag"))
     tags <- gsub("\\\\", "", tags)
-    if(any(tags == "examples")) {
+    if (any(tags == "examples")) {
       # TODO: preserve dontrun as separate blocks
       # x[[which(tags == "examples")]]
       x <- paste(unlist(x[[which(tags == "examples")]]), collapse = "")
@@ -65,33 +65,33 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
 
   # Under what conditions do we add `package_name` to exclude?
   # Only of there doesn't exist a function or alias with the same name as the package
-  if(!(package_name %in% nms)){
+  if (!(package_name %in% nms)){
     exclude <- unique(c(exclude, package_name))
   }
 
-  if(!is.null(exclude)){
+  if (!is.null(exclude)){
     message("ignoring: ", paste(exclude, collapse = ", "))
   }
 
   nms <- setdiff(nms, exclude)
 
-  if(!is.null(rd_index)) {
+  if (!is.null(rd_index)) {
     rd_index <- yaml.load_file(rd_index)
     rd_topics <- unlist(lapply(rd_index, function(x) {
       res <- try(x$topics, silent = TRUE)
-      if(inherits(res, "try-error"))
+      if (inherits(res, "try-error"))
         stop("error in rd index yaml file - not a valid section", call. = FALSE)
       res
     }))
     missing_topics <- setdiff(nms, rd_topics)
-    if(length(missing_topics) > 0) {
+    if (length(missing_topics) > 0) {
       message("topics in package that were not found in rd_index (will not be included): ", paste(missing_topics, collapse = ", "))
       nms <- setdiff(nms, missing_topics)
     }
     unknown_topics <- setdiff(rd_topics, nms)
-    if(length(unknown_topics) > 0) {
+    if (length(unknown_topics) > 0) {
       message("topics found in rd_index that aren't in package (will not be included): ", paste(unknown_topics, collapse = ", "))
-      for(ii in seq_along(rd_index))
+      for (ii in seq_along(rd_index))
         rd_index[[ii]]$topics <- setdiff(rd_index[[ii]]$topics, unknown_topics)
     }
   } else {
@@ -110,8 +110,8 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
      author = package$authors
   )
 
-  for(ii in seq_along(dat)) {
-    if(is.null(dat[[ii]]))
+  for (ii in seq_along(dat)) {
+    if (is.null(dat[[ii]]))
       dat[[ii]] <- "(none)"
   }
 
@@ -123,25 +123,25 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   })
 
   idx <- which(sapply(entries, function(x) inherits(x, "try-error")))
-  if(length(idx) > 0) {
+  if (length(idx) > 0) {
     error_topics <- nms[idx]
     message("there were errors running the following topics (will be removed): ", paste(error_topics, collapse = ", "))
     entries <- entries[-idx]
     nms <- nms[-idx]
-    for(ii in seq_along(rd_index))
+    for (ii in seq_along(rd_index))
       rd_index[[ii]]$topics <- setdiff(rd_index[[ii]]$topics, error_topics)
   }
 
   names(entries) <- nms
 
   tmp <- entries[[paste(package_name, "package", sep = "-")]]
-  if(!is.null(tmp)) {
+  if (!is.null(tmp)) {
     dat$description <- tmp$description
   }
 
   main <- whisker.render(main_template, dat)
 
-  for(ii in seq_along(rd_index))
+  for (ii in seq_along(rd_index))
     rd_index[[ii]]$entries <- unname(entries[rd_index[[ii]]$topics])
   all_entries <- whisker.render(rd_template, rd_index)
 
@@ -182,22 +182,22 @@ get_rd_data <- function(nm, package_name, package, exs, usgs) {
   data$name <- nm
 
   desc_ind <- which(sapply(data$sections, function(a) {
-    if(!is.null(names(a))) {
-      if("title" %in% names(a)) {
-        if(a$title == "Description")
+    if (!is.null(names(a))) {
+      if ("title" %in% names(a)) {
+        if (a$title == "Description")
           return(TRUE)
       }
     }
     FALSE
   }))
 
-  if(length(desc_ind) > 0) {
+  if (length(desc_ind) > 0) {
     data$description <- data$sections[[desc_ind]]$contents
     data$sections[[desc_ind]] <- NULL
   }
 
   zero_ind <- which(sapply(data$sections, length) == 0)
-  if(length(zero_ind) > 0)
+  if (length(zero_ind) > 0)
     data$sections <- data$sections[-zero_ind]
 
   # rgxp <- "([a-zA-Z0-9\\.\\_]+)\\.html"
@@ -211,7 +211,7 @@ get_rd_data <- function(nm, package_name, package, exs, usgs) {
   # data$usage <- gsub("\\n    ", "\n  ", data$usage)
 
   for (jj in seq_along(data$sections)) {
-    if("contents" %in% names(data$sections[[jj]]))
+    if ("contents" %in% names(data$sections[[jj]]))
       data$sections[[jj]]$contents <- fix_hrefs(data$sections[[jj]]$contents)
   }
   # "#\\L\\1"

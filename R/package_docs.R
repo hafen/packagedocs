@@ -13,11 +13,11 @@ package_docs <- function(toc = TRUE, toc_depth = 2, toc_collapse = FALSE, extra_
   template <-  system.file("html_assets/template.html", package = "packagedocs")
   # header <- system.file("assets/header.html", package = "packagedocs")
 
-  if(toc_depth > 2)
+  if (toc_depth > 2)
     stop("toc_depth must be 2 or smaller", call. = FALSE)
 
   pddep <- html_dependency_packagedocs()
-  if(toc_collapse) {
+  if (toc_collapse) {
     pddep$script <- setdiff(pddep$script, "pd-sticky-toc.js")
   } else {
     pddep$script <- setdiff(pddep$script, "pd-collapse-toc.js")

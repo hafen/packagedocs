@@ -6,7 +6,7 @@ check_output <- function(ff) {
   tmp <- readLines(ff)
 
   idx <- which(grepl("Error", tmp))
-  if(length(idx) == 0) {
+  if (length(idx) == 0) {
     message("No errors... Woohoo!")
   } else {
     message("There were ", length(idx), " errors:\n",
@@ -15,7 +15,7 @@ check_output <- function(ff) {
 
   idx <- which(grepl("Warning", tmp))
 
-  if(length(idx) == 0) {
+  if (length(idx) == 0) {
     message("No warnings... Yippee!")
   } else {
     message("There were ", length(idx), " warnings:\n",

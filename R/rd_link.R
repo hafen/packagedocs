@@ -10,7 +10,7 @@
 rd_link <- function(txt, rd_page = "rd.html") {
   res <- try(txt, silent = TRUE)
 
-  if(inherits(res, "try-error"))
+  if (inherits(res, "try-error"))
     txt <- deparse(substitute(txt))
 
   # get rid of quotes if it is quoted

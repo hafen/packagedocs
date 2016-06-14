@@ -16,27 +16,27 @@ packagedocs_init <- function(
   author = NULL, github_ref = "user/repo"
 ) {
 
-  if(file.exists(file.path(docs_path, "index.Rmd"))) {
+  if (file.exists(file.path(docs_path, "index.Rmd"))) {
     ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite index.Rmd, rd_skeleton.Rmd, rd_index.yaml, and build.R? (y = yes) ", sep = ""))
-    if(!tolower(substr(ans, 1, 1)) == "y") {
+    if (!tolower(substr(ans, 1, 1)) == "y") {
       stop("Backing out...", call. = FALSE)
     }
   }
 
   desc <- NULL
-  if(file.exists(file.path(code_path, "DESCRIPTION")))
+  if (file.exists(file.path(code_path, "DESCRIPTION")))
     desc <- packageDescription(".", code_path)
 
-  if(is.null(package_name)) {
-    if(is.null(desc)) {
+  if (is.null(package_name)) {
+    if (is.null(desc)) {
       package_name <- "mypackage"
     } else {
       package_name <- desc$Package
     }
   }
 
-  if(is.null(author)) {
-    if(is.null(desc)) {
+  if (is.null(author)) {
+    if (is.null(desc)) {
       author <- "author"
     } else {
       # probably can be improved...
@@ -44,17 +44,17 @@ packagedocs_init <- function(
     }
   }
 
-  if(is.null(title)) {
+  if (is.null(title)) {
     title <- package_name
   }
 
-  if(is.null(github_ref))
+  if (is.null(github_ref))
     github_ref <- ""
 
-  if(nchar(github_ref) > 0)
+  if (nchar(github_ref) > 0)
     github_ref <- sprintf("\n  <li><a href='https://github.com/%s'>Github <i class='fa fa-github'></i></a></li>", github_ref)
 
-  if(!file.exists(docs_path))
+  if (!file.exists(docs_path))
     dir.create(docs_path)
 
   ## index.Rmd
