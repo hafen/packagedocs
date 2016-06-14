@@ -10,3 +10,4 @@ package.json
 ^_ignore$
 ^less$
 packagedocs.sublime*
+lintr

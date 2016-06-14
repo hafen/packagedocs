@@ -19,3 +19,5 @@ _ignore
 
 packagedocs.sublime*
 .Rproj.user
+
+.lintr_cache

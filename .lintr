@@ -1,0 +1,7 @@
+cache_directory: ".lintr_cache"
+linters: with_defaults(
+    NULL
+  )
+exclusions:
+  list(
+  )
