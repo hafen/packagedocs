@@ -10,7 +10,11 @@ check_output <- function(ff) {
     message("No errors... Woohoo!")
   } else {
     message("There were ", length(idx), " errors:\n",
-      paste("  ", idx, ": ", substr(tmp[idx], 1, 50), ifelse(nchar(tmp[idx]) > 50, "...", ""), collapse = "\n", sep = ""))
+      paste("  ", idx, ": ",
+        substr(tmp[idx], 1, 50), ifelse(nchar(tmp[idx]) > 50, "...", ""),
+        collapse = "\n", sep = ""
+      )
+    )
   }
 
   idx <- which(grepl("Warning", tmp))
@@ -19,6 +23,10 @@ check_output <- function(ff) {
     message("No warnings... Yippee!")
   } else {
     message("There were ", length(idx), " warnings:\n",
-      paste("  ", idx, ": ", substr(tmp[idx], 1, 50), ifelse(nchar(tmp[idx]) > 50, "...", ""), collapse = "\n", sep = ""))
+      paste("  ", idx, ": ",
+        substr(tmp[idx], 1, 50), ifelse(nchar(tmp[idx]) > 50, "...", ""),
+        collapse = "\n", sep = ""
+      )
+    )
   }
 }

@@ -8,7 +8,13 @@
 #' @export
 #' @import rmarkdown
 #' @import htmltools
-package_docs <- function(toc = TRUE, toc_depth = 2, toc_collapse = FALSE, extra_dependencies = NULL, ...) {
+package_docs <- function(
+  toc = TRUE,
+  toc_depth = 2,
+  toc_collapse = FALSE,
+  extra_dependencies = NULL,
+  ...
+) {
 
   template <-  system.file("html_assets/template.html", package = "packagedocs")
   # header <- system.file("assets/header.html", package = "packagedocs")

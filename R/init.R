@@ -17,7 +17,7 @@ packagedocs_init <- function(
 ) {
 
   if (file.exists(file.path(docs_path, "index.Rmd"))) {
-    ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite index.Rmd, rd_skeleton.Rmd, rd_index.yaml, and build.R? (y = yes) ", sep = ""))
+    ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite index.Rmd, rd_skeleton.Rmd, rd_index.yaml, and build.R? (y = yes) ", sep = "")) # nolint
     if (!tolower(substr(ans, 1, 1)) == "y") {
       stop("Backing out...", call. = FALSE)
     }
@@ -52,7 +52,7 @@ packagedocs_init <- function(
     github_ref <- ""
 
   if (nchar(github_ref) > 0)
-    github_ref <- sprintf("\n  <li><a href='https://github.com/%s'>Github <i class='fa fa-github'></i></a></li>", github_ref)
+    github_ref <- sprintf("\n  <li><a href='https://github.com/%s'>Github <i class='fa fa-github'></i></a></li>", github_ref) # nolint
 
   if (!file.exists(docs_path))
     dir.create(docs_path)
@@ -126,5 +126,5 @@ packagedocs_init <- function(
     file = file.path(docs_path, "rd_index.yaml"))
 
   message("* packagedocs initialized in ", docs_path)
-  message("* take a look at newly created documents: index.Rmd, rd_skeleton.Rmd, rd_index.yaml, build.R")
+  message("* take a look at newly created documents: index.Rmd, rd_skeleton.Rmd, rd_index.yaml, build.R") # nolint
 }

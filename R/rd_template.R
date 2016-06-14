@@ -85,12 +85,18 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
     }))
     missing_topics <- setdiff(nms, rd_topics)
     if (length(missing_topics) > 0) {
-      message("topics in package that were not found in rd_index (will not be included): ", paste(missing_topics, collapse = ", "))
+      message(
+        "topics in package that were not found in rd_index (will not be included): ",
+        paste(missing_topics, collapse = ", ")
+      )
       nms <- setdiff(nms, missing_topics)
     }
     unknown_topics <- setdiff(rd_topics, nms)
     if (length(unknown_topics) > 0) {
-      message("topics found in rd_index that aren't in package (will not be included): ", paste(unknown_topics, collapse = ", "))
+      message(
+        "topics found in rd_index that aren't in package (will not be included): ",
+        paste(unknown_topics, collapse = ", ")
+      )
       for (ii in seq_along(rd_index))
         rd_index[[ii]]$topics <- setdiff(rd_index[[ii]]$topics, unknown_topics)
     }
@@ -115,8 +121,10 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
       dat[[ii]] <- "(none)"
   }
 
-  main_template <- paste(readLines(file.path(system.file(package = "packagedocs"), "rd_template", "rd_main_template.Rmd")), collapse = "\n")
-  rd_template <- paste(readLines(file.path(system.file(package = "packagedocs"), "rd_template", "rd_template.Rmd")), collapse = "\n")
+  main_template <- paste(readLines(file.path(system.file(package = "packagedocs"),
+    "rd_template", "rd_main_template.Rmd")), collapse = "\n")
+  rd_template <- paste(readLines(file.path(system.file(package = "packagedocs"),
+    "rd_template", "rd_template.Rmd")), collapse = "\n")
 
   entries <- lapply(nms, function(nm) {
     try(get_rd_data(nm, package_name, package, exs, usgs))
@@ -125,7 +133,10 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   idx <- which(sapply(entries, function(x) inherits(x, "try-error")))
   if (length(idx) > 0) {
     error_topics <- nms[idx]
-    message("there were errors running the following topics (will be removed): ", paste(error_topics, collapse = ", "))
+    message(
+      "there were errors running the following topics (will be removed): ",
+      paste(error_topics, collapse = ", ")
+    )
     entries <- entries[-idx]
     nms <- nms[-idx]
     for (ii in seq_along(rd_index))

@@ -8,16 +8,19 @@
 purl_docs <- function(docs_base = "docs", code_base = "code") {
 
   ff <- list.files(docs_base, ".Rmd", full.names = TRUE)
-  if (length(ff) > 0)
+  if (length(ff) > 0) {
     ff <- ff[!grepl("^rd\\.Rmd$|^rd_skeleton\\.Rmd$", basename(ff))]
+  }
 
-  if (length(ff) == 0)
+  if (length(ff) == 0) {
     stop("There are no .Rmd files in ", docs_base)
+  }
 
   if (!file.exists(code_base)) {
-    ans <- readline(paste("The path '", code_base, "' does not exist.  Should it be created? (y = yes) ", sep = ""))
-    if (tolower(substr(ans, 1, 1)) == "y")
+    ans <- readline(paste("The path '", code_base, "' does not exist.  Should it be created? (y = yes) ", sep = "")) # nolint
+    if (tolower(substr(ans, 1, 1)) == "y") {
       dir.create(code_base)
+    }
   }
 
   ## generate the code/ files

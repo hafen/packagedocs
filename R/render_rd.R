@@ -9,7 +9,15 @@
 #' @param output_format passed to \code{\link[rmarkdown]{render}} - \code{\link{package_docs}} is used by default
 #' @param output directory to put the output rd.Rmd and rd.html file
 #' @export
-render_rd <- function(rd_skeleton, package_name, code_path, rd_index = NULL, exclude = NULL, output_format = NULL, output = ".") {
+render_rd <- function(
+  rd_skeleton,
+  package_name,
+  code_path,
+  rd_index = NULL,
+  exclude = NULL,
+  output_format = NULL,
+  output = "."
+) {
   a <- rd_template(package_name, code_path, rd_index, exclude)
 
   if (!file.exists(rd_skeleton))
