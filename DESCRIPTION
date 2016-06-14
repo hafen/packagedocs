@@ -20,4 +20,7 @@ Imports:
     yaml
 Suggests:
     testthat
+Remotes:
+  hadley/staticdocs,
+  hafen/lazyrmd
 RoxygenNote: 5.0.1
