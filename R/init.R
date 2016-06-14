@@ -59,9 +59,20 @@ packagedocs_init <- function(
 
   ## index.Rmd
   ##---------------------------------------------------------
+  skeleton_file_lines <- function(filename, package = "packagedocs") {
+    paste(readLines(
+      file.path(
+        system.file(package = package),
+        "rmarkdown",
+        "templates",
+        "packagedocs",
+        "skeleton",
+        filename
+      )
+    ), collapse = "\n")
+  }
 
-  index_template <- paste(readLines(file.path(system.file(package = "packagedocs"),
-    "/rmarkdown/templates/packagedocs/skeleton/skeleton.Rmd")), collapse = "\n")
+  index_template <- skeleton_file_lines("skeleton.Rmd")
 
   args <- list(
     title = title,
@@ -76,8 +87,7 @@ packagedocs_init <- function(
   ## rd_skeleton.Rmd
   ##---------------------------------------------------------
 
-  rd_template <- paste(readLines(file.path(system.file(package = "packagedocs"),
-    "/rmarkdown/templates/packagedocs/skeleton/rd_skeleton.Rmd")), collapse = "\n")
+  rd_template <- skeleton_file_lines("rd_skeleton.Rmd")
 
   args <- list(
     title = title,
@@ -92,8 +102,7 @@ packagedocs_init <- function(
   ## build.R
   ##---------------------------------------------------------
 
-  build_template <- paste(readLines(file.path(system.file(package = "packagedocs"),
-    "/rmarkdown/templates/packagedocs/skeleton/build.R")), collapse = "\n")
+  build_template <- skeleton_file_lines("build.R")
 
   args <- list(
     package_name = package_name,
@@ -107,8 +116,7 @@ packagedocs_init <- function(
   ## rd_index.yaml
   ##---------------------------------------------------------
 
-  yaml_template <- paste(readLines(file.path(system.file(package = "packagedocs"),
-    "/rmarkdown/templates/packagedocs/skeleton/rd_index.yaml")), collapse = "\n")
+  yaml_template <- skeleton_file_lines("rd_index.yaml")
 
   args <- list(
     package_name = package_name

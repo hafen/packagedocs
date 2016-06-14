@@ -4,8 +4,6 @@ linters: with_defaults(
     line_length_linter = NULL, # 28
     commented_code_linter = NULL, # 18
     no_tab_linter = NULL, # 12
-    absolute_paths_linter = NULL, # 6
-    infix_spaces_linter = NULL, # 6
     NULL
   )
 exclusions:
