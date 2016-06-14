@@ -11,3 +11,4 @@ package.json
 ^less$
 packagedocs.sublime*
 lintr
+.travis.yml
