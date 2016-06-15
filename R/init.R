@@ -141,8 +141,19 @@ packagedocs_init <- function(
 
   yaml_template <- skeleton_file_lines("rd_index.yaml")
 
+  man_files <- ""
+  has_man_files <- FALSE
+  if (!is.null(desc)) {
+    # means in package
+    man_files <- gsub("\\.Rd", "", basename(dir("man")))
+    man_files <- paste("    - ", man_files, sep = "", collapse = "\n")
+    has_man_files <- TRUE
+  }
+
   args <- list(
-    package_name = package_name
+    package_name = package_name,
+    man_files = man_files,
+    has_man_files = has_man_files
   )
 
   cat(whisker::whisker.render(yaml_template, args),

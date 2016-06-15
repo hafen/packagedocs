@@ -18,3 +18,9 @@
   topics:
     - function3
     - function4
+{{#has_man_files}}
+-
+  section_name: Package Functions
+  topics:
+{{{man_files}}}
+{{/has_man_files}}
