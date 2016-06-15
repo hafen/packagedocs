@@ -26,41 +26,47 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
   # package_name <- "datadr"
   # code_path <- "~/Documents/Code/Tessera/hafen/datadr"
 
-  db <- Rd_db(package_name)
-  names(db) <- gsub("\\.Rd", "", names(db))
+  # db <- Rd_db(package_name)
+  # names(db) <- gsub("\\.Rd", "", names(db))
 
   ## let staticdocs handle this
-  usgs <- lapply(db, function(x) {
-    tags <- sapply(x, function(a) attr(a, "Rd_tag"))
-    tags <- gsub("\\\\", "", tags)
-    ## we may still want usage, even if examples are missing.
-    if (any(tags == "usage")) {
-      x <- paste(unlist(x[[which(tags == "usage")]]), collapse = "")
-      gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
-    } else {
-      NULL
-    }
-  })
+  # usgs <- lapply(db, function(x) {
+  #   tags <- sapply(x, function(a) attr(a, "Rd_tag"))
+  #   tags <- gsub("\\\\", "", tags)
+  #   ## we may still want usage, even if examples are missing.
+  #   if (any(tags == "usage")) {
+  #     x <- paste(unlist(x[[which(tags == "usage")]]), collapse = "")
+  #     gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
+  #   } else {
+  #     NULL
+  #   }
+  # })
 
-  exs <- lapply(db, function(x) {
-    tags <- sapply(x, function(a) attr(a, "Rd_tag"))
-    tags <- gsub("\\\\", "", tags)
-    if (any(tags == "examples")) {
-      # TODO: preserve dontrun as separate blocks
-      # x[[which(tags == "examples")]]
-      x <- paste(unlist(x[[which(tags == "examples")]]), collapse = "")
-      gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
-    } else {
-      NULL
-    }
-  })
-  names(exs) <- gsub("\\.Rd$", "", names(exs))
+  # exs <- lapply(db, function(x) {
+  #   tags <- sapply(x, function(a) attr(a, "Rd_tag"))
+  #   tags <- gsub("\\\\", "", tags)
+  #   if (any(tags == "examples")) {
+  #     # TODO: preserve dontrun as separate blocks
+  #     # x[[which(tags == "examples")]]
+  #     x <- paste(unlist(x[[which(tags == "examples")]]), collapse = "")
+  #     gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
+  #   } else {
+  #     NULL
+  #   }
+  # })
+  # names(exs) <- gsub("\\.Rd$", "", names(exs))
 
+  # use package docs to retrieve everything
+  # set examples to FALSE "not evaluate examples"
+  # set examples to TRUE to "evaluate examples"
   package <- staticdocs::as.sd_package(code_path, examples = FALSE)
+  # name the aliases for easier help later
+  names(package$rd_index$alias) <- package$rd_index$file_in
 
   # nms <- gsub("\\.Rd", "", names(db))
   # want to be able to list all aliases (more functions can exist than .Rd files)
-  nms <- unname(unlist(lapply(db, rd_get_metadata, "alias")))
+  # nms <- unname(unlist(lapply(db, rd_get_metadata, "alias")))
+  nms <- unname(unlist(package$rd_index$alias))
 
   # Under what conditions do we add `package_name` to exclude?
   # Only of there doesn't exist a function or alias with the same name as the package
@@ -178,19 +184,32 @@ fix_hrefs <- function(x) {
 get_rd_data <- function(nm, package_name, package, exs, usgs) {
   cat(nm, "\n")
 
-  get_help_file <- getFromNamespace(".getHelpFile", loadNamespace("utils"))
-  b <- get_help_file(rd_path(nm, package_name))
-  b <- structure(set_classes(b), class = "Rd_content")
-  attr(b, "Rd_tag") <- "Rd file"
+  # get_help_file <- getFromNamespace(".getHelpFile", loadNamespace("utils"))
+  # b <- get_help_file(rd_path(nm, package_name))
 
+  # map to help file name
+  help_name <- names(which(sapply(package$rd_index$alias, function(aliases) {
+    nm %in% aliases
+  })))
+  # use staticdocs package output
+  b <- package$rd[[help_name]]
+  if (is.null(b)) {
+    stop("Package help file can't be found")
+  }
+
+  # b <- structure(set_classes(b), class = "Rd_content")
+  # attr(b, "Rd_tag") <- "Rd file"
+
+  # use to_html.rd_doc to convert nicely to a list
   data <- to_html_rd_doc(b, pkg = package)
 
   data$examples <- exs[[nm]]
+  # data$examples <- exs[[nm]]
   ## to_html does a good job of getting usage.
-  data$usage <- usgs[[nm]]
+  # data$usage <- usgs[[nm]]
 
   data$id <- valid_id(nm)
-  data$name <- nm
+  # data$name <- nm
 
   desc_ind <- which(sapply(data$sections, function(a) {
     if (!is.null(names(a))) {
