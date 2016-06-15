@@ -80,6 +80,12 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
 
   nms <- setdiff(nms, exclude)
 
+  if (is.null(rd_index)) {
+    if (file.exists("rd_index.yaml")) {
+      rd_index <- "rd_index.yaml"
+    }
+  }
+
   if (!is.null(rd_index)) {
     rd_index <- yaml.load_file(rd_index)
     rd_topics <- unlist(lapply(rd_index, function(x) {
