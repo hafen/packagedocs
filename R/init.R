@@ -40,7 +40,16 @@ packagedocs_init <- function(
       author <- "author"
     } else {
       # probably can be improved...
-      author <- gsub("\"([A-Za-z ]+).*", "\\1", desc$Authors[1])
+      if (! is.null(desc[["Authors@R"]])) {
+        author_info <- eval(parse(text = desc[["Authors@R"]]))
+        is_creator <- unlist(lapply(author_info$role, function(roles) {
+          "cre" %in% roles
+        }))
+        author <- author_info[[is_creator]]
+      } else {
+        author <- desc$Authors[1]
+      }
+      author <- gsub("([A-Za-z ]+[A-Za-z]).*", "\\1", author)
     }
   }
 
