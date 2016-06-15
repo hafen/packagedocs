@@ -13,7 +13,7 @@ packagedocs_init <- function(
   docs_path = file.path(code_path, "docs"),
   package_name = NULL,
   title = NULL, subtitle = "",
-  author = NULL, github_ref = "user/repo"
+  author = NULL, github_ref = NULL
 ) {
 
   if (file.exists(file.path(docs_path, "index.Rmd"))) {
@@ -57,8 +57,22 @@ packagedocs_init <- function(
     title <- package_name
   }
 
-  if (is.null(github_ref))
-    github_ref <- ""
+  github_val <- ""
+  if (is.null(github_ref)) {
+    if (missing(github_ref)) {
+      if (!is.null(desc)) {
+        if (! is.null(desc$URL)) {
+          has_github_url <- grepl("github\\.com\\/([^\\/]*\\/[^\\/]*)", desc$URL)
+          if (has_github_url) {
+            github_val <- gsub(".*github\\.com\\/([^\\/]*\\/[^\\/]*).*", "\\1", desc$URL)
+          }
+        }
+      }
+    }
+  }
+  github_ref <- github_val
+
+
 
   if (nchar(github_ref) > 0)
     github_ref <- sprintf("\n  <li><a href='https://github.com/%s'>Github <i class='fa fa-github'></i></a></li>", github_ref) # nolint
