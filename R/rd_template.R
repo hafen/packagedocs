@@ -141,7 +141,12 @@ rd_template <- function(package_name, code_path, rd_index = NULL, exclude = NULL
     try(get_rd_data(nm, package_name, package, exs, usgs))
   })
 
-  idx <- which(sapply(entries, function(x) inherits(x, "try-error")))
+  idx <- which(
+    as.logical(unlist(
+      sapply(entries, function(x) inherits(x, "try-error"))
+    ))
+  )
+
   if (length(idx) > 0) {
     error_topics <- nms[idx]
     message(
@@ -209,7 +214,7 @@ get_rd_data <- function(nm, package_name, package, exs, usgs) {
   # use to_html.rd_doc to convert nicely to a list
   data <- to_html_rd_doc(b, pkg = package)
 
-  data$examples <- exs[[nm]]
+
   # data$examples <- exs[[nm]]
   ## to_html does a good job of getting usage.
   # data$usage <- usgs[[nm]]
@@ -233,8 +238,9 @@ get_rd_data <- function(nm, package_name, package, exs, usgs) {
   }
 
   zero_ind <- which(sapply(data$sections, length) == 0)
-  if (length(zero_ind) > 0)
+  if (length(zero_ind) > 0) {
     data$sections <- data$sections[-zero_ind]
+  }
 
   # rgxp <- "([a-zA-Z0-9\\.\\_]+)\\.html"
 
