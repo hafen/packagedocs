@@ -6,7 +6,7 @@
 \usage{
 packagedocs_init(code_path = ".", docs_path = file.path(code_path, "docs"),
   package_name = NULL, title = NULL, subtitle = "", author = NULL,
-  github_ref = "user/repo")
+  github_ref = NULL)
 }
 \arguments{
 \item{code_path}{location of docs directory}
