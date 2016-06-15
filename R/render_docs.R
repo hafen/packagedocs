@@ -12,7 +12,7 @@
 #' @param rd_index optional path to rd layout yaml (if NULL, will search for "docs_path/rd_index.yaml" and use it if available)
 #' @export
 render_docs <- function(docs_path, code_path, package_name,
-  main_toc_collapse = TRUE, rd_toc_collapse = TRUE,
+  main_toc_collapse = TRUE, rd_toc_collapse = FALSE,
   lib_dir = "assets", render_main = TRUE, render_rd = TRUE,
   view_output = TRUE, rd_index = NULL) {
 
