@@ -4,15 +4,13 @@
 \alias{render_rd}
 \title{Generate rd.html file}
 \usage{
-render_rd(rd_skeleton, code_path, docs_path, rd_index = NULL,
-  exclude = NULL, output_format = NULL, output = ".")
+render_rd(rd_skeleton, code_path, rd_index = NULL, exclude = NULL,
+  output_format = NULL, output = ".")
 }
 \arguments{
 \item{rd_skeleton}{path to a .Rmd file that contains the header to use for the rd.Rmd}
 
 \item{code_path}{path to the source code directory of the package}
-
-\item{docs_path}{location of R Markdown docs directory}
 
 \item{rd_index}{path to yaml file with index layout information}
 

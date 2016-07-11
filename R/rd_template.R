@@ -194,9 +194,9 @@ get_rd_data <- function(alias_file, rd_info, title) {
   data$id <- valid_id(name)
   data$name <- if_null(title, name)
 
-  if (runif(1) < 0.1) {
-    stop("asdfasdf")
-  }
+  # if (runif(1) < 0.1) {
+  #   stop("asdfasdf")
+  # }
 
   desc_ind <- which(sapply(data$sections, function(a) {
     if (!is.null(names(a))) {

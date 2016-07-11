@@ -88,8 +88,6 @@ packagedocs_init <- function(
     has_keywords = length(man_info) > 1
   )
 
-  cat(whisker::whisker.render(yaml_template, args))
-
   cat(whisker::whisker.render(yaml_template, args),
     file = file.path(docs_path, "rd_index.yaml"))
 
