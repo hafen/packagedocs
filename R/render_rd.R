@@ -2,7 +2,6 @@
 #' Generate rd.html file
 #'
 #' @param rd_skeleton path to a .Rmd file that contains the header to use for the rd.Rmd
-#' @param package_name the name of the package, e.g. "packagedocs"
 #' @param code_path path to the source code directory of the package
 #' @param rd_index path to yaml file with index layout information
 #' @param exclude vector of Rd entry names to exclude from the resulting document
@@ -11,14 +10,13 @@
 #' @export
 render_rd <- function(
   rd_skeleton,
-  package_name,
   code_path,
   rd_index = NULL,
   exclude = NULL,
   output_format = NULL,
   output = "."
 ) {
-  a <- rd_template(package_name, code_path, rd_index, exclude)
+  a <- rd_template(code_path, rd_index, exclude)
 
   if (!file.exists(rd_skeleton))
     stop("'rd_skeleton' file ", rd_skeleton, " doesn't exist.", call. = FALSE)

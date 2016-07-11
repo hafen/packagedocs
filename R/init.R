@@ -1,6 +1,6 @@
 #' Initialize a new packagedocs project
 #'
-#' @param code_path location of docs directory
+#' @param code_path location of R package (defaults to current directory)
 #' @param docs_path location of code directory (defaults to a directory "docs" inside \code{code_path})
 #' @param package_name the name of the package, e.g. "packagedocs" (will search in DESCRIPTION if NULL)
 #' @param title title of main page (will search in DESCRIPTION if NULL - can be changed later)
@@ -12,10 +12,11 @@ packagedocs_init <- function(
   code_path = ".",
   docs_path = file.path(code_path, "docs"),
   package_name = NULL,
-  title = NULL, subtitle = "",
+  title = NULL, subtitle = NULL,
   author = NULL, github_ref = NULL
 ) {
 
+  if (FALSE)
   if (file.exists(file.path(docs_path, "index.Rmd"))) {
     ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite index.Rmd, rd_skeleton.Rmd, rd_index.yaml, and build.R? (y = yes) ", sep = "")) # nolint
     if (!tolower(substr(ans, 1, 1)) == "y") {
@@ -23,133 +24,62 @@ packagedocs_init <- function(
     }
   }
 
-  desc <- NULL
-  if (file.exists(file.path(code_path, "DESCRIPTION")))
-    desc <- packageDescription(".", code_path)
+  rd_info <- as_sd_package(code_path)
 
-  if (is.null(package_name)) {
-    if (is.null(desc)) {
-      package_name <- "mypackage"
-    } else {
-      package_name <- desc$Package
-    }
-  }
-
-  if (is.null(author)) {
-    if (is.null(desc)) {
-      author <- "author"
-    } else {
-      # probably can be improved...
-      if (! is.null(desc[["Authors@R"]])) {
-        author_info <- eval(parse(text = desc[["Authors@R"]]))
-        is_creator <- unlist(lapply(author_info$role, function(roles) {
-          "cre" %in% roles
-        }))
-        author <- author_info[[is_creator]]
-      } else {
-        author <- desc$Authors[1]
-      }
-      author <- gsub("([A-Za-z ]+[A-Za-z]).*", "\\1", author)
-    }
-  }
-
-  if (is.null(title)) {
-    title <- package_name
-  }
-
-  github_val <- ""
-  if (is.null(github_ref)) {
-    if (missing(github_ref)) {
-      if (!is.null(desc)) {
-        if (! is.null(desc$URL)) {
-          has_github_url <- grepl("github\\.com\\/([^\\/]*\\/[^\\/]*)", desc$URL)
-          if (has_github_url) {
-            github_val <- gsub(".*github\\.com\\/([^\\/]*\\/[^\\/]*).*", "\\1", desc$URL)
-          }
-        }
-      }
-    }
-  }
-  github_ref <- github_val
+  package_name <- if_null(package_name, if_null(rd_info$package, "mypackage"))
+  title <- if_null(title, rd_info$package)
+  subtitle <- if_null(subtitle, rd_info$title)
+  author <- parse_author_info(rd_info, author)
+  github_ref <- parse_github_ref(rd_info, github_ref, missing(github_ref))
 
 
-
-  if (nchar(github_ref) > 0)
-    github_ref <- sprintf("\n  <li><a href='https://github.com/%s'>Github <i class='fa fa-github'></i></a></li>", github_ref) # nolint
-
-  if (!file.exists(docs_path))
+  if (!file.exists(docs_path)) {
     dir.create(docs_path, recursive = TRUE)
+  }
 
   ## index.Rmd
   ##---------------------------------------------------------
-  skeleton_file_lines <- function(filename, package = "packagedocs") {
-    paste(readLines(
-      file.path(
-        system.file(package = package),
-        "rmarkdown",
-        "templates",
-        "packagedocs",
-        "skeleton",
-        filename
-      )
-    ), collapse = "\n")
-  }
-
-  index_template <- skeleton_file_lines("skeleton.Rmd")
-
+  index_template <- init_skeleton("skeleton.Rmd")
   args <- list(
     title = title,
     subtitle = subtitle,
     author = author,
     github_ref = github_ref
   )
-
   cat(whisker::whisker.render(index_template, args),
     file = file.path(docs_path, "index.Rmd"))
 
   ## rd_skeleton.Rmd
   ##---------------------------------------------------------
-
-  rd_template <- skeleton_file_lines("rd_skeleton.Rmd")
-
+  rd_template <- init_skeleton("rd_skeleton.Rmd")
   args <- list(
     title = title,
     subtitle = subtitle,
     author = author,
     github_ref = github_ref
   )
-
   cat(whisker::whisker.render(rd_template, args),
     file = file.path(docs_path, "rd_skeleton.Rmd"))
 
   ## build.R
   ##---------------------------------------------------------
-
-  build_template <- skeleton_file_lines("build.R")
-
+  build_template <- init_skeleton("build.R")
   args <- list(
     package_name = package_name,
     code_path = code_path,
     docs_path = docs_path
   )
-
   cat(whisker::whisker.render(build_template, args),
     file = file.path(docs_path, "build.R"))
 
   ## rd_index.yaml
   ##---------------------------------------------------------
+  yaml_template <- init_skeleton("rd_index.yaml")
 
-  yaml_template <- skeleton_file_lines("rd_index.yaml")
-
-  man_info <- NULL
-  if (!is.null(desc)) {
-    # means it is a package
-    code_path %>%
-      as_sd_package(docs_path = docs_path) %>%
-      # extract2("rd") %>%
-      group_fn_by_keyword("Package Functions") ->
-    man_info
-  }
+  code_path %>%
+    as_sd_package() %>%
+    group_fn_by_keyword("Package Functions") ->
+  man_info
 
   args <- list(
     package_name = package_name,
@@ -158,9 +88,74 @@ packagedocs_init <- function(
     has_keywords = length(man_info) > 1
   )
 
+  cat(whisker::whisker.render(yaml_template, args))
+
   cat(whisker::whisker.render(yaml_template, args),
     file = file.path(docs_path, "rd_index.yaml"))
 
   message("* packagedocs initialized in ", docs_path)
   message("* take a look at newly created documents: index.Rmd, rd_skeleton.Rmd, rd_index.yaml, build.R") # nolint
+}
+
+
+
+parse_author_info <- function(rd_info, given_value) {
+  author <- given_value
+  if (is.null(author)) {
+    if (! is.null(rd_info[["authors@r"]])) {
+      # parse the authors @ r section for the creator
+      author_info <- eval(parse(text = rd_info[["authors@r"]]))
+      is_creator <- unlist(lapply(author_info$role, function(roles) {
+        "cre" %in% roles
+      }))
+      author <- author_info[[is_creator]]
+    } else {
+      # maintainer is a mandatory field if authors@R is not there
+      author <- rd_info$maintainer[1]
+    }
+    author <- gsub(" <[^<]*$", "", author)
+  }
+  author <- if_null(author, "author")
+  if (length(author) == 0) {
+    author <- "author"
+  }
+  author
+}
+
+
+parse_github_ref <- function(rd_info, github_ref, missing_github_ref) {
+  # retrieve the github url if nothing else has been specified
+  github_val <- ""
+  if (is.null(github_ref)) {
+    if (missing_github_ref) {
+      if (! is.null(rd_info$urls)) {
+        has_github_url <- grepl("github\\.com\\/([^\\/]*\\/[^\\/]*)", rd_info$urls)
+        if (has_github_url) {
+          github_val <- gsub(".*github\\.com\\/([^\\/]*\\/[^\\/]*).*", "\\1", rd_info$urls)
+        }
+      }
+    }
+  }
+  github_ref <- github_val
+
+  if (nchar(github_ref) > 0) {
+    github_ref <- sprintf("\n  <li><a href='https://github.com/%s'>Github <i class='fa fa-github'></i></a></li>", github_ref) # nolint
+  }
+
+  github_ref
+}
+
+
+
+init_skeleton <- function(filename) {
+  paste(readLines(
+    file.path(
+      system.file(package = "packagedocs"),
+      "rmarkdown",
+      "templates",
+      "packagedocs",
+      "skeleton",
+      filename
+    )
+  ), collapse = "\n")
 }

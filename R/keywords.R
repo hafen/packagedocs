@@ -28,11 +28,14 @@ group_fn_by_keyword <- function(rd_info, default_value = NULL) {
     unique_keywords <- c(unique_keywords[! is_default], unique_keywords[is_default])
   }
 
+  unique_keywords <- unique_keywords[
+    unique_keywords != keyword_info_map[["internal"]][2]
+  ]
+
   rd_index$title <- ""
   rd_index$is_unique <- TRUE
   for (i in seq_len(nrow(rd_index))) {
     if (length(rd_index$alias[[i]]) == 1) {
-
       rd_index$title[i] <- gsub("\\.Rd", "", rd_index$file_in[[i]])
     } else {
       rd_index$is_unique[[i]] <- FALSE
@@ -64,7 +67,7 @@ group_fn_by_keyword <- function(rd_info, default_value = NULL) {
     })
 }
 
-
+#' @importFrom magrittr extract2
 get_keyword <- function(rd_obj, default_value = NULL) {
   if (! inherits(rd_obj, "Rd_content")) {
     stop("rd_obj is not a Rd_content object")
@@ -104,7 +107,7 @@ keyword_info_map <- list(
   device = c("Graphics", "Graphical Devices"),
 
   sysdata = c("Basics", "Basic System Variables"),
-  datasets = c("Basics", "Datasets available by data(.)"),
+  datasets = c("Basics", "Datasets available by data()"),
   data = c("Basics", "Environments, Scoping, Packages"),
   manip = c("Basics", "Data Manipulation"),
   attribute = c("Basics", "Data Attributes"),
