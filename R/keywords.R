@@ -50,8 +50,8 @@ group_fn_by_keyword <- function(rd_info, default_value = NULL) {
 
   unique_keywords %>%
     lapply(function(unique_keyword) {
-      sub_index <- subset(rd_index, keyword == unique_keyword)
-      topics = list()
+      sub_index <- subset(rd_index, keyword == unique_keyword) # nolint
+      topics <- list()
       for (i in seq_len(nrow(sub_index))) {
         topics[[i]] <- list(
           file = sub_index$file_in[[i]],

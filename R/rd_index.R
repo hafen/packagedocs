@@ -29,12 +29,12 @@ as_rd_index <- function(rd_index) {
             if (is.character(topic)) {
               topic <- list(file = paste(topic, ".Rd", sep = ""), title = topic)
             }
-            file = topic$file
+            file <- topic$file
             if (is.null(file)) {
               stop(paste0("'file' must be provided within each topic (unless a single string). Error in section: ", section_num, ", topic: ", topic_num)) # nolint
             }
-            title = topic$title
-            if (is.null(file)) {
+            title <- topic$title
+            if (is.null(title)) {
               stop(paste0("'title' must be provided within each topic (unless a single string). Error in section: ", section_num, ", topic: ", topic_num)) # nolint
             }
             topic

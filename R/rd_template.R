@@ -71,7 +71,13 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
   }
 
   if (is.null(rd_index)) {
-    rd_index <- list(list(section_name = "Package Functions", desc = "", topics = gsub("\\.Rd", "", rd_info$rd_index$file_in)))
+    rd_index <- list(
+      list(
+        section_name = "Package Functions",
+        desc = "",
+        topics = gsub("\\.Rd", "", rd_info$rd_index$file_in)
+      )
+    )
   } else {
     rd_index <- yaml.load_file(rd_index)
   }
