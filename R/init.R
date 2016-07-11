@@ -141,19 +141,21 @@ packagedocs_init <- function(
 
   yaml_template <- skeleton_file_lines("rd_index.yaml")
 
-  man_files <- ""
-  has_man_files <- FALSE
+  man_info <- NULL
   if (!is.null(desc)) {
-    # means in package
-    man_files <- gsub("\\.Rd", "", basename(dir("man")))
-    man_files <- paste("    - ", man_files, sep = "", collapse = "\n")
-    has_man_files <- TRUE
+    # means it is a package
+    code_path %>%
+      as_sd_package(docs_path = docs_path) %>%
+      # extract2("rd") %>%
+      group_fn_by_keyword("Package Functions") ->
+    man_info
   }
 
   args <- list(
     package_name = package_name,
-    man_files = man_files,
-    has_man_files = has_man_files
+    has_man_info = !is.null(man_info),
+    man_info = man_info,
+    has_keywords = length(man_info) > 1
   )
 
   cat(whisker::whisker.render(yaml_template, args),
