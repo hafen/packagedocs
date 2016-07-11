@@ -78,7 +78,7 @@ packagedocs_init <- function(
     github_ref <- sprintf("\n  <li><a href='https://github.com/%s'>Github <i class='fa fa-github'></i></a></li>", github_ref) # nolint
 
   if (!file.exists(docs_path))
-    dir.create(docs_path)
+    dir.create(docs_path, recursive = TRUE)
 
   ## index.Rmd
   ##---------------------------------------------------------
