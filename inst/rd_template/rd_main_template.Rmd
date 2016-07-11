@@ -7,14 +7,14 @@
 <h4>Description</h4>
 <p>{{{description}}}</p>
 
-<h4>Depends</h4>
-<p>{{{depends}}}</p>
+{{#depends}}<h4>Depends</h4>
+<p>{{{depends}}}</p>{{/depends}}
 
-<h4>Imports</h4>
-<p>{{{imports}}}</p>
+{{#imports}}<h4>Imports</h4>
+<p>{{{imports}}}</p>{{/imports}}
 
-<h4>Suggests</h4>
-<p>{{{suggests}}}</p>
+{{#suggests}}<h4>Suggests</h4>
+<p>{{{suggests}}}</p>{{/suggests}}
 
-<h4>Enhances</h4>
-<p>{{{enhances}}}</p>
+{{#enhances}}<h4>Enhances</h4>
+<p>{{{enhances}}}</p>{{/enhances}}
