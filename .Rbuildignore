@@ -12,4 +12,4 @@ package.json
 packagedocs.sublime*
 lintr
 .travis.yml
-_docs
+^_docs$

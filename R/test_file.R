@@ -8,8 +8,8 @@
 #' @rdname test_fn
 #' @keywords programming
 #' @examples
-#' test_fn_a(4)
-#' test_fn_b("world")
+#' packagedocs:::test_fn_a(4)
+#' packagedocs:::test_fn_b("world")
 #' hist(rnorm(1000))
 test_fn_a <- function(a) {
   a

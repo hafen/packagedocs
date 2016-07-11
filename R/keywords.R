@@ -2,10 +2,8 @@
 
 group_fn_by_keyword <- function(rd_info, default_value = NULL) {
 
-
   rd_list <- rd_info$rd
   rd_index <- rd_info$rd_index
-
 
   paste_com <- function(...) {
     paste(..., collapse = ", ")
@@ -50,7 +48,7 @@ group_fn_by_keyword <- function(rd_info, default_value = NULL) {
 
   unique_keywords %>%
     lapply(function(unique_keyword) {
-      sub_index <- subset(rd_index, keyword == unique_keyword) # nolint
+      sub_index <- rd_index[rd_index$keyword == unique_keyword, ]
       topics <- list()
       for (i in seq_len(nrow(sub_index))) {
         topics[[i]] <- list(

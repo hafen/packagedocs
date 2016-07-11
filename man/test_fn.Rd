@@ -18,8 +18,8 @@ test_fn_b(b)
 Test file
 }
 \examples{
-test_fn_a(4)
-test_fn_b("world")
+packagedocs:::test_fn_a(4)
+packagedocs:::test_fn_b("world")
 hist(rnorm(1000))
 }
 \keyword{programming}
