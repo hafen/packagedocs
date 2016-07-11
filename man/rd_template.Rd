@@ -4,11 +4,9 @@
 \alias{rd_template}
 \title{Generate the text to put in a rd.rmd file to build a package function reference}
 \usage{
-rd_template(package_name, code_path, rd_index = NULL, exclude = NULL)
+rd_template(code_path, docs_path = "./", rd_index = NULL, exclude = NULL)
 }
 \arguments{
-\item{package_name}{the name of the package, e.g. "packagedocs"}
-
 \item{code_path}{path to the source code directory of the package}
 
 \item{rd_index}{path to yaml file with index layout information}

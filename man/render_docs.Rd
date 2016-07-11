@@ -4,7 +4,7 @@
 \alias{render_docs}
 \title{Render packagedocs}
 \usage{
-render_docs(docs_path, code_path, package_name, main_toc_collapse = TRUE,
+render_docs(docs_path, code_path, main_toc_collapse = TRUE,
   rd_toc_collapse = FALSE, lib_dir = "assets", render_main = TRUE,
   render_rd = TRUE, view_output = TRUE, rd_index = NULL)
 }
@@ -12,8 +12,6 @@ render_docs(docs_path, code_path, package_name, main_toc_collapse = TRUE,
 \item{docs_path}{location of R Markdown docs directory}
 
 \item{code_path}{location of R package source directory}
-
-\item{package_name}{the name of the package, e.g. "packagedocs"}
 
 \item{main_toc_collapse}{use collapsing toc on main page}
 

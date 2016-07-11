@@ -5,11 +5,11 @@
 \title{Initialize a new packagedocs project}
 \usage{
 packagedocs_init(code_path = ".", docs_path = file.path(code_path, "docs"),
-  package_name = NULL, title = NULL, subtitle = "", author = NULL,
+  package_name = NULL, title = NULL, subtitle = NULL, author = NULL,
   github_ref = NULL)
 }
 \arguments{
-\item{code_path}{location of docs directory}
+\item{code_path}{location of R package (defaults to current directory)}
 
 \item{docs_path}{location of code directory (defaults to a directory "docs" inside \code{code_path})}
 
