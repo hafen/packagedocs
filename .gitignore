@@ -22,3 +22,5 @@ packagedocs.sublime*
 
 .lintr_cache
 _docs
+
+vignettes
