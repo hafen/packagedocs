@@ -6,7 +6,8 @@
 #' @param rd_index path to yaml file with index layout information
 #' @param exclude vector of Rd entry names to exclude from the resulting document
 #' @param output_format passed to \code{\link[rmarkdown]{render}} - \code{\link{package_docs}} is used by default
-#' @param output directory to put the output rd.Rmd and rd.html file
+#' @param output directory to put the output_file and output html file
+#' @param output_file file that is created. Should end in ".Rmd"
 #' @export
 render_rd <- function(
   rd_skeleton,
@@ -14,7 +15,9 @@ render_rd <- function(
   rd_index = NULL,
   exclude = NULL,
   output_format = NULL,
-  output = "."
+  output = ".",
+  output_file_rmd = "rd.Rmd",
+  output_file_html = "rd.html"
 ) {
   a <- rd_template(code_path, rd_index, exclude)
 
@@ -27,11 +30,11 @@ render_rd <- function(
   sk <- readLines(rd_skeleton)
 
   out_path <- normalizePath(output)
-  rd_file <- file.path(out_path, "rd.Rmd")
+  rd_file <- file.path(out_path, output_file_rmd)
   lib_dir <- file.path(out_path, "assets")
 
   if (is.null(output_format))
     output_format <- package_docs(lib_dir = lib_dir)
   cat(paste(paste(sk, collapse = "\n"), a, sep = "\n"), file = rd_file)
-  render(rd_file, output_format = output_format)
+  render(rd_file, output_format = output_format, output_file = output_file_html)
 }

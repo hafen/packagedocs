@@ -151,7 +151,9 @@ render_rd2 <- function(
   lib_dir = "assets", lib_dir_bak = paste(lib_dir, "_rd_bak", sep = ""),
   render = TRUE,
   view_output = TRUE,
-  rd_index = NULL
+  rd_index = NULL,
+  output_file_rmd = "rd.Rmd",
+  output_file_html = "rd.html"
 ) {
 
   pdof2 <- package_docs(lib_dir = lib_dir, toc_collapse = toc_collapse)
@@ -172,11 +174,14 @@ render_rd2 <- function(
   # generate rd.html
   if (render) {
     render_rd("rd_skeleton.Rmd", code_path, "./",
-      rd_index = rd_index, output_format = pdof2)
-    check_output("rd.html")
+      rd_index = rd_index, output_format = pdof2,
+      output_file_rmd = output_file_rmd,
+      output_file_html = output_file_html
+    )
+    check_output(output_file_html)
     if (view_output)
-      browseURL("rd.html")
+      browseURL(output_file_html)
   }
 
-  file.path(docs_path, "rd.html")
+  file.path(docs_path, output_file_html)
 }

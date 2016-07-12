@@ -46,6 +46,7 @@ make_and_build2 <- function(code_path, pkg_name, view_output = FALSE, docs_path 
 }
 
 make_and_vig <- function(code_path, pkg_name, docs_path = file.path("_docs", pkg_name)) {
+  unlink(docs_path, recursive = TRUE)
   packagedocs_init(code_path = code_path, docs_path = docs_path)
   devtools::install()
   devtools::build_vignettes()

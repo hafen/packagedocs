@@ -136,26 +136,50 @@
   #           text in the vignette source file with ‘aspell’.
   tools::vignetteEngine(
     name = "packagedocs_vigs",
-    weave = function(file = NULL, driver = NULL, syntax = NULL, encoding = "UTF-8", quiet = FALSE, ...) {
+    weave = function(file, ...) {
       cat("calling weave with args: \n")
       print(list(
         file = file,
-        driver = driver,
-        syntax = syntax,
-        encoding = encoding,
-        quiet = quiet,
         ...
       ))
-      browser()
+      # browser()
 
-      
+      if (file == "index.Rmd") {
+        render_main2(
+          docs_path = "./",
+          code_path = "../",
+          toc_collapse = TRUE,
+          lib_dir = "assets",
+          render = TRUE,
+          view_output = FALSE
+        )
+        return("index.html")
+
+      } else if (file == "rd_skeleton.Rmd") {
+        # rd.Rmd
+        render_rd2(
+          docs_path = "./",
+          code_path = "../",
+          # docs_path = "vignettes",
+          # code_path = "./",
+          toc_collapse = TRUE,
+          lib_dir = "assets",
+          render = TRUE,
+          view_output = FALSE,
+          rd_index = NULL,
+          output_file_html = "rd_skeleton.html"
+        )
+        return("rd_skeleton.html")
+      } else {
+        stop(paste("Do not know how to compile file: '", file, "' within packagedocs. Must only be 'index.Rmd' or 'rd_skeleton.Rmd'")) # nolint
+      }
     },
     tangle = function(...) {
       cat("calling tangle with args: \n")
       print(list(...))
       return()
     },
-    pattern = "(index.Rmd|rd.Rmd)$",
+    pattern = "\\.Rmd$",
     package = "packagedocs"
   )
 
