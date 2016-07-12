@@ -3,6 +3,7 @@ language: r
 # https://blog.rstudio.org/2016/03/09/r-on-travis-ci/
 sudo: false
 cache: packages
+warnings_are_errors: false # until stable
 
 before_script:
   # install the pkg so it can be used as a vig builder
