@@ -112,10 +112,15 @@ render_main2 <- function(
   toc_collapse = TRUE,
   lib_dir = "assets", lib_dir_bak = paste(lib_dir, "_main_bak", sep = ""),
   render = TRUE,
-  view_output = TRUE
+  view_output = TRUE,
+  self_contained = FALSE
 ) {
 
-  pdof1 <- package_docs(lib_dir = lib_dir, toc_collapse = toc_collapse)
+  pdof1 <- package_docs(
+    lib_dir = lib_dir,
+    toc_collapse = toc_collapse,
+    self_contained = self_contained
+  )
 
   wd <- getwd()
 
@@ -153,10 +158,15 @@ render_rd2 <- function(
   view_output = TRUE,
   rd_index = NULL,
   output_file_rmd = "rd.Rmd",
-  output_file_html = "rd.html"
+  output_file_html = "rd.html",
+  self_contained = FALSE
 ) {
 
-  pdof2 <- package_docs(lib_dir = lib_dir, toc_collapse = toc_collapse)
+  pdof2 <- package_docs(
+    lib_dir = lib_dir,
+    toc_collapse = toc_collapse,
+    self_contained = self_contained
+  )
 
   wd <- getwd()
 

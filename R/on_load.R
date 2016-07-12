@@ -146,7 +146,8 @@
           toc_collapse = TRUE,
           lib_dir = "assets",
           render = TRUE,
-          view_output = FALSE
+          view_output = FALSE,
+          self_contained = TRUE
         )
         return("index.html")
 
@@ -160,11 +161,14 @@
           render = TRUE,
           view_output = FALSE,
           rd_index = NULL,
-          output_file_html = "rd_skeleton.html"
+          output_file_rmd = "rd.Rmd_tmp",
+          output_file_html = "rd_skeleton.html",
+          self_contained = TRUE
         )
         return("rd_skeleton.html")
+
       } else {
-        stop(paste("Do not know how to compile file: '", file, "' within packagedocs. Must only be 'index.Rmd' or 'rd_skeleton.Rmd'")) # nolint
+        stop(paste("Do not know how to compile file: '", file, "' within packagedocs. Must only be 'index.Rmd' or 'rd_skeleton.Rmd'", sep = "")) # nolint
       }
     },
     tangle = function(...) {
