@@ -4,6 +4,7 @@
 #' @param toc_depth depth of the table of contents (max is 2 for this template)
 #' @param toc_collapse should the table of contents have collapsible subsections?
 #' @param extra_dependencies passed to \code{\link[rmarkdown]{html_document}}
+#' @param self_contained passed to \code{\link[rmarkdown]{html_document}}
 #' @param \ldots parameters passed to \code{\link[rmarkdown]{html_document}}
 #' @export
 #' @import rmarkdown
@@ -13,6 +14,7 @@ package_docs <- function(
   toc_depth = 2,
   toc_collapse = FALSE,
   extra_dependencies = NULL,
+  self_contained = FALSE,
   ...
 ) {
 
@@ -49,7 +51,7 @@ package_docs <- function(
     fig_width = 6.5,
     fig_height = 4,
     mathjax = NULL,
-    self_contained = FALSE,
+    self_contained = self_contained,
     template = template,
     theme = NULL,
     highlight = NULL,
