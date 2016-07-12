@@ -7,7 +7,8 @@
 #' @param exclude vector of Rd entry names to exclude from the resulting document
 #' @param output_format passed to \code{\link[rmarkdown]{render}} - \code{\link{package_docs}} is used by default
 #' @param output directory to put the output_file and output html file
-#' @param output_file file that is created. Should end in ".Rmd"
+#' @param output_file_rmd combined Rmd file that is created. Should end in ".Rmd"
+#' @param output_file_html rendered \code{output_file_rmd} file. Should end in ".html"
 #' @export
 render_rd <- function(
   rd_skeleton,

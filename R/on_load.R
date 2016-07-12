@@ -120,9 +120,9 @@
 # <environment: namespace:knitr>
 
 
-.onLoad <- function(dir, pkg) {
+.onLoad <- function(lib, pkg) {
 
-  cat("running onload!\n")
+  # packageStartupMessage("running onload!")
 
   #     name: the name of the engine.
   #    weave: a function to convert vignette source files to LaTeX output.
@@ -137,11 +137,6 @@
   tools::vignetteEngine(
     name = "packagedocs_vigs",
     weave = function(file, ...) {
-      cat("calling weave with args: \n")
-      print(list(
-        file = file,
-        ...
-      ))
       # browser()
 
       if (file == "index.Rmd") {
@@ -160,8 +155,6 @@
         render_rd2(
           docs_path = "./",
           code_path = "../",
-          # docs_path = "vignettes",
-          # code_path = "./",
           toc_collapse = TRUE,
           lib_dir = "assets",
           render = TRUE,
@@ -175,14 +168,13 @@
       }
     },
     tangle = function(...) {
-      cat("calling tangle with args: \n")
-      print(list(...))
+      # do not create an R file with all the R code.
       return()
     },
     pattern = "\\.Rmd$",
     package = "packagedocs"
   )
 
-  cat("vig engine registered!\n")
+  # packageStartupMessage("vig engine registered!")
 
 }

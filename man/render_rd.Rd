@@ -5,7 +5,8 @@
 \title{Generate rd.html file}
 \usage{
 render_rd(rd_skeleton, code_path, rd_index = NULL, exclude = NULL,
-  output_format = NULL, output = ".")
+  output_format = NULL, output = ".", output_file_rmd = "rd.Rmd",
+  output_file_html = "rd.html")
 }
 \arguments{
 \item{rd_skeleton}{path to a .Rmd file that contains the header to use for the rd.Rmd}
@@ -18,7 +19,11 @@ render_rd(rd_skeleton, code_path, rd_index = NULL, exclude = NULL,
 
 \item{output_format}{passed to \code{\link[rmarkdown]{render}} - \code{\link{package_docs}} is used by default}
 
-\item{output}{directory to put the output rd.Rmd and rd.html file}
+\item{output}{directory to put the output_file and output html file}
+
+\item{output_file_rmd}{combined Rmd file that is created. Should end in ".Rmd"}
+
+\item{output_file_html}{rendered \code{output_file_rmd} file. Should end in ".html"}
 }
 \description{
 Generate rd.html file
