@@ -7,7 +7,7 @@ output:
   packagedocs:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Package Documentation}
+  %\VignetteIndexEntry{package_documentation}
   %\VignetteEngine{packagedocs::packagedocs_vigs}
 navpills: |
   <li class="active"><a href='index.html'>Docs</a></li>

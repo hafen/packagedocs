@@ -6,9 +6,9 @@ copyright: "{{{author}}}"
 output:
   packagedocs:
     toc: true
-vignette: >
-  %\VignetteIndexEntry{Package Function Reference}
+vignette: |
   %\VignetteEngine{packagedocs::packagedocs_vigs}
+  %\VignetteIndexEntry{package_function_ref}
 navpills: |
   <li><a href='index.html'>Docs</a></li>
   <li class="active"><a href='rd.html'>Package Ref</a></li>{{{github_ref}}}
