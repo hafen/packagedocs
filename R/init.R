@@ -60,6 +60,7 @@ packagedocs_init <- function(
   )
   cat(whisker::whisker.render(rd_template, args),
     file = file.path(docs_path, "rd_skeleton.Rmd"))
+  cat("\n", file = file.path(docs_path, "rd_skeleton.Rmd"), append = TRUE)
 
   ## build.R
   ##---------------------------------------------------------
