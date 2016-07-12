@@ -7,7 +7,7 @@ as_sd_package <- function(pkg_path, examples = FALSE) {
   rd_info <- staticdocs::as.sd_package(
     pkg_path,
     examples = FALSE,
-    site_path = staticdocs_site_path
+    site_path = tempdir() # never used and must be recreated as lazy loading is bad?
   )
   names(rd_info$rd_index$alias) <- rd_info$rd_index$file_in
   rd_info
