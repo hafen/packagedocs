@@ -30,14 +30,20 @@ test_xiaosu <- function(...) {
 }
 
 
-make_and_build <- function(code_path, pkg_name, view_output = FALSE, docs_path = file.path("_docs", pkg_name)) {
+make_and_build <- function(
+  code_path, pkg_name, view_output = FALSE,
+  docs_path = file.path("_docs", pkg_name)
+) {
 
   packagedocs_init(code_path = code_path, docs_path = docs_path)
   render_docs(code_path = code_path, docs_path = docs_path,
     view_output = view_output, rd_toc_collapse = TRUE)
 }
 
-make_and_build2 <- function(code_path, pkg_name, view_output = FALSE, docs_path = file.path("_docs", pkg_name)) {
+make_and_build2 <- function(
+  code_path, pkg_name, view_output = FALSE,
+  docs_path = file.path("_docs", pkg_name)
+) {
 
   packagedocs_init(code_path = code_path, docs_path = docs_path)
   render_docs2(code_path = code_path, docs_path = docs_path,
