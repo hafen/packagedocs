@@ -3,6 +3,7 @@
 export(check_output)
 export(package_docs)
 export(packagedocs_init)
+export(packagedocs_init_vignettes)
 export(purl_docs)
 export(rd_link)
 export(rd_template)

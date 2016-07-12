@@ -8,6 +8,7 @@
 #' @param author author (can be changed later)
 #' @param github_ref the "user/repo" part of a link to github - if NULL or "", the github link will not be displayed
 #' @export
+#' @rdname initialize
 packagedocs_init <- function(
   code_path = ".",
   docs_path = file.path(code_path, "docs"),
@@ -94,6 +95,26 @@ packagedocs_init <- function(
 
   message("* packagedocs initialized in ", docs_path)
   message("* take a look at newly created documents: index.Rmd, rd_skeleton.Rmd, rd_index.yaml, build.R") # nolint
+}
+
+#' @export
+#' @rdname initialize
+packagedocs_init_vignettes <- function(
+  code_path = ".",
+  docs_path = file.path(code_path, "vignettes"),
+  package_name = NULL,
+  title = NULL, subtitle = NULL,
+  author = NULL, github_ref = NULL
+) {
+  packagedocs_init(
+    code_path = ".",
+    docs_path = docs_path,
+    package_name = package_name,
+    title = title,
+    subtitle = subtitle,
+    author = author,
+    github_ref = github_ref
+  )
 }
 
 

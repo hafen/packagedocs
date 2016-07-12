@@ -2,11 +2,16 @@
 % Please edit documentation in R/init.R
 \name{packagedocs_init}
 \alias{packagedocs_init}
+\alias{packagedocs_init_vignettes}
 \title{Initialize a new packagedocs project}
 \usage{
 packagedocs_init(code_path = ".", docs_path = file.path(code_path, "docs"),
   package_name = NULL, title = NULL, subtitle = NULL, author = NULL,
   github_ref = NULL)
+
+packagedocs_init_vignettes(code_path = ".", docs_path = file.path(code_path,
+  "vignettes"), package_name = NULL, title = NULL, subtitle = NULL,
+  author = NULL, github_ref = NULL)
 }
 \arguments{
 \item{code_path}{location of R package (defaults to current directory)}
