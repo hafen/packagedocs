@@ -17,7 +17,8 @@ r_github_packages:
 
 after_success:
 #   - Rscript -e 'covr::codecov()'
-  - bash .deploy-gh-pages.sh
+  # - bash .deploy-gh-pages.sh
+  - Rscript -e "packagedocs::deploy_travis()"
 
 notifications:
   email:
@@ -31,5 +32,4 @@ branches:
   - travis
 env:
   global:
-    - GITHUB_REPO: "schloerke/packagedocs"
     - secure: "qYznVQzCqSxoLiWPGW6GuhWXIs07NZdOIEbCFWweWloQp3sBxExNq09F1KDZgeLKdPIQf/enqes8PFBbGUZjaS2HRMcoxOFRkqB2fI2LmJk9+l0MJ9hEM4Aq/kjXrUtECsNyofIUSnsiBJv9UUtubnuEICYKXkeM1tdZ1o30+MoERFstHVHxqRWE/DjGhVLQEi95t8EeGDHHS8iASMUGl+OKEpxZfmVHgMnMpdkazkUQh1MxcUZPUyaTAB1Rz5NAgePDq6ZnETizx7vrZNtwwQRmurfzyCFe2A8YI0Xk6eLfARDN5dzeUR8baWoKFWi584P1WsBxFQybH2EcPzArswNHCTh6G30dGMRxKL2cqPfNjgpsLoR08sWMqCCZ+ePWF4v1oaDYLY8eDAAcsT41dsdY1ebuo8YpljQUOxWg470rsltqbuAFLnqzyTqO7KlcNqVNp3ofrCuG2XZ4JAL5f/HzBmQuQ3llurI/ETZsu2SbVSlrVtE0iUJoo+uecCAy51CItsVi9aOa5J7V4wlJ0qo19c2G8As6vU8hxATwPdsEli/xqCy/bwiIuZ8Uy2ZYfBNqdO2yWNC0sItcl3zsD9t+aSj3Dw3m/DiQyo806rYjTDj+HEBPGUPf4Js0D79WL+YVTGQEsOlx/EIv7JWP71mQGWGZieSMd/Steixp3JA="

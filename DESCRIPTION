@@ -23,6 +23,7 @@ Imports:
     whisker,
     yaml
 Suggests:
+    devtools,
     testthat
 Remotes:
   hadley/staticdocs,
