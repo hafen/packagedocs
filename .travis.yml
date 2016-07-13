@@ -15,8 +15,9 @@ r_github_packages:
   # - jimhester/covr # code coverage check
   - jimhester/lintr # code lint
 
-# after_success:
+after_success:
 #   - Rscript -e 'covr::codecov()'
+  - bash .deploy-gh-pages.sh
 
 notifications:
   email:
