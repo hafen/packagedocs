@@ -13,12 +13,10 @@ git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis CI"
 
 # build
-rm -rf _website/
-mkdir _website/
-cp -r inst/doc/ _website/
+Rscript -e 'devtools::build_vignettes()'
 
 # deploy
-cd _website/
+cd inst/doc
 git init      # resets the repo in the website folder
 git add .     # add all files
 git commit -m "Travis build: $TRAVIS_BUILD_NUMBER"
