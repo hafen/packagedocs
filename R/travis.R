@@ -2,8 +2,13 @@
 
 
 
+#' Deploy to Github Pages from Travis-CI
+#'
+#' @param email email for commit
+#' @param name name for commit
+#' @export
 deploy_travis <- function(email = "travis@travis-ci.org", name = "Travis CI") {
-  require(devtools)
+  requireNamespace("devtools")
 
   # check if github token is available
   github_token <- system("[  $GITHUB_TOKEN && ${GITHUB_TOKEN-x} ]] && echo 'Found' || echo 'Not found'", intern = TRUE)
