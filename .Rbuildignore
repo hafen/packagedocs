@@ -13,3 +13,5 @@ packagedocs.sublime*
 lintr
 .travis.yml
 ^_docs$
+
+^gh-pages$
