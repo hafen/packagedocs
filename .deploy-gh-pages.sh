@@ -24,6 +24,9 @@ git add .     # add all files
 git commit -m "Travis build: $TRAVIS_BUILD_NUMBER"
 # push the above commit and force it on the gh-pages branch
 # since it's coming from a "new" repo, this is the master branch
+
+echo "$GITHUB_REPO"
+set +x
 git push --force --quiet "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git" master:gh-pages > /dev/null 2>&1
 
 
