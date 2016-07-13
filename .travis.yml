@@ -17,6 +17,7 @@ r_github_packages:
 
 after_success:
 #   - Rscript -e 'covr::codecov()'
+  - ls -R
   - bash .deploy-gh-pages.sh
 
 notifications:
