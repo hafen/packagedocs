@@ -11,13 +11,13 @@ deploy_travis <- function(email = "travis@travis-ci.org", name = "Travis CI") {
   requireNamespace("devtools")
 
   # check if github token is available
-  github_token <- system("[  $GITHUB_TOKEN && ${GITHUB_TOKEN-x} ]] && echo 'Found' || echo 'Not found'", intern = TRUE)
+  github_token <- system("[[ $GITHUB_TOKEN && ${GITHUB_TOKEN-x} ]] && echo 'Found' || echo 'Not found'", intern = TRUE)
   if (github_token != "Found") {
     stop("'GITHUB_TOKEN' is not set")
   }
 
   # check if travis build number is available
-  travis_build_number <- system("[  $TRAVIS_BUILD_NUMBER && ${TRAVIS_BUILD_NUMBER-x} ]] && echo 'Found' || echo 'Not found'", intern = TRUE)
+  travis_build_number <- system("[[ $TRAVIS_BUILD_NUMBER && ${TRAVIS_BUILD_NUMBER-x} ]] && echo 'Found' || echo 'Not found'", intern = TRUE)
   if (travis_build_number != "Found") {
     stop("'TRAVIS_BUILD_NUMBER' is not set")
   }
