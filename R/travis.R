@@ -18,22 +18,25 @@ deploy_travis <- function(email = "travis@travis-ci.org", name = "Travis CI") {
 
   # check if github token is available
   github_token_char_len <- system("echo ${#GITHUB_TOKEN}", intern = TRUE) %>% as.numeric()
-  if (github_token == 0) {
+  if (github_token_char_len == 0) {
     stop("'GITHUB_TOKEN' is not set")
   }
 
   user_repo <- gsub(
     ".*[:/]([^/]*/[^.]*)\\.git",
     "\\1",
-    system("git config --get remote.origin.url")
+    system("git config --get remote.origin.url", intern = TRUE)
   )
-
 
   # build the vigs
   devtools::build_vignettes()
 
   # move into the docs folder where the vigs are locally
+  wd <- getwd()
   setwd(file.path("inst", "doc"))
+  on.exit({
+    setwd(wd)
+  })
 
   system(paste(
     "
