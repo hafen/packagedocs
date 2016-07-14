@@ -34,7 +34,7 @@ packagedocs_init <- function(
   rd_info <- as_sd_package(code_path)
 
   package_name <- if_null(package_name, if_null(rd_info$package, "mypackage"))
-  title <- if_null(title, rd_info$package)
+  title <- if_null(title, package_name)
   subtitle <- if_null(subtitle, rd_info$title)
   author <- parse_author_info(rd_info, author)
   github_ref <- parse_github_ref(rd_info, github_ref)
@@ -51,7 +51,12 @@ packagedocs_init <- function(
     title = title,
     subtitle = subtitle,
     author = author,
-    github_ref = github_ref
+    github_ref = github_ref,
+    vig_text = paste(
+      "  %\\VignetteIndexEntry{", package_name, "}\n",
+      "  %\\VignetteEngine{packagedocs::index}",
+      sep = ""
+    )
   )
   cat(whisker::whisker.render(index_template, args),
     file = file.path(docs_path, index_file_rmd))
@@ -63,7 +68,12 @@ packagedocs_init <- function(
     title = title,
     subtitle = subtitle,
     author = author,
-    github_ref = github_ref
+    github_ref = github_ref,
+    vig_text = paste(
+      "  %\\VignetteIndexEntry{", package_name, "_rd}\n",
+      "  %\\VignetteEngine{packagedocs::rd_run_examples}",
+      sep = ""
+    )
   )
   cat(whisker::whisker.render(rd_template, args),
     file = file.path(docs_path, rd_file_rmd))
