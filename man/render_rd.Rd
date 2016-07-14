@@ -6,7 +6,7 @@
 \usage{
 render_rd(rd_skeleton, code_path, rd_index = NULL, exclude = NULL,
   output_format = NULL, output = ".", output_file_rmd = "rd.Rmd",
-  output_file_html = "rd.html")
+  output_file_html = "rd.html", run_examples = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{rd_skeleton}{path to a .Rmd file that contains the header to use for the rd.Rmd}
@@ -24,6 +24,10 @@ render_rd(rd_skeleton, code_path, rd_index = NULL, exclude = NULL,
 \item{output_file_rmd}{combined Rmd file that is created. Should end in ".Rmd"}
 
 \item{output_file_html}{rendered \code{output_file_rmd} file. Should end in ".html"}
+
+\item{run_examples}{boolean to determine if the examples should be executed in the documentation}
+
+\item{verbose}{boolean to determine if processing output should be displayed}
 }
 \description{
 Generate rd.html file

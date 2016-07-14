@@ -7,11 +7,11 @@
 \usage{
 packagedocs_init(code_path = ".", docs_path = file.path(code_path, "docs"),
   package_name = NULL, title = NULL, subtitle = NULL, author = NULL,
-  github_ref = NULL)
+  github_ref = NULL, index_file_rmd = "index.Rmd", rd_file_rmd = "rd.Rmd",
+  build_file = TRUE)
 
-packagedocs_init_vignettes(code_path = ".", docs_path = file.path(code_path,
-  "vignettes"), package_name = NULL, title = NULL, subtitle = NULL,
-  author = NULL, github_ref = NULL)
+packagedocs_init_vignettes(code_path = ".", title = NULL, subtitle = NULL,
+  author = NULL)
 }
 \arguments{
 \item{code_path}{location of R package (defaults to current directory)}
@@ -27,6 +27,12 @@ packagedocs_init_vignettes(code_path = ".", docs_path = file.path(code_path,
 \item{author}{author (can be changed later)}
 
 \item{github_ref}{the "user/repo" part of a link to github - if NULL or "", the github link will not be displayed}
+
+\item{index_file_rmd}{name of index file to be created}
+
+\item{rd_file_rmd}{name of rd file to be created}
+
+\item{build_file}{boolean to determine if the build file should be produced}
 }
 \description{
 Initialize a new packagedocs project
