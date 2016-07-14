@@ -15,4 +15,3 @@ lintr
 ^_docs$
 
 ^gh-pages$
-^\.deploy-gh-pages.sh$

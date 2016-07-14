@@ -10,6 +10,10 @@
 deploy_travis <- function(email = "travis@travis-ci.org", name = "Travis CI") {
   requireNamespace("devtools")
 
+  # Altered from: http://ricostacruz.com/cheatsheets/travis-gh-pages.html
+  # Original: https://medium.com/@nthgergo/publishing-gh-pages-with-travis-ci-53a8270e87db
+
+
   # check if travis build number is available
   travis_build_number_char_len <- system("echo ${#TRAVIS_BUILD_NUMBER}", intern = TRUE) %>% as.numeric()
   if (travis_build_number_char_len == 0) {
