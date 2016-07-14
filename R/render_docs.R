@@ -120,7 +120,7 @@ vig_render_index <- function(
   verbose = TRUE
 ) {
 
-  self_contained = TRUE
+  self_contained <- TRUE
 
   pdof1 <- package_docs(
     lib_dir = lib_dir,
