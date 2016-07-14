@@ -123,7 +123,7 @@ packagedocs_init <- function(
 
 #' @export
 #' @rdname initialize
-packagedocs_init_vignettes <- function(
+init_vignettes <- function(
   code_path = ".",
   title = NULL,
   subtitle = NULL,
