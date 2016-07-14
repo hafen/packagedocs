@@ -18,7 +18,8 @@ render_rd <- function(
   output_format = NULL,
   output = ".",
   output_file_rmd = "rd.Rmd",
-  output_file_html = "rd.html"
+  output_file_html = "rd.html",
+  verbose = verbose
 ) {
   a <- rd_template(code_path, rd_index, exclude)
 
@@ -37,5 +38,6 @@ render_rd <- function(
   if (is.null(output_format))
     output_format <- package_docs(lib_dir = lib_dir)
   cat(paste(paste(sk, collapse = "\n"), a, sep = "\n"), file = rd_file)
-  render(rd_file, output_format = output_format, output_file = output_file_html)
+
+  render(rd_file, output_format = output_format, output_file = output_file_html, quiet = ! verbose)
 }

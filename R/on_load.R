@@ -147,11 +147,12 @@
           lib_dir = "assets",
           render = TRUE,
           view_output = FALSE,
-          self_contained = TRUE
+          self_contained = TRUE,
+          verbose = TRUE
         )
         return("index.html")
 
-      } else if (file == "rd_skeleton.Rmd") {
+      } else if (file == "rd.Rmd") {
         # rd.Rmd
         render_rd2(
           docs_path = "./",
@@ -161,14 +162,17 @@
           render = TRUE,
           view_output = FALSE,
           rd_index = NULL,
-          output_file_rmd = "rd.Rmd_tmp",
-          output_file_html = "rd_skeleton.html",
-          self_contained = TRUE
+          input_file_rmd = "rd.Rmd",
+          output_file_html = "rd.html",
+          self_contained = TRUE,
+          temp_file_rmd = "rd_combined.Rmd",
+          delete_temp_rmd = TRUE,
+          verbose = TRUE
         )
         return("rd_skeleton.html")
 
       } else {
-        stop(paste("Do not know how to compile file: '", file, "' within packagedocs. Must only be 'index.Rmd' or 'rd_skeleton.Rmd'", sep = "")) # nolint
+        stop(paste("Do not know how to compile file: '", file, "' within packagedocs. Must only be 'index.Rmd' or 'rd.Rmd'", sep = "")) # nolint
       }
     },
     tangle = function(...) {

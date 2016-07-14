@@ -101,7 +101,9 @@ lib_dir_pre <- function(lib_dir, lib_dir_bak) {
 
 lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
   if (!file.exists(lib_dir)) {
-    file.rename(lib_dir_bak, lib_dir)
+    if (file.exists(lib_dir_bak)) {
+      file.rename(lib_dir_bak, lib_dir)
+    }
   } else {
     unlink(lib_dir_bak, recursive = TRUE)
   }
@@ -113,8 +115,12 @@ render_main2 <- function(
   lib_dir = "assets", lib_dir_bak = paste(lib_dir, "_main_bak", sep = ""),
   render = TRUE,
   view_output = TRUE,
-  self_contained = FALSE
+  self_contained = FALSE,
+  input_file_rmd = "index.Rmd",
+  output_file_html = "index.html",
+  verbose = TRUE
 ) {
+
 
   pdof1 <- package_docs(
     lib_dir = lib_dir,
@@ -135,15 +141,18 @@ render_main2 <- function(
     setwd(wd)
   })
 
+  verbose <- identical(verbose, TRUE)
+  wrapper_fn <- if (verbose) identity else suppressMessages
+
   # generate index.html
   if (render) {
-    render("index.Rmd", output_format = pdof1)
-    check_output("index.html")
+    wrapper_fn(render(input_file_rmd, output_format = pdof1, quiet = !verbose))
+    wrapper_fn(check_output(output_file_html))
     if (view_output)
-      browseURL("index.html")
+      browseURL(output_file_html)
   }
 
-  file.path(docs_path, "index.html")
+  file.path(docs_path, output_file_html)
 }
 
 
@@ -157,9 +166,12 @@ render_rd2 <- function(
   render = TRUE,
   view_output = TRUE,
   rd_index = NULL,
-  output_file_rmd = "rd.Rmd",
+  input_file_rmd = "rd_skeleton.Rmd",
+  temp_file_rmd = "rd.Rmd",
   output_file_html = "rd.html",
-  self_contained = FALSE
+  self_contained = FALSE,
+  delete_temp_rmd = TRUE,
+  verbose = TRUE
 ) {
 
   pdof2 <- package_docs(
@@ -181,14 +193,21 @@ render_rd2 <- function(
     setwd(wd)
   })
 
+  verbose <- identical(verbose, TRUE)
+  wrapper_fn <- if (verbose) identity else suppressMessages
+
   # generate rd.html
   if (render) {
-    render_rd("rd_skeleton.Rmd", code_path, "./",
+    wrapper_fn(render_rd(input_file_rmd, code_path, "./",
       rd_index = rd_index, output_format = pdof2,
-      output_file_rmd = output_file_rmd,
-      output_file_html = output_file_html
-    )
-    check_output(output_file_html)
+      output_file_rmd = temp_file_rmd,
+      output_file_html = output_file_html,
+      verbose = verbose
+    ))
+    wrapper_fn(check_output(output_file_html))
+    if (delete_temp_rmd) {
+      unlink(temp_file_rmd)
+    }
     if (view_output)
       browseURL(output_file_html)
   }

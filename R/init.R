@@ -14,12 +14,14 @@ packagedocs_init <- function(
   docs_path = file.path(code_path, "docs"),
   package_name = NULL,
   title = NULL, subtitle = NULL,
-  author = NULL, github_ref = NULL
+  author = NULL, github_ref = NULL,
+  index_file_rmd = "index.Rmd",
+  rd_file_rmd = "rd.Rmd"
 ) {
 
   if (FALSE)
-  if (file.exists(file.path(docs_path, "index.Rmd"))) {
-    ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite index.Rmd, rd_skeleton.Rmd, rd_index.yaml, and build.R? (y = yes) ", sep = "")) # nolint
+  if (file.exists(file.path(docs_path, index_file_rmd))) {
+    ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite ", index_file_rmd, ", ", rd_file_rmd, ", rd_index.yaml, and build.R? (y = yes) ", sep = "")) # nolint
     if (!tolower(substr(ans, 1, 1)) == "y") {
       stop("Backing out...", call. = FALSE)
     }
@@ -48,7 +50,7 @@ packagedocs_init <- function(
     github_ref = github_ref
   )
   cat(whisker::whisker.render(index_template, args),
-    file = file.path(docs_path, "index.Rmd"))
+    file = file.path(docs_path, index_file_rmd))
 
   ## rd_skeleton.Rmd
   ##---------------------------------------------------------
@@ -60,8 +62,8 @@ packagedocs_init <- function(
     github_ref = github_ref
   )
   cat(whisker::whisker.render(rd_template, args),
-    file = file.path(docs_path, "rd_skeleton.Rmd"))
-  cat("\n", file = file.path(docs_path, "rd_skeleton.Rmd"), append = TRUE)
+    file = file.path(docs_path, rd_file_rmd))
+  cat("\n", file = file.path(docs_path, rd_file_rmd), append = TRUE)
 
   ## build.R
   ##---------------------------------------------------------
@@ -94,7 +96,7 @@ packagedocs_init <- function(
     file = file.path(docs_path, "rd_index.yaml"))
 
   message("* packagedocs initialized in ", docs_path)
-  message("* take a look at newly created documents: index.Rmd, rd_skeleton.Rmd, rd_index.yaml, build.R") # nolint
+  message(paste0("* take a look at newly created documents: ", index_file_rmd, ", ", rd_file_rmd, ", rd_index.yaml, build.R")) # nolint
 }
 
 #' @export
@@ -113,7 +115,9 @@ packagedocs_init_vignettes <- function(
     title = title,
     subtitle = subtitle,
     author = author,
-    github_ref = github_ref
+    github_ref = github_ref,
+    index_file_rmd = "index.Rmd",
+    rd_file_rmd = "rd.Rmd"
   )
 }
 
