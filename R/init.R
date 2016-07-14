@@ -7,6 +7,9 @@
 #' @param subtitle subtitle of main page (can be changed later)
 #' @param author author (can be changed later)
 #' @param github_ref the "user/repo" part of a link to github - if NULL or "", the github link will not be displayed
+#' @param index_file_rmd name of index file to be created
+#' @param rd_file_rmd name of rd file to be created
+#' @param build_file boolean to determine if the build file should be produced
 #' @export
 #' @rdname initialize
 packagedocs_init <- function(
