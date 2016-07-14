@@ -4,12 +4,19 @@
 \alias{deploy_travis}
 \title{Deploy to Github Pages from Travis-CI}
 \usage{
-deploy_travis(email = "travis@travis-ci.org", name = "Travis CI")
+deploy_travis(branch = "master", token_key = "GITHUB_TOKEN",
+  email = "travis@travis-ci.org", name = "Travis CI", allow_pulls = FALSE)
 }
 \arguments{
+\item{branch}{branch name(s) that are allowed to deploy}
+
+\item{token_key}{key name that will be autofilled}
+
 \item{email}{email for commit}
 
 \item{name}{name for commit}
+
+\item{allow_pulls}{allow pull requests to process. (defaults to FALSE)}
 }
 \description{
 Deploy to Github Pages from Travis-CI
