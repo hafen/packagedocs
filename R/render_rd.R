@@ -19,9 +19,10 @@ render_rd <- function(
   output = ".",
   output_file_rmd = "rd.Rmd",
   output_file_html = "rd.html",
+  run_examples = FALSE,
   verbose = verbose
 ) {
-  a <- rd_template(code_path, rd_index, exclude)
+  a <- rd_template(code_path, rd_index, exclude, run_examples = run_examples)
 
   if (!file.exists(rd_skeleton))
     stop("'rd_skeleton' file ", rd_skeleton, " doesn't exist.", call. = FALSE)

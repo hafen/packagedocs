@@ -40,22 +40,24 @@ make_and_build <- function(
     view_output = view_output, rd_toc_collapse = TRUE)
 }
 
-make_and_build2 <- function(
-  code_path, pkg_name, view_output = FALSE,
-  docs_path = file.path("_docs", pkg_name)
-) {
+# make_and_build2 <- function(
+#   code_path, pkg_name, view_output = FALSE,
+#   docs_path = file.path("_docs", pkg_name)
+# ) {
+#
+#   packagedocs_init(code_path = code_path, docs_path = docs_path)
+#   render_docs2(code_path = code_path, docs_path = docs_path,
+#     view_output = view_output, rd_toc_collapse = TRUE)
+#   invisible()
+# }
 
-  packagedocs_init(code_path = code_path, docs_path = docs_path)
-  render_docs2(code_path = code_path, docs_path = docs_path,
-    view_output = view_output, rd_toc_collapse = TRUE)
-  invisible()
-}
-
-make_and_vig <- function(code_path = "./", pkg_name = "packagedocs", docs_path = "vignettes") {
-  unlink(docs_path, recursive = TRUE)
-  packagedocs_init(code_path = code_path, docs_path = docs_path)
-  devtools::install()
+make_and_vig <- function(code_path = ".") {
+  unlink(file.path(code_path, "vignettes"), recursive = TRUE)
+  packagedocs_init_vignettes(code_path = code_path)
   devtools::build_vignettes()
+  on.exit({
+    devtools::load_all()
+  })
 }
 
 if (FALSE) {
@@ -69,6 +71,6 @@ if (FALSE) {
   load_all(); make_and_build("./", "packagedocs", TRUE, "vignettes")
   load_all(); make_and_build2("./", "packagedocs", TRUE, "vignettes")
 
-  load_all(); make_and_vig("./", "packagedocs", "vignettes")
+  load_all(); make_and_vig()
 
 }

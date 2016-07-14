@@ -71,25 +71,25 @@ render_docs <- function(docs_path, code_path,
 
 
 
-render_docs2 <- function(docs_path, code_path,
-  main_toc_collapse = TRUE, rd_toc_collapse = FALSE,
-  lib_dir = "assets", render_main = TRUE, render_rd = TRUE,
-  view_output = TRUE, rd_index = NULL) {
-
-  render_main2(
-    docs_path, code_path,
-    toc_collapse = main_toc_collapse, lib_dir = lib_dir,
-    render = render_main,
-    view_output = view_output
-  )
-  render_rd2(
-    docs_path, code_path,
-    toc_collapse = rd_toc_collapse, lib_dir = lib_dir,
-    render = render_rd,
-    view_output = view_output,
-    rd_index = rd_index
-  )
-}
+# render_docs2 <- function(docs_path, code_path,
+#   main_toc_collapse = TRUE, rd_toc_collapse = FALSE,
+#   lib_dir = "assets", render_main = TRUE, render_rd = TRUE,
+#   view_output = TRUE, rd_index = NULL) {
+#
+#   render_main2(
+#     docs_path, code_path,
+#     toc_collapse = main_toc_collapse, lib_dir = lib_dir,
+#     render = render_main,
+#     view_output = view_output
+#   )
+#   render_rd2(
+#     docs_path, code_path,
+#     toc_collapse = rd_toc_collapse, lib_dir = lib_dir,
+#     render = render_rd,
+#     view_output = view_output,
+#     rd_index = rd_index
+#   )
+# }
 
 lib_dir_pre <- function(lib_dir, lib_dir_bak) {
   if (file.exists(lib_dir)) {
@@ -109,18 +109,18 @@ lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
   }
 }
 
-render_main2 <- function(
+vig_render_index <- function(
   docs_path, code_path,
   toc_collapse = TRUE,
   lib_dir = "assets", lib_dir_bak = paste(lib_dir, "_main_bak", sep = ""),
   render = TRUE,
   view_output = TRUE,
-  self_contained = FALSE,
   input_file_rmd = "index.Rmd",
   output_file_html = "index.html",
   verbose = TRUE
 ) {
 
+  self_contained = TRUE
 
   pdof1 <- package_docs(
     lib_dir = lib_dir,
@@ -159,20 +159,23 @@ render_main2 <- function(
 
 
 
-render_rd2 <- function(
+vig_render_rd <- function(
   docs_path, code_path,
   toc_collapse = FALSE,
   lib_dir = "assets", lib_dir_bak = paste(lib_dir, "_rd_bak", sep = ""),
+  run_examples = FALSE,
   render = TRUE,
   view_output = TRUE,
   rd_index = NULL,
   input_file_rmd = "rd_skeleton.Rmd",
   temp_file_rmd = "rd.Rmd",
   output_file_html = "rd.html",
-  self_contained = FALSE,
-  delete_temp_rmd = TRUE,
   verbose = TRUE
 ) {
+
+  self_contained <- TRUE
+  delete_temp_rmd <- TRUE
+
 
   pdof2 <- package_docs(
     lib_dir = lib_dir,
@@ -198,11 +201,15 @@ render_rd2 <- function(
 
   # generate rd.html
   if (render) {
-    wrapper_fn(render_rd(input_file_rmd, code_path, "./",
+    wrapper_fn(render_rd(
+      input_file_rmd,
+      code_path = code_path,
+      # docs_path = "./",
       rd_index = rd_index, output_format = pdof2,
       output_file_rmd = temp_file_rmd,
       output_file_html = output_file_html,
-      verbose = verbose
+      verbose = verbose,
+      run_examples = run_examples
     ))
     wrapper_fn(check_output(output_file_html))
     if (delete_temp_rmd) {

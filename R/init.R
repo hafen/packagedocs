@@ -16,12 +16,13 @@ packagedocs_init <- function(
   title = NULL, subtitle = NULL,
   author = NULL, github_ref = NULL,
   index_file_rmd = "index.Rmd",
-  rd_file_rmd = "rd.Rmd"
+  rd_file_rmd = "rd.Rmd",
+  build_file = TRUE
 ) {
 
   if (FALSE)
   if (file.exists(file.path(docs_path, index_file_rmd))) {
-    ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite ", index_file_rmd, ", ", rd_file_rmd, ", rd_index.yaml, and build.R? (y = yes) ", sep = "")) # nolint
+    ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite ", index_file_rmd, ", ", rd_file_rmd, ", and rd_index.yaml? (y = yes) ", sep = "")) # nolint
     if (!tolower(substr(ans, 1, 1)) == "y") {
       stop("Backing out...", call. = FALSE)
     }
@@ -33,7 +34,7 @@ packagedocs_init <- function(
   title <- if_null(title, rd_info$package)
   subtitle <- if_null(subtitle, rd_info$title)
   author <- parse_author_info(rd_info, author)
-  github_ref <- parse_github_ref(rd_info, github_ref, missing(github_ref))
+  github_ref <- parse_github_ref(rd_info, github_ref)
 
 
   if (!file.exists(docs_path)) {
@@ -67,14 +68,16 @@ packagedocs_init <- function(
 
   ## build.R
   ##---------------------------------------------------------
-  build_template <- init_skeleton("build.R")
-  args <- list(
-    package_name = package_name,
-    code_path = code_path,
-    docs_path = docs_path
-  )
-  cat(whisker::whisker.render(build_template, args),
-    file = file.path(docs_path, "build.R"))
+  if (identical(build_file, TRUE)) {
+    build_template <- init_skeleton("build.R")
+    args <- list(
+      package_name = package_name,
+      code_path = code_path,
+      docs_path = docs_path
+    )
+    cat(whisker::whisker.render(build_template, args),
+      file = file.path(docs_path, "build.R"))
+  }
 
   ## rd_index.yaml
   ##---------------------------------------------------------
@@ -95,29 +98,35 @@ packagedocs_init <- function(
   cat(whisker::whisker.render(yaml_template, args),
     file = file.path(docs_path, "rd_index.yaml"))
 
+  docs <- c(index_file_rmd, rd_file_rmd, "rd_index.yaml")
+  if (build_file) {
+    docs <- append(docs, "build.R")
+  }
+
+
   message("* packagedocs initialized in ", docs_path)
-  message(paste0("* take a look at newly created documents: ", index_file_rmd, ", ", rd_file_rmd, ", rd_index.yaml, build.R")) # nolint
+  message(paste0("* take a look at newly created documents: ", paste(docs, collapse = ", "))) # nolint
 }
 
 #' @export
 #' @rdname initialize
 packagedocs_init_vignettes <- function(
   code_path = ".",
-  docs_path = file.path(code_path, "vignettes"),
-  package_name = NULL,
-  title = NULL, subtitle = NULL,
-  author = NULL, github_ref = NULL
+  title = NULL,
+  subtitle = NULL,
+  author = NULL
 ) {
   packagedocs_init(
-    code_path = ".",
-    docs_path = docs_path,
-    package_name = package_name,
+    code_path = code_path,
+    docs_path = file.path(code_path, "vignettes"),
+    package_name = NULL,
     title = title,
     subtitle = subtitle,
     author = author,
-    github_ref = github_ref,
+    github_ref = NULL,
     index_file_rmd = "index.Rmd",
-    rd_file_rmd = "rd.Rmd"
+    rd_file_rmd = "rd.Rmd",
+    build_file = FALSE
   )
 }
 
@@ -147,16 +156,14 @@ parse_author_info <- function(rd_info, given_value) {
 }
 
 
-parse_github_ref <- function(rd_info, github_ref, missing_github_ref) {
+parse_github_ref <- function(rd_info, github_ref) {
   # retrieve the github url if nothing else has been specified
   github_val <- ""
   if (is.null(github_ref)) {
-    if (missing_github_ref) {
-      if (! is.null(rd_info$urls)) {
-        has_github_url <- grepl("github\\.com\\/([^\\/]*\\/[^\\/]*)", rd_info$urls)
-        if (has_github_url) {
-          github_val <- gsub(".*github\\.com\\/([^\\/]*\\/[^\\/]*).*", "\\1", rd_info$urls)
-        }
+    if (! is.null(rd_info$urls)) {
+      has_github_url <- grepl("github\\.com\\/([^\\/]*\\/[^\\/]*)", rd_info$urls)
+      if (has_github_url) {
+        github_val <- gsub(".*github\\.com\\/([^\\/]*\\/[^\\/]*).*", "\\1", rd_info$urls)
       }
     }
   }

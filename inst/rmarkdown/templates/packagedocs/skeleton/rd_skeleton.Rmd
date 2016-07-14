@@ -7,8 +7,8 @@ output:
   packagedocs:
     toc: true
 vignette: |
-  %\VignetteEngine{packagedocs::packagedocs_vigs}
   %\VignetteIndexEntry{package_function_ref}
+  %\VignetteEngine{packagedocs::rd_run_examples}
 navpills: |
   <li><a href='index.html'>Docs</a></li>
   <li class="active"><a href='rd.html'>Package Ref</a></li>{{{github_ref}}}

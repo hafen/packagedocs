@@ -134,54 +134,80 @@
   #   aspell: a list with element names ‘filter’ and/or ‘control’ giving
   #           the respective arguments to be used when spell checking the
   #           text in the vignette source file with ‘aspell’.
-  tools::vignetteEngine(
-    name = "packagedocs_vigs",
-    weave = function(file, ...) {
-      # browser()
 
+  index_weaver <- function(
+    toc_collapse,
+    verbose = TRUE
+  ) {
+    function(file, ...) {
       if (file == "index.Rmd") {
-        render_main2(
+        vig_render_index(
           docs_path = "./",
           code_path = "../",
-          toc_collapse = TRUE,
+          toc_collapse = toc_collapse,
           lib_dir = "assets",
           render = TRUE,
           view_output = FALSE,
-          self_contained = TRUE,
-          verbose = TRUE
+          verbose = verbose
         )
         return("index.html")
 
-      } else if (file == "rd.Rmd") {
+      } else {
+        stop("packagedocs::index only compiles a vignette named: index.Rmd") # nolint
+      }
+    }
+  }
+
+  rd_weaver <- function(
+    toc_collapse = TRUE,
+    run_examples = TRUE,
+    verbose = TRUE
+  ) {
+    function(file, ...) {
+      if (file == "rd.Rmd") {
         # rd.Rmd
-        render_rd2(
+        vig_render_rd(
           docs_path = "./",
           code_path = "../",
-          toc_collapse = TRUE,
+          run_examples = run_examples,
+          toc_collapse = toc_collapse,
           lib_dir = "assets",
           render = TRUE,
           view_output = FALSE,
           rd_index = NULL,
           input_file_rmd = "rd.Rmd",
           output_file_html = "rd.html",
-          self_contained = TRUE,
           temp_file_rmd = "rd_combined.Rmd",
-          delete_temp_rmd = TRUE,
-          verbose = TRUE
+          verbose = verbose
         )
-        return("rd_skeleton.html")
+        return("rd.html")
 
       } else {
-        stop(paste("Do not know how to compile file: '", file, "' within packagedocs. Must only be 'index.Rmd' or 'rd.Rmd'", sep = "")) # nolint
+        stop("This vignette engine only compiles a vignette named: rd.Rmd") # nolint
       }
-    },
-    tangle = function(...) {
-      # do not create an R file with all the R code.
-      return()
-    },
-    pattern = "\\.Rmd$",
-    package = "packagedocs"
-  )
+    }
+  }
+  tangler <- function(...) {
+    # do not create an R file with all the R code.
+    return()
+  }
+
+  reg_eng <- function(name, weave_fn) {
+    tools::vignetteEngine(
+      name = name,
+      weave = weave_fn,
+      tangle = tangler,
+      pattern = "\\.Rmd$",
+      package = "packagedocs"
+    )
+  }
+  reg_eng("index", index_weaver(toc_collapse = TRUE))
+  reg_eng("index_no_collapse", index_weaver(toc_collapse = FALSE))
+
+  reg_eng("rd_run_examples", rd_weaver(toc_collapse = TRUE, run_examples = TRUE))
+  reg_eng("rd_no_run_examples", rd_weaver(toc_collapse = TRUE, run_examples = FALSE))
+  reg_eng("rd_run_examples_no_collapse", rd_weaver(toc_collapse = FALSE, run_examples = TRUE))
+  reg_eng("rd_no_run_examples_no_collapse", rd_weaver(toc_collapse = FALSE, run_examples = FALSE))
 
   # packageStartupMessage("vig engine registered!")
 

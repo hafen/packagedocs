@@ -12,6 +12,7 @@ to_html_rd_doc <- getFromNamespace("to_html.Rd_doc", loadNamespace("staticdocs")
 #' @param code_path path to the source code directory of the package
 #' @param rd_index path to yaml file with index layout information
 #' @param exclude vector of Rd entry names to exclude from the resulting document
+#' @param run_examples boolean to determine if examples should be run
 #' @importFrom magrittr set_names
 #' @importFrom tools Rd_db
 #' @importFrom whisker whisker.render
@@ -19,7 +20,7 @@ to_html_rd_doc <- getFromNamespace("to_html.Rd_doc", loadNamespace("staticdocs")
 #' @import stringr
 # @import staticdocs
 #' @export
-rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
+rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples = FALSE) {
 
   ## let staticdocs handle this
   # usgs <- lapply(db, function(x) {
@@ -50,7 +51,16 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
   # use package docs to retrieve everything
   # set examples to FALSE "not evaluate examples"
   # set examples to TRUE to "evaluate examples"
-  rd_info <- as_sd_package(code_path)
+  img_path <- "imgs"
+  if (!dir.exists(img_path)) {
+    dir.create(img_path)
+  }
+  rd_info <- as_sd_package(code_path, run_examples = run_examples)
+  on.exit({
+    if (length(dir(img_path)) == 0) {
+      unlink(img_path)
+    }
+  })
 
   # This should be done in init
     # # Under what conditions do we add `package_name` to exclude?
@@ -125,7 +135,12 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
   title_map <- title_map_from_index(rd_index)
   entries_rd_file <- rd_info$rd_index$file_in
   entries <- lapply(entries_rd_file, function(alias_file) {
-    try(get_rd_data(alias_file, rd_info, title = title_map[[alias_file]]))
+    try(get_rd_data(
+      alias_file, rd_info,
+      title = title_map[[alias_file]],
+      img_path = img_path,
+      run_examples = run_examples
+    ))
   }) %>%
     set_names(entries_rd_file)
 
@@ -181,7 +196,7 @@ fix_hrefs <- function(x) {
   }))
 }
 
-get_rd_data <- function(alias_file, rd_info, title) {
+get_rd_data <- function(alias_file, rd_info, title, img_path, run_examples) {
 
   # use staticdocs package output
   rd_obj <- rd_info$rd[[alias_file]]
@@ -190,9 +205,14 @@ get_rd_data <- function(alias_file, rd_info, title) {
   }
 
   # use to_html.rd_doc to convert nicely to a list
-  data <- to_html_rd_doc(rd_obj, pkg = rd_info)
+  data <- to_html_rd_doc(rd_obj, pkg = rd_info, topic = file.path(img_path, "pic"))
+  if (!run_examples) {
+    # transfer the code over
+    data$examples <- rd_info$example_text[[alias_file]]
+  }
 
   # data$examples <- exs[[nm]]
+  # data$examples <- rd_info$example_text[[alias_file]]
   ## to_html does a good job of getting usage.
   # data$usage <- usgs[[nm]]
 

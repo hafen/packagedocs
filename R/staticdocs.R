@@ -3,12 +3,29 @@
 # path so that staticdocs doesn't get upset
 staticdocs_site_path <- tempdir()
 
-as_sd_package <- function(pkg_path, examples = FALSE) {
+as_sd_package <- function(pkg_path, run_examples = FALSE, site_path = "./") {
+  if (! dir.exists(site_path)) {
+    dir.create(site_path)
+  }
   rd_info <- staticdocs::as.sd_package(
     pkg_path,
-    examples = FALSE,
-    site_path = tempdir() # never used and must be recreated as lazy loading is bad?
+    examples = run_examples,
+    site_path = site_path
   )
   names(rd_info$rd_index$alias) <- rd_info$rd_index$file_in
+
+  rd_info$example_text <- lapply(rd_info$rd, function(x) {
+    tags <- sapply(x, function(a) attr(a, "Rd_tag"))
+    tags <- gsub("\\\\", "", tags)
+    if (any(tags == "examples")) {
+      # TODO: preserve dontrun as separate blocks
+      # x[[which(tags == "examples")]]
+      x <- paste(unlist(x[[which(tags == "examples")]]), collapse = "")
+      gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
+    } else {
+      NULL
+    }
+  })
+
   rd_info
 }
