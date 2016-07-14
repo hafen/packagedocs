@@ -20,12 +20,29 @@ test_fn_b <- function(b) {
   b
 }
 
-#' Test Xiaosu
+#' Test Keyword
 #'
 #' @param ... pass to print
 #' @export
 #' @keywords loess
-test_xiaosu <- function(...) {
+test_keyword <- function(...) {
+  print(...)
+}
+
+#' Test Internal
+#'
+#' @param ... pass to print
+#' @export
+#' @keywords internal
+test_hidden <- function(...) {
+  print(...)
+}
+
+#' Test Not Exported
+#'
+#' @param ... pass to print
+#' @keywords debugging
+test_not_exported <- function(...) {
   print(...)
 }
 
@@ -53,7 +70,7 @@ make_and_build <- function(
 
 make_and_vig <- function(code_path = ".") {
   unlink(file.path(code_path, "vignettes"), recursive = TRUE)
-  packagedocs_init_vignettes(code_path = code_path)
+  init_vignettes(code_path = code_path)
   devtools::build_vignettes()
   on.exit({
     devtools::load_all()
