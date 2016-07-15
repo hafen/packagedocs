@@ -7,7 +7,7 @@ cache: packages
 before_script:
   # install the pkg so it can be used as a vig builder
   - Rscript -e "devtools::install()"
-  - Rscript -e "packagedocs::packagedocs_init_vignettes()"
+  - Rscript -e "packagedocs::init_vignettes()"
 
 # install locally to avoid rev dep
 r_github_packages:
@@ -15,7 +15,6 @@ r_github_packages:
   - jimhester/lintr # code lint
 
 after_success:
-#   - Rscript -e 'covr::codecov()'
   - Rscript -e "packagedocs::deploy_travis(branch = c('master', 'dev'))"
 
 notifications:
