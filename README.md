@@ -94,7 +94,21 @@ There are four `rd.Rmd` vignette engines:
 
 ## Travis-CI
 
-To deploy (all) your vignettes website to the `gh-pages` branch, add this config to your `.travis.yml` file:
+### Secret Token
+
+Visit [https://github.com/settings/tokens](Github > Settings > Tokens) to create a new token to publish to your repo from travis.
+
+Encrypt your secret token and add it to your `.travis.yml` file with:
+
+```
+travis encrypt GITHUB_TOKEN=your_secret_github_token --add
+```
+
+This will allow travis to publish to your specific repo.
+
+
+### `packagedocs::deploy_travis()`
+To deploy (all) your vignettes to the `gh-pages` branch, add this config to your `.travis.yml` file:
 
 ```{yaml}
 after_success:
@@ -104,6 +118,7 @@ after_success:
 By default, if it is the master branch and it is not a pull request, `packagedocs::deploy_travis()` will build all vignettes and will copy the `inst/doc` as the latest commit in the gh-pages branch.  (By default) This forced commit will be done by "Travis CI" user.  
 
 Please look at `?packagedocs::deploy_travis` for more information.
+
 
 ## Notes
 
