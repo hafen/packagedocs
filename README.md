@@ -71,7 +71,7 @@ devtools::build_vignettes()
 
 The resulting standalone html output will be stored in `inst/doc`.
 
-## Vignette Engines
+### Vignette Engines
 
 There is two `index.Rmd` vignette engines:
 
@@ -91,6 +91,19 @@ There are four `rd.Rmd` vignette engines:
 * `%\VignetteEngine{packagedocs::rd_no_run_examples_no_collapse}`
   * This will **NOT** run any examples in the topics and will **NOT** collapse the left side table of contents.
 
+
+## Travis-CI
+
+To deploy (all) your vignettes website to the `gh-pages` branch, add this config to your `.travis.yml` file:
+
+```{yaml}
+after_success:
+  - Rscript -e "packagedocs::deploy_travis()"
+```
+
+By default, if it is the master branch and it is not a pull request, `packagedocs::deploy_travis()` will build all vignettes and will copy the `inst/doc` as the latest commit in the gh-pages branch.  (By default) This forced commit will be done by "Travis CI" user.  
+
+Please look at `?packagedocs::deploy_travis` for more information.
 
 ## Notes
 
