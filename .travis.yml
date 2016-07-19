@@ -15,7 +15,8 @@ r_github_packages:
   - jimhester/lintr # code lint
 
 after_success:
-  - Rscript -e "packagedocs::deploy_travis(repo = 'schloerke/docs-packagedocs')"
+  # - Rscript -e "packagedocs::deploy_travis(repo = 'schloerke/docs-packagedocs')"
+  - Rscript -e "packagedocs::deploy_travis()"
 
 notifications:
   email:
