@@ -23,5 +23,8 @@ packagedocs.sublime*
 .lintr_cache
 _docs
 
+# ignore for now
 vignettes
 inst/doc
+
+_gh-pages
