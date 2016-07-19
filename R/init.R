@@ -169,24 +169,33 @@ parse_author_info <- function(rd_info, given_value) {
 }
 
 
-parse_github_ref <- function(rd_info, github_ref) {
-  # retrieve the github url if nothing else has been specified
-  github_val <- ""
-  if (is.null(github_ref)) {
+parse_github_ref_val <- function(rd_info, default_value = NULL) {
+  if (is.null(default_value)) {
     if (! is.null(rd_info$urls)) {
       has_github_url <- grepl("github\\.com\\/([^\\/]*\\/[^\\/]*)", rd_info$urls)
-      if (has_github_url) {
-        github_val <- gsub(".*github\\.com\\/([^\\/]*\\/[^\\/]*).*", "\\1", rd_info$urls)
+      if (any(has_github_url)) {
+        ans <- gsub(
+          ".*github\\.com\\/([^\\/]*\\/[^\\/]*).*",
+          "\\1",
+          rd_info$urls[has_github_url]
+        )
+        return(ans)
       }
     }
   }
-  github_ref <- github_val
+  default_value
+}
+parse_github_ref <- function(rd_info, github_ref) {
+  # retrieve the github url if nothing else has been specified
 
-  if (nchar(github_ref) > 0) {
-    github_ref <- sprintf("\n  <li><a href='https://github.com/%s'>Github <i class='fa fa-github'></i></a></li>", github_ref) # nolint
+  github_val <- parse_github_ref_val(rd_info, github_ref)
+  github_val <- if_null(github_val, "")
+
+  if (nchar(github_val) > 0) {
+    github_val <- sprintf("\n  <li><a href='https://github.com/%s'>Github <i class='fa fa-github'></i></a></li>", github_val) # nolint
   }
 
-  github_ref
+  github_val
 }
 
 
