@@ -139,8 +139,16 @@ vig_render_index <- function(
 
   # generate index.html
   if (render) {
-    wrapper_fn(render(input_file_rmd, output_format = pdof1, quiet = !verbose))
-    wrapper_fn(check_output(output_file_html))
+    if (self_contained) {
+      wrapper_fn(render_shell(
+        code_path = code_path,
+        output_file_html = output_file_html,
+        is_rd_shell = FALSE
+      ))
+    } else {
+      wrapper_fn(render(input_file_rmd, output_format = pdof1, quiet = !verbose))
+      wrapper_fn(check_output(output_file_html))
+    }
     if (view_output)
       browseURL(output_file_html)
   }
@@ -167,12 +175,6 @@ vig_render_rd <- function(
 
   delete_temp_rmd <- TRUE
 
-  pdof2 <- package_docs(
-    lib_dir = lib_dir,
-    toc_collapse = toc_collapse,
-    self_contained = self_contained
-  )
-
   wd <- getwd()
 
   if (! dir.exists(docs_path)) {
@@ -191,19 +193,34 @@ vig_render_rd <- function(
 
   # generate rd.html
   if (render) {
-    wrapper_fn(render_rd(
-      input_file_rmd,
-      code_path = code_path,
-      # docs_path = "./",
-      rd_index = rd_index, output_format = pdof2,
-      output_file_rmd = temp_file_rmd,
-      output_file_html = output_file_html,
-      verbose = verbose,
-      run_examples = run_examples
-    ))
-    wrapper_fn(check_output(output_file_html))
-    if (delete_temp_rmd) {
-      unlink(temp_file_rmd)
+
+    pdof2 <- package_docs(
+      lib_dir = lib_dir,
+      toc_collapse = toc_collapse,
+      self_contained = self_contained
+    )
+
+    if (self_contained) {
+      render_shell(
+        code_path = code_path,
+        output_file_html = output_file_html,
+        is_rd_shell = TRUE
+      )
+    } else {
+      wrapper_fn(render_rd(
+        input_file_rmd,
+        code_path = code_path,
+        # docs_path = "./",
+        rd_index = rd_index, output_format = pdof2,
+        output_file_rmd = temp_file_rmd,
+        output_file_html = output_file_html,
+        verbose = verbose,
+        run_examples = run_examples
+      ))
+      wrapper_fn(check_output(output_file_html))
+      if (delete_temp_rmd) {
+        unlink(temp_file_rmd)
+      }
     }
     if (view_output)
       browseURL(output_file_html)
