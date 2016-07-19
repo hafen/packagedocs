@@ -101,7 +101,7 @@ deploy_travis <- function(
     # push the above commit and force it on the gh-pages branch
     # since it's coming from a \"new\" repo, this is the master branch
 
-    echo \"Attempting a silent push to $GITHUB_REPO\"
+    echo \"Attempting a silent push to '", repo, "@gh-pages'\"
     git push --force --quiet \"https://${", token_key, "}@github.com/", repo, ".git\" master:gh-pages > /dev/null 2>&1
     "
     , sep = ""
