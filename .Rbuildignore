@@ -14,4 +14,4 @@ lintr
 .travis.yml
 ^_docs$
 
-^gh-pages$
+^_gh-pages
