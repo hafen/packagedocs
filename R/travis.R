@@ -1,14 +1,14 @@
 
 
 
-is_travis_deploy <- (function() {
-  isDeploy <- FALSE
+is_self_contained_build <- (function() {
+  isContained <- FALSE
   function(val) {
     if (missing(val)) {
-      return(isDeploy)
+      return(isContained)
     }
-    isDeploy <<- as.logical(val)
-    return(isDeploy)
+    isContained <<- as.logical(val)
+    return(isContained)
   }
 })()
 
@@ -74,11 +74,7 @@ deploy_travis <- function(
   }
 
   # build the vigs
-  is_travis_deploy(TRUE)
-  on.exit({
-    is_travis_deploy(FALSE)
-  })
-  build_vignettes(clean = FALSE, output_dir = output_dir)
+  build_vignettes(output_dir = output_dir, build_gh_pages = TRUE)
 
   # move into the docs folder where the vigs are locally
   wd <- getwd()

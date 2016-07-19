@@ -111,7 +111,7 @@ vig_render_index <- function(
   view_output = TRUE,
   input_file_rmd = "index.Rmd",
   output_file_html = "index.html",
-  self_contained = ! is_travis_deploy(),
+  self_contained = is_self_contained_build(),
   verbose = TRUE
 ) {
 
@@ -161,7 +161,7 @@ vig_render_rd <- function(
   input_file_rmd = "rd_skeleton.Rmd",
   temp_file_rmd = "rd.Rmd",
   output_file_html = "rd.html",
-  self_contained = ! is_travis_deploy(),
+  self_contained = is_self_contained_build(),
   verbose = TRUE
 ) {
 

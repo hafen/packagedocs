@@ -3,10 +3,14 @@
 # direct copy of copy_vignettes from devtools
 # added doc_dir as arg
 # added extra_files to have dirs lib_dir, "index_files", and "rd_files"
-copy_vignettes <- function (pkg, doc_dir = file.path(devtools::as.package(pkg)$path, "inst", "doc"), lib_dir = "assets")
-{
+copy_vignettes_and_assets <- function (
+  pkg,
+  output_dir = "_gh-pages",
+  lib_dir = "assets"
+) {
   pkg <- devtools::as.package(pkg)
-
+  doc_dir <- output_dir
+  
   if (!file.exists(doc_dir)) {
     dir.create(doc_dir, recursive = TRUE, showWarnings = FALSE)
   }
@@ -44,16 +48,27 @@ copy_vignettes <- function (pkg, doc_dir = file.path(devtools::as.package(pkg)$p
     " to ", doc_dir_small
   )
   file.copy(extra_files, doc_dir, recursive = TRUE)
+
+  remove_dir <- function(d) {
+    if (dir.exists(d)) {
+      unlink(d, recursive = TRUE)
+    }
+  }
+  remove_dir(file.path(pkg$path, "vignettes", lib_dir))
+  remove_dir(file.path(pkg$path, "vignettes", "index_files"))
+  remove_dir(file.path(pkg$path, "vignettes", "rd_files"))
   invisible()
 }
 
+
+devtools_copy_vignettes <- getFromNamespace("copy_vignettes", "devtools")
 
 # Direct copy from devtools::build_vignettes with the addition of the arg 'clean'
 build_vignettes <- function (
   pkg = ".",
   dependencies = "VignetteBuilder",
-  clean = TRUE,
-  output_dir = file.path(devtools::as.package(pkg)$path, "inst", "doc")
+  output_dir = "_gh-pages",
+  build_gh_pages = TRUE
 ) {
     pkg <- devtools::as.package(pkg)
     vigns <- tools::pkgVignettes(dir = pkg$path)
@@ -62,7 +77,21 @@ build_vignettes <- function (
     }
     devtools::install_deps(pkg, dependencies, upgrade = FALSE)
     message("Building ", pkg$package, " vignettes")
-    tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = clean)
-    copy_vignettes(pkg, doc_dir = output_dir)
+
+    on.exit({
+      is_self_contained_build(FALSE)
+    })
+
+    is_self_contained_build(TRUE)
+    tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = TRUE)
+    devtools_copy_vignettes(pkg)
+
+    if (build_gh_pages) {
+      is_self_contained_build(FALSE)
+
+      tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = FALSE)
+      copy_vignettes_and_assets(pkg, output_dir = output_dir)
+    }
+
     invisible(TRUE)
 }
