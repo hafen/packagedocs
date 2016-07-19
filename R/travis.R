@@ -1,14 +1,14 @@
 
 
 
-is_travis_build <- (function() {
-  isTravisBuild <- FALSE
+is_travis_deploy <- (function() {
+  isDeploy <- FALSE
   function(val) {
     if (missing(val)) {
-      return(isTravisBuild)
+      return(isDeploy)
     }
-    isTravisBuild <<- as.logical(val)
-    return(isTravisBuild)
+    isDeploy <<- as.logical(val)
+    return(isDeploy)
   }
 })()
 
@@ -74,9 +74,9 @@ deploy_travis <- function(
   }
 
   # build the vigs
-  is_travis_build(TRUE)
+  is_travis_deploy(TRUE)
   on.exit({
-    is_travis_build(FALSE)
+    is_travis_deploy(FALSE)
   })
   build_vignettes(clean = FALSE, output_dir = output_dir)
 
