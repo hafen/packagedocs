@@ -1,14 +1,16 @@
 
 
-isTravisBuild <- FALSE
-is_travis_build <- function(val) {
-  if (missing(val)) {
+
+is_travis_build <- (function() {
+  isTravisBuild <- FALSE
+  function(val) {
+    if (missing(val)) {
+      return(isTravisBuild)
+    }
+    isTravisBuild <<- as.logical(val)
     return(isTravisBuild)
   }
-  isTravisBuild <<- as.logical(val)
-  return(isTravisBuild)
-}
-
+})()
 
 
 #' Deploy to Github Pages from Travis-CI
