@@ -5,6 +5,7 @@
 #' @param main_toc_collapse use collapsing toc on main page
 #' @param rd_toc_collapse use collapsing toc on rd page
 #' @param lib_dir put assets in "assets" directory
+#' @param lib_dir_bak backup assets directory
 #' @param render_main render main page
 #' @param render_rd render rd page
 #' @param view_output look at the output after render
@@ -12,7 +13,8 @@
 #' @export
 render_docs <- function(docs_path, code_path,
   main_toc_collapse = TRUE, rd_toc_collapse = FALSE,
-  lib_dir = "assets", render_main = TRUE, render_rd = TRUE,
+  render_main = TRUE, render_rd = TRUE,
+  lib_dir = "assets", lib_dir_bak = paste0(lib_dir, "_bak"),
   view_output = TRUE, rd_index = NULL) {
 
   pdof1 <- package_docs(lib_dir = lib_dir, toc_collapse = main_toc_collapse)
@@ -25,18 +27,10 @@ render_docs <- function(docs_path, code_path,
   }
   setwd(docs_path)
 
-  if (file.exists("assets")) {
-    if (file.exists("assets_bak"))
-      unlink("assets_bak", recursive = TRUE)
-    file.rename("assets", "assets_bak")
-  }
 
+  lib_dir_pre(lib_dir, lib_dir_bak)
   on.exit({
-    if (!file.exists("assets")) {
-      file.rename("assets_bak", "assets")
-    } else {
-      unlink("assets_bak", recursive = TRUE)
-    }
+    lib_dir_on_exit(lib_dir, lib_dir_bak)
     setwd(wd)
   })
 
@@ -117,10 +111,9 @@ vig_render_index <- function(
   view_output = TRUE,
   input_file_rmd = "index.Rmd",
   output_file_html = "index.html",
+  self_contained = ! is_travis_build(),
   verbose = TRUE
 ) {
-
-  self_contained <- TRUE
 
   pdof1 <- package_docs(
     lib_dir = lib_dir,
@@ -157,8 +150,6 @@ vig_render_index <- function(
 
 
 
-
-
 vig_render_rd <- function(
   docs_path, code_path,
   toc_collapse = FALSE,
@@ -170,12 +161,11 @@ vig_render_rd <- function(
   input_file_rmd = "rd_skeleton.Rmd",
   temp_file_rmd = "rd.Rmd",
   output_file_html = "rd.html",
+  self_contained = ! is_travis_build(),
   verbose = TRUE
 ) {
 
-  self_contained <- TRUE
   delete_temp_rmd <- TRUE
-
 
   pdof2 <- package_docs(
     lib_dir = lib_dir,

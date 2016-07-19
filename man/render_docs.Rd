@@ -5,8 +5,9 @@
 \title{Render packagedocs}
 \usage{
 render_docs(docs_path, code_path, main_toc_collapse = TRUE,
-  rd_toc_collapse = FALSE, lib_dir = "assets", render_main = TRUE,
-  render_rd = TRUE, view_output = TRUE, rd_index = NULL)
+  rd_toc_collapse = FALSE, render_main = TRUE, render_rd = TRUE,
+  lib_dir = "assets", lib_dir_bak = paste0(lib_dir, "_bak"),
+  view_output = TRUE, rd_index = NULL)
 }
 \arguments{
 \item{docs_path}{location of R Markdown docs directory}
@@ -17,11 +18,13 @@ render_docs(docs_path, code_path, main_toc_collapse = TRUE,
 
 \item{rd_toc_collapse}{use collapsing toc on rd page}
 
-\item{lib_dir}{put assets in "assets" directory}
-
 \item{render_main}{render main page}
 
 \item{render_rd}{render rd page}
+
+\item{lib_dir}{put assets in "assets" directory}
+
+\item{lib_dir_bak}{backup assets directory}
 
 \item{view_output}{look at the output after render}
 

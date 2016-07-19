@@ -51,7 +51,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
   # use package docs to retrieve everything
   # set examples to FALSE "not evaluate examples"
   # set examples to TRUE to "evaluate examples"
-  img_path <- "imgs"
+  img_path <- "rd_files"
   if (!dir.exists(img_path)) {
     dir.create(img_path)
   }

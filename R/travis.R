@@ -1,5 +1,14 @@
 
 
+isTravisBuild <- FALSE
+is_travis_build <- function(val) {
+  if (missing(val)) {
+    return(isTravisBuild)
+  }
+  isTravisBuild <<- as.logical(val)
+  return(isTravisBuild)
+}
+
 
 
 #' Deploy to Github Pages from Travis-CI
@@ -10,6 +19,7 @@
 #' @param email email for commit
 #' @param name name for commit
 #' @param allow_pulls allow pull requests to process. (defaults to FALSE)
+#' @param output_dir output directory to put the website in
 #' @export
 deploy_travis <- function(
   # remove the href or git@github at the beginning and only keep USER/REPO
@@ -22,7 +32,8 @@ deploy_travis <- function(
   token_key = "GITHUB_TOKEN",
   email = "travis@travis-ci.org",
   name = "Travis CI",
-  allow_pulls = FALSE
+  allow_pulls = FALSE,
+  output_dir = "_gh-pages"
 ) {
   requireNamespace("devtools")
 
@@ -61,14 +72,18 @@ deploy_travis <- function(
   }
 
   # build the vigs
-  devtools::build_vignettes()
+  is_travis_build(TRUE)
+  on.exit({
+    is_travis_build(FALSE)
+  })
+  packagedocs:::build_vignettes(clean = FALSE, tangle = TRUE, output_dir = output_dir)
 
   # move into the docs folder where the vigs are locally
   wd <- getwd()
-  setwd(file.path("inst", "doc"))
   on.exit({
     setwd(wd)
-  })
+  }, add = TRUE)
+  setwd(output_dir)
 
   # since travis is a clean pull each time, we can init in the inst/doc folder
   #   without worrying about already existing

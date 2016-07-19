@@ -7,7 +7,8 @@
 deploy_travis(repo = gsub(".*[:/]([^/]*/[^.]*)\\\\.git", "\\\\1",
   system("git config --get remote.origin.url", intern = TRUE)),
   valid_branches = "master", token_key = "GITHUB_TOKEN",
-  email = "travis@travis-ci.org", name = "Travis CI", allow_pulls = FALSE)
+  email = "travis@travis-ci.org", name = "Travis CI", allow_pulls = FALSE,
+  output_dir = "_gh-pages")
 }
 \arguments{
 \item{repo}{character string that has the form USER/REPO}
@@ -21,6 +22,8 @@ deploy_travis(repo = gsub(".*[:/]([^/]*/[^.]*)\\\\.git", "\\\\1",
 \item{name}{name for commit}
 
 \item{allow_pulls}{allow pull requests to process. (defaults to FALSE)}
+
+\item{output_dir}{output directory to put the website in}
 }
 \description{
 Deploy to Github Pages from Travis-CI
