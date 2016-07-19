@@ -4,14 +4,21 @@
 
 #' Deploy to Github Pages from Travis-CI
 #'
-#' @param branch branch name(s) that are allowed to deploy
+#' @param repo character string that has the form USER/REPO
+#' @param valid_branches branch name(s) that are allowed to deploy
 #' @param token_key key name that will be autofilled
 #' @param email email for commit
 #' @param name name for commit
 #' @param allow_pulls allow pull requests to process. (defaults to FALSE)
 #' @export
 deploy_travis <- function(
-  branch = "master",
+  # remove the href or git@github at the beginning and only keep USER/REPO
+  repo = gsub(
+    ".*[:/]([^/]*/[^.]*)\\.git",
+    "\\1",
+    system("git config --get remote.origin.url", intern = TRUE)
+  ),
+  valid_branches = "master",
   token_key = "GITHUB_TOKEN",
   email = "travis@travis-ci.org",
   name = "Travis CI",
@@ -43,7 +50,7 @@ deploy_travis <- function(
   travis_pull_request <- Sys.getenv("TRAVIS_PULL_REQUEST")
   travis_branch <- Sys.getenv("TRAVIS_BRANCH")
 
-  if (! (travis_branch %in% branch)) {
+  if (! (travis_branch %in% valid_branches)) {
     cat("Branch not allowed to deploy. Exiting")
     return()
   }
@@ -52,13 +59,6 @@ deploy_travis <- function(
     cat("Pull requests are not allowed to deploy. Exiting")
     return()
   }
-
-  # remove the href or git@github at the beginning and only keep USER/REPO
-  user_repo <- gsub(
-    ".*[:/]([^/]*/[^.]*)\\.git",
-    "\\1",
-    system("git config --get remote.origin.url", intern = TRUE)
-  )
 
   # build the vigs
   devtools::build_vignettes()
@@ -89,7 +89,7 @@ deploy_travis <- function(
     # since it's coming from a \"new\" repo, this is the master branch
 
     echo \"Attempting a silent push to $GITHUB_REPO\"
-    git push --force --quiet \"https://${", token_key, "}@github.com/", user_repo, ".git\" master:gh-pages > /dev/null 2>&1
+    git push --force --quiet \"https://${", token_key, "}@github.com/", repo, ".git\" master:gh-pages > /dev/null 2>&1
     "
     , sep = ""
   ))

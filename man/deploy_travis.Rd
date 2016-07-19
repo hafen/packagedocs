@@ -4,11 +4,15 @@
 \alias{deploy_travis}
 \title{Deploy to Github Pages from Travis-CI}
 \usage{
-deploy_travis(branch = "master", token_key = "GITHUB_TOKEN",
+deploy_travis(repo = gsub(".*[:/]([^/]*/[^.]*)\\\\.git", "\\\\1",
+  system("git config --get remote.origin.url", intern = TRUE)),
+  valid_branches = "master", token_key = "GITHUB_TOKEN",
   email = "travis@travis-ci.org", name = "Travis CI", allow_pulls = FALSE)
 }
 \arguments{
-\item{branch}{branch name(s) that are allowed to deploy}
+\item{repo}{character string that has the form USER/REPO}
+
+\item{valid_branches}{branch name(s) that are allowed to deploy}
 
 \item{token_key}{key name that will be autofilled}
 
