@@ -78,7 +78,7 @@ deploy_travis <- function(
   on.exit({
     is_travis_build(FALSE)
   })
-  packagedocs:::build_vignettes(clean = FALSE, tangle = TRUE, output_dir = output_dir)
+  build_vignettes(clean = FALSE, output_dir = output_dir)
 
   # move into the docs folder where the vigs are locally
   wd <- getwd()

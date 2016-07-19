@@ -63,6 +63,6 @@ build_vignettes <- function (
     devtools::install_deps(pkg, dependencies, upgrade = FALSE)
     message("Building ", pkg$package, " vignettes")
     tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = clean)
-    packagedocs:::copy_vignettes(pkg, doc_dir = output_dir)
+    copy_vignettes(pkg, doc_dir = output_dir)
     invisible(TRUE)
 }
