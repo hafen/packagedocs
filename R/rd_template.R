@@ -55,7 +55,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
   if (!dir.exists(img_path)) {
     dir.create(img_path)
   }
-  rd_info <- as_sd_package(code_path, run_examples = run_examples)
+  rd_info <- as_sd_package(code_path)
   on.exit({
     if (length(dir(img_path)) == 0) {
       unlink(img_path)
@@ -206,15 +206,10 @@ get_rd_data <- function(alias_file, rd_info, title, img_path, run_examples) {
 
   # use to_html.rd_doc to convert nicely to a list
   data <- to_html_rd_doc(rd_obj, pkg = rd_info, topic = file.path(img_path, "pic"))
-  if (!run_examples) {
-    # transfer the code over
-    data$examples <- rd_info$example_text[[alias_file]]
-  }
 
-  # data$examples <- exs[[nm]]
-  # data$examples <- rd_info$example_text[[alias_file]]
-  ## to_html does a good job of getting usage.
-  # data$usage <- usgs[[nm]]
+  data$examples <- rd_info$example_text[[alias_file]]
+  data$example_name <- gsub("\\.Rd", "", alias_file)
+  data$eval_example <- ifelse(run_examples, "TRUE", "FALSE")
 
   name <- gsub("\\.Rd", "", alias_file)
   data$id <- valid_id(name)

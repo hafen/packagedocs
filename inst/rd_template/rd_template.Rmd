@@ -43,7 +43,9 @@
 {{#examples}}
 
 <h4>Examples</h4>
-<pre class="r"><code>{{{ examples }}}</code></pre>
+```{r {{{ example_name }}}, eval={{{ eval_example }}} }
+{{{ examples }}}
+```
 {{/examples}}
 
 {{#seealso}}
@@ -60,4 +62,3 @@
 {{/entries}}
 
 {{/.}}
-
