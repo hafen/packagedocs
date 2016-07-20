@@ -24,7 +24,7 @@ packagedocs.sublime*
 _docs
 
 # ignore for now
-vignettes
 inst/doc
 
+# ignore gh-pages output
 _gh-pages
