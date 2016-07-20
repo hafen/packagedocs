@@ -1,0 +1,16 @@
+---
+title: "packagedocs"
+subtitle: "Build Webstite of Package Documentation"
+author: "Ryan Hafen"
+copyright: "Ryan Hafen"
+output:
+  packagedocs:
+    toc: true
+vignette: |
+  %\VignetteIndexEntry{packagedocs_rd}
+  %\VignetteEngine{packagedocs::rd_run_examples}
+navpills: |
+  <li><a href='index.html'>Docs</a></li>
+  <li class="active"><a href='rd.html'>Package Ref</a></li>
+  <li><a href='https://github.com/hafen/packagedocs'>Github <i class='fa fa-github'></i></a></li>
+---
