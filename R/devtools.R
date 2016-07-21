@@ -108,6 +108,12 @@ build_vignettes <- function (
   if (length(vigns$docs) == 0) {
     return()
   }
+
+  if (inherits(try(getNamespace(pkg$package), silent = TRUE), "try-error")) {
+    message("Installing ", pkg$package)
+    devtools::install(pkg$path)
+  }
+
   devtools::install_deps(pkg, dependencies, upgrade = FALSE)
   message("Building ", pkg$package, " vignettes")
 
