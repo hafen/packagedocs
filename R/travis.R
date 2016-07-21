@@ -2,7 +2,7 @@
 
 
 is_self_contained_build <- (function() {
-  isContained <- FALSE
+  isContained <- TRUE
   function(val) {
     if (missing(val)) {
       return(isContained)
