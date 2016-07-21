@@ -112,6 +112,7 @@ vig_render_index <- function(
   input_file_rmd = "index.Rmd",
   output_file_html = "index.html",
   self_contained = is_self_contained_build(),
+  shell_build = is_shell_build(),
   verbose = TRUE
 ) {
 
@@ -139,7 +140,7 @@ vig_render_index <- function(
 
   # generate index.html
   if (render) {
-    if (self_contained) {
+    if (shell_build) {
       wrapper_fn(render_shell(
         code_path = code_path,
         output_file_html = output_file_html,
@@ -170,6 +171,7 @@ vig_render_rd <- function(
   temp_file_rmd = "rd.Rmd",
   output_file_html = "rd.html",
   self_contained = is_self_contained_build(),
+  shell_build = is_shell_build(),
   verbose = TRUE
 ) {
 
@@ -200,7 +202,7 @@ vig_render_rd <- function(
       self_contained = self_contained
     )
 
-    if (self_contained) {
+    if (shell_build) {
       render_shell(
         code_path = code_path,
         output_file_html = output_file_html,
