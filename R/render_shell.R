@@ -5,7 +5,7 @@ render_shell <- function(code_path, output_file_html, is_rd_shell = FALSE) {
   shell_templ <- paste(readLines(file.path(system.file(package = "packagedocs"),
     "rd_template", "shell_template.html")), collapse = "\n")
 
-  pkg_info <- as_sd_package(code_path, run_examples = FALSE)
+  pkg_info <- as_sd_package(code_path)
 
   github_ref <- parse_github_ref_val(pkg_info)
   if (is.null(github_ref)) {
