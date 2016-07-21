@@ -8,9 +8,9 @@ build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
   output_dir = "_gh-pages", devtools = FALSE)
 }
 \arguments{
-\item{pkg}{path to package. Provided directly to \code{devtools::\link[as.package]()}}
+\item{pkg}{path to package. Provided directly to \code{devtools::\link[devtools]{as.package}()}}
 
-\item{dependencies}{supplied directly to \code{devtools::\link[devtools]install_deps}()}
+\item{dependencies}{supplied directly to \code{devtools::\link[devtools]{install_deps}()}}
 
 \item{output_dir}{directory where the fully contained vignette directory should be exported}
 
