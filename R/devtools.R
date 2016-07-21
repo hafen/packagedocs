@@ -10,7 +10,7 @@ copy_vignettes_and_assets <- function (
 ) {
   pkg <- devtools::as.package(pkg)
   doc_dir <- output_dir
-  
+
   if (!file.exists(doc_dir)) {
     dir.create(doc_dir, recursive = TRUE, showWarnings = FALSE)
   }
@@ -63,35 +63,68 @@ copy_vignettes_and_assets <- function (
 
 devtools_copy_vignettes <- getFromNamespace("copy_vignettes", "devtools")
 
-# Direct copy from devtools::build_vignettes with the addition of the arg 'clean'
+#' Build shell and gh-pages vignettes
+#'
+#' Build shell html vignettes that are placed in inst/doc/ that redirect to the gh-pages branch of the github url provided in the DESCRIPTION file.  This function is heavily inspired by \code{devtools::\link[devtools]{build_vignettes}()}.
+#' @param pkg path to package. Provided directly to \code{devtools::\link[as.package]()}
+#' @param dependencies supplied directly to \code{devtools::\link[devtools]install_deps}()
+#' @param output_dir directory where the fully contained vignette directory should be exported
+#' @param devtools boolean to determine if the vignettes should be processed as self contained vignettes with devtools.  Runs \code{devtools::build_vignettes(pkg, dependencies)}
+#' @export
 build_vignettes <- function (
   pkg = ".",
   dependencies = "VignetteBuilder",
   output_dir = "_gh-pages",
-  build_gh_pages = TRUE
+  devtools = FALSE
 ) {
-    pkg <- devtools::as.package(pkg)
-    vigns <- tools::pkgVignettes(dir = pkg$path)
-    if (length(vigns$docs) == 0) {
-      return()
-    }
-    devtools::install_deps(pkg, dependencies, upgrade = FALSE)
-    message("Building ", pkg$package, " vignettes")
 
-    on.exit({
-      is_self_contained_build(FALSE)
-    })
-
+  on.exit({
+    # make sure the defaults are set back to expected behavior
     is_self_contained_build(TRUE)
-    tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = TRUE)
-    devtools_copy_vignettes(pkg)
+    is_shell_build(FALSE)
 
-    if (build_gh_pages) {
-      is_self_contained_build(FALSE)
-
-      tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = FALSE)
-      copy_vignettes_and_assets(pkg, output_dir = output_dir)
+    # remove all temp directories if an error occurs
+    fp_as <- file.path("vignettes", "assets")
+    fp_index <- file.path("vignettes", "index_files")
+    fp_rd <- file.path("vignettes", "rd_files")
+    for (fp in c(fp_as, fp_index, fp_rd)) {
+      if (dir.exists(fp)) {
+        unlink(fp, recursive = TRUE)
+      }
     }
 
-    invisible(TRUE)
+    fp_com <- file.path("vignettes", "rd_combined.Rmd")
+    fp_time <- file.path("vignettes", ".build.timestamp")
+    for (fp in c(fp_com, fp_time)) {
+      if (file.exists(fp)) {
+        unlink(fp)
+      }
+    }
+
+  })
+
+  if (identical(devtools, TRUE)) {
+    return(devtools::build_vignettes(pkg = pkg, dependencies = dependencies))
+  }
+
+  pkg <- devtools::as.package(pkg)
+  vigns <- tools::pkgVignettes(dir = pkg$path)
+  if (length(vigns$docs) == 0) {
+    return()
+  }
+  devtools::install_deps(pkg, dependencies, upgrade = FALSE)
+  message("Building ", pkg$package, " vignettes")
+
+
+  is_self_contained_build(FALSE)
+
+  is_shell_build(TRUE)
+  tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = TRUE)
+  devtools_copy_vignettes(pkg)
+
+  is_shell_build(FALSE)
+  tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = FALSE)
+  copy_vignettes_and_assets(pkg, output_dir = output_dir)
+
+  invisible(TRUE)
 }
