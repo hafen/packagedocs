@@ -80,8 +80,8 @@ build_vignettes <- function (
 
   on.exit({
     # make sure the defaults are set back to expected behavior
-    is_self_contained_build(TRUE)
-    is_shell_build(FALSE)
+    is_self_contained_build(is_self_contained_build_default())
+    is_shell_build(is_shell_build_default())
 
     # remove all temp directories if an error occurs
     fp_as <- file.path("vignettes", "assets")

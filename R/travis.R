@@ -1,8 +1,10 @@
 
 
-
+is_self_contained_build_default <- function() {
+  FALSE
+}
 is_self_contained_build <- (function() {
-  isContained <- TRUE
+  isContained <- is_self_contained_build_default()
   function(val) {
     if (missing(val)) {
       return(isContained)
@@ -12,8 +14,11 @@ is_self_contained_build <- (function() {
   }
 })()
 
+is_shell_build_default <- function() {
+  TRUE
+}
 is_shell_build <- (function() {
-  isShell <- FALSE
+  isShell <- is_shell_build_default()
   function(val) {
     if (missing(val)) {
       return(isShell)
