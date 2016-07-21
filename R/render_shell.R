@@ -13,9 +13,15 @@ render_shell <- function(code_path, output_file_html, is_rd_shell = FALSE) {
   }
   user_repo <- strsplit(github_ref, "/")[[1]]
 
-  shell_args = list(
-    title = paste0(pkg_info$package, ifelse(is_rd_shell, " package documentation", " function reference")),
-    url = paste0("https://", user_repo[1], ".github.io/", user_repo[2], ifelse(is_rd_shell, "/rd.html", ""))
+  shell_args <- list(
+    title = paste0(
+      pkg_info$package,
+      ifelse(is_rd_shell, " package documentation", " function reference")
+    ),
+    url = paste0(
+      "https://", user_repo[1], ".github.io/", user_repo[2],
+      ifelse(is_rd_shell, "/rd.html", "") # nolint
+    )
   )
   res <- whisker.render(shell_templ, shell_args)
 

@@ -1,6 +1,7 @@
 
-staticdocs_to_html_text = getFromNamespace("to_html.TEXT", "staticdocs")
-# path so that staticdocs doesn't get upset
+staticdocs_to_html_text <- getFromNamespace("to_html.TEXT", "staticdocs")
+
+
 as_sd_package <- function(pkg_path, site_path = "./") {
   if (! dir.exists(site_path)) {
     dir.create(site_path)

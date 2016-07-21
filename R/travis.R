@@ -4,13 +4,13 @@ is_self_contained_build_default <- function() {
   FALSE
 }
 is_self_contained_build <- (function() {
-  isContained <- is_self_contained_build_default()
+  is_contained <- is_self_contained_build_default()
   function(val) {
     if (missing(val)) {
-      return(isContained)
+      return(is_contained)
     }
-    isContained <<- as.logical(val)
-    return(isContained)
+    is_contained <<- as.logical(val)
+    return(is_contained)
   }
 })()
 
@@ -18,13 +18,13 @@ is_shell_build_default <- function() {
   TRUE
 }
 is_shell_build <- (function() {
-  isShell <- is_shell_build_default()
+  is_shell <- is_shell_build_default()
   function(val) {
     if (missing(val)) {
-      return(isShell)
+      return(is_shell)
     }
-    isShell <<- as.logical(val)
-    return(isShell)
+    is_shell <<- as.logical(val)
+    return(is_shell)
   }
 })()
 
@@ -96,7 +96,7 @@ deploy_travis <- function(
   wd <- getwd()
   on.exit({
     setwd(wd)
-  }, add = TRUE)
+  })
   setwd(output_dir)
 
   # since travis is a clean pull each time, we can init in the inst/doc folder
