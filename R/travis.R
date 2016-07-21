@@ -12,6 +12,17 @@ is_self_contained_build <- (function() {
   }
 })()
 
+is_shell_build <- (function() {
+  isShell <- FALSE
+  function(val) {
+    if (missing(val)) {
+      return(isShell)
+    }
+    isShell <<- as.logical(val)
+    return(isShell)
+  }
+})()
+
 
 #' Deploy to Github Pages from Travis-CI
 #'
