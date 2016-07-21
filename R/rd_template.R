@@ -176,7 +176,13 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
   }
   all_entries <- whisker.render(rd_templ, rd_index)
 
-  res <- paste(c(main, all_entries), collapse = "\n")
+  package_load <- paste("
+  ```{r echo=FALSE}
+  suppressWarnings(suppressMessages(library(", rd_info$package, ")))
+  ```
+  ", sep = "")
+
+  res <- paste(c(main, package_load, all_entries), collapse = "\n")
   gsub("<code>\n", "<code>", res)
 }
 
