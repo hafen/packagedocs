@@ -1,5 +1,5 @@
 
-
+staticdocs_to_html_text = getFromNamespace("to_html.TEXT", "staticdocs")
 # path so that staticdocs doesn't get upset
 as_sd_package <- function(pkg_path, site_path = "./") {
   if (! dir.exists(site_path)) {
@@ -18,7 +18,7 @@ as_sd_package <- function(pkg_path, site_path = "./") {
     if (any(tags == "examples")) {
       # get the example and remove the first item, like to_html.examples
       example_tag <- x[[which(tags == "examples")]]
-      staticdocs:::to_html.TEXT(example_tag[-1])
+      staticdocs_to_html_text(example_tag[-1])
     } else {
       NULL
     }
