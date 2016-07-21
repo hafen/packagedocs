@@ -6,7 +6,8 @@
 copy_vignettes_and_assets <- function (
   pkg,
   output_dir = "_gh-pages",
-  lib_dir = "assets"
+  extra_files = c(),
+  extra_dirs = c()
 ) {
   pkg <- devtools::as.package(pkg)
   doc_dir <- output_dir
@@ -28,13 +29,9 @@ copy_vignettes_and_assets <- function (
   message("Copying ", paste(basename(out_cp), collapse = ", "), " to ", doc_dir_small)
   file.copy(out_cp, doc_dir, overwrite = TRUE)
 
-  vig_lib_dir <- file.path(pkg$path, "vignettes", lib_dir)
-  vig_index_dir <- file.path(pkg$path, "vignettes", "index_files")
-  vig_rd_dir <- file.path(pkg$path, "vignettes", "rd_files")
-
   find_vignette_extras <- getFromNamespace("find_vignette_extras", "devtools")
-  extra_files <- find_vignette_extras(pkg)
-  for (dir_val in c(vig_lib_dir, vig_index_dir, vig_rd_dir)) {
+  extra_files <- append(extra_files, find_vignette_extras(pkg))
+  for (dir_val in extra_dirs) {
     if (dir.exists(dir_val)) {
       extra_files <- append(extra_files, dir_val)
     }
@@ -49,14 +46,6 @@ copy_vignettes_and_assets <- function (
   )
   file.copy(extra_files, doc_dir, recursive = TRUE)
 
-  remove_dir <- function(d) {
-    if (dir.exists(d)) {
-      unlink(d, recursive = TRUE)
-    }
-  }
-  remove_dir(file.path(pkg$path, "vignettes", lib_dir))
-  remove_dir(file.path(pkg$path, "vignettes", "index_files"))
-  remove_dir(file.path(pkg$path, "vignettes", "rd_files"))
   invisible()
 }
 
@@ -78,29 +67,36 @@ build_vignettes <- function (
   devtools = FALSE
 ) {
 
+  extra_dirs <- file.path("vignettes", c(
+    "lazy_widgets",
+    "assets",
+    "index_files",
+    "rd_files"
+  ))
+
   on.exit({
     # make sure the defaults are set back to expected behavior
     is_self_contained_build(is_self_contained_build_default())
     is_shell_build(is_shell_build_default())
 
     # remove all temp directories if an error occurs
-    fp_as <- file.path("vignettes", "assets")
-    fp_index <- file.path("vignettes", "index_files")
-    fp_rd <- file.path("vignettes", "rd_files")
-    for (fp in c(fp_as, fp_index, fp_rd)) {
+    for (fp in extra_dirs) {
       if (dir.exists(fp)) {
         unlink(fp, recursive = TRUE)
       }
     }
 
-    fp_com <- file.path("vignettes", "rd_combined.Rmd")
-    fp_time <- file.path("vignettes", ".build.timestamp")
-    for (fp in c(fp_com, fp_time)) {
+    not_needed_files <- file.path("vignettes", c(
+      "rd_combined.Rmd",
+      ".build.timestamp",
+      "rd.html",
+      "index.html"
+    ))
+    for (fp in not_needed_files) {
       if (file.exists(fp)) {
         unlink(fp)
       }
     }
-
   })
 
   if (identical(devtools, TRUE)) {
@@ -115,7 +111,6 @@ build_vignettes <- function (
   devtools::install_deps(pkg, dependencies, upgrade = FALSE)
   message("Building ", pkg$package, " vignettes")
 
-
   is_self_contained_build(FALSE)
 
   is_shell_build(TRUE)
@@ -124,7 +119,12 @@ build_vignettes <- function (
 
   is_shell_build(FALSE)
   tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = FALSE)
-  copy_vignettes_and_assets(pkg, output_dir = output_dir)
+  copy_vignettes_and_assets(
+    pkg,
+    output_dir = output_dir,
+    extra_dirs = extra_dirs,
+    extra_files = c()
+  )
 
   invisible(TRUE)
 }
