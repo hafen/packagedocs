@@ -85,7 +85,7 @@ deploy_travis <- function(
   }
 
   # build the vigs
-  build_vignettes(output_dir = output_dir, build_gh_pages = TRUE)
+  build_vignettes(pkg = ".", output_dir = output_dir)
 
   # move into the docs folder where the vigs are locally
   wd <- getwd()
