@@ -79,6 +79,9 @@ packagedocs_init <- function(
     file = file.path(docs_path, rd_file_rmd))
   cat("\n", file = file.path(docs_path, rd_file_rmd), append = TRUE)
 
+  ## install extras for devtools
+  cat("rd_index.yaml\n", file = file.path(docs_path, ".install_extras"))
+
   ## build.R
   ##---------------------------------------------------------
   if (identical(build_file, TRUE)) {
