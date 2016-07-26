@@ -7,7 +7,7 @@
 #'
 #' @details Instead of using \code{`myfunction()`} when talking about a package function \code{myfunction} inside your .Rmd file, you can use \code{`rd_link(myfunction())`} or even things like \code{`rd_link(myfunction(arg1 = 1, ...))`} and it will turn it into an href pointing to the online documentation of your package function \code{myfunction} in the page rendered by \code{\link{render_docs}}.
 #' @export
-rd_link <- function(txt, rd_page = "rd.html") {
+rd_link <- function(txt, rd_page = rd_file_html()) {
   res <- try(txt, silent = TRUE)
 
   if (inherits(res, "try-error"))

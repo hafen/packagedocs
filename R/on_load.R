@@ -1,3 +1,5 @@
+# nolint start
+
 #      Vignettes are normally processed by ‘Sweave’, but package writers
 #      may choose to use a different engine (e.g., one provided by the
 #      ‘knitr’, ‘noweb’ or ‘R.rsp’ packages).  This function is used by
@@ -119,10 +121,9 @@
 # }
 # <environment: namespace:knitr>
 
+# nolint end
 
 .onLoad <- function(lib, pkg) {
-
-  # packageStartupMessage("running onload!")
 
   #     name: the name of the engine.
   #    weave: a function to convert vignette source files to LaTeX output.
@@ -208,7 +209,5 @@
   reg_eng("rd_no_run_examples", rd_weaver(toc_collapse = TRUE, run_examples = FALSE))
   reg_eng("rd_run_examples_no_collapse", rd_weaver(toc_collapse = FALSE, run_examples = TRUE))
   reg_eng("rd_no_run_examples_no_collapse", rd_weaver(toc_collapse = FALSE, run_examples = FALSE))
-
-  # packageStartupMessage("vig engine registered!")
 
 }

@@ -20,43 +20,14 @@ to_html_rd_doc <- getFromNamespace("to_html.Rd_doc", loadNamespace("staticdocs")
 #' @import stringr
 # @import staticdocs
 #' @export
-rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples = FALSE) {
+rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples = FALSE, img_path = rd_img_dir()) {
 
-  ## let staticdocs handle this
-  # usgs <- lapply(db, function(x) {
-  #   tags <- sapply(x, function(a) attr(a, "Rd_tag"))
-  #   tags <- gsub("\\\\", "", tags)
-  #   ## we may still want usage, even if examples are missing.
-  #   if (any(tags == "usage")) {
-  #     x <- paste(unlist(x[[which(tags == "usage")]]), collapse = "")
-  #     gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
-  #   } else {
-  #     NULL
-  #   }
-  # })
-  # exs <- lapply(db, function(x) {
-  #   tags <- sapply(x, function(a) attr(a, "Rd_tag"))
-  #   tags <- gsub("\\\\", "", tags)
-  #   if (any(tags == "examples")) {
-  #     # TODO: preserve dontrun as separate blocks
-  #     # x[[which(tags == "examples")]]
-  #     x <- paste(unlist(x[[which(tags == "examples")]]), collapse = "")
-  #     gsub("^[\\n]+|[\\n]+$", "", x, perl = TRUE)
-  #   } else {
-  #     NULL
-  #   }
-  # })
-  # names(exs) <- gsub("\\.Rd$", "", names(exs))
-
-  # use package docs to retrieve everything
-  # set examples to FALSE "not evaluate examples"
-  # set examples to TRUE to "evaluate examples"
-  img_path <- "rd_files"
   if (!dir.exists(img_path)) {
     dir.create(img_path)
   }
   rd_info <- as_sd_package(code_path)
   on.exit({
+    # if no images exist, delete the folder
     if (length(dir(img_path)) == 0) {
       unlink(img_path)
     }
@@ -75,8 +46,8 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
     # nms <- setdiff(nms, exclude)
 
   if (is.null(rd_index)) {
-    if (file.exists("rd_index.yaml")) {
-      rd_index <- "rd_index.yaml"
+    if (file.exists(rd_index_file_yaml())) {
+      rd_index <- rd_index_file_yaml()
     }
   }
 

@@ -1,56 +1,56 @@
-#' Render packagedocs
-#'
-#' @param docs_path location of R Markdown docs directory
-#' @param code_path location of R package source directory
-#' @param main_toc_collapse use collapsing toc on main page
-#' @param rd_toc_collapse use collapsing toc on rd page
-#' @param lib_dir put assets in "assets" directory
-#' @param lib_dir_bak backup assets directory
-#' @param render_main render main page
-#' @param render_rd render rd page
-#' @param view_output look at the output after render
-#' @param rd_index optional path to rd layout yaml (if NULL, will search for "docs_path/rd_index.yaml" and use it if available)
-#' @export
-render_docs <- function(docs_path, code_path,
-  main_toc_collapse = TRUE, rd_toc_collapse = FALSE,
-  render_main = TRUE, render_rd = TRUE,
-  lib_dir = "assets", lib_dir_bak = paste0(lib_dir, "_bak"),
-  view_output = TRUE, rd_index = NULL) {
-
-  pdof1 <- package_docs(lib_dir = lib_dir, toc_collapse = main_toc_collapse)
-  pdof2 <- package_docs(lib_dir = lib_dir, toc_collapse = rd_toc_collapse)
-
-  wd <- getwd()
-
-  if (! dir.exists(docs_path)) {
-    stop(paste("docs_path:'", docs_path, "' does not exist", sep = "", collapse = ""))
-  }
-  setwd(docs_path)
-
-
-  lib_dir_pre(lib_dir, lib_dir_bak)
-  on.exit({
-    lib_dir_on_exit(lib_dir, lib_dir_bak)
-    setwd(wd)
-  })
-
-  # generate index.html
-  if (render_main) {
-    render("index.Rmd", output_format = pdof1)
-    check_output("index.html")
-    if (view_output)
-      browseURL("index.html")
-  }
-
-  if (render_rd) {
-    render_rd("rd_skeleton.Rmd", code_path, "./",
-      rd_index = rd_index, output_format = pdof2)
-    check_output("rd.html")
-    if (view_output)
-      browseURL("rd.html")
-  }
-
-}
+# #' Render packagedocs
+# #'
+# #' @param docs_path location of R Markdown docs directory
+# #' @param code_path location of R package source directory
+# #' @param main_toc_collapse use collapsing toc on main page
+# #' @param rd_toc_collapse use collapsing toc on rd page
+# #' @param lib_dir put assets in "assets" directory
+# #' @param lib_dir_bak backup assets directory
+# #' @param render_main render main page
+# #' @param render_rd render rd page
+# #' @param view_output look at the output after render
+# #' @param rd_index optional path to rd layout yaml (if NULL, will search for "docs_path/rd_index.yaml" and use it if available)
+# #' @export
+# render_docs <- function(docs_path, code_path,
+#   main_toc_collapse = TRUE, rd_toc_collapse = FALSE,
+#   render_main = TRUE, render_rd = TRUE,
+#   lib_dir = assets_dir(), lib_dir_bak = paste0(lib_dir, "_bak"),
+#   view_output = TRUE, rd_index = NULL) {
+#
+#   pdof1 <- package_docs(lib_dir = lib_dir, toc_collapse = main_toc_collapse)
+#   pdof2 <- package_docs(lib_dir = lib_dir, toc_collapse = rd_toc_collapse)
+#
+#   wd <- getwd()
+#
+#   if (! dir.exists(docs_path)) {
+#     stop(paste("docs_path:'", docs_path, "' does not exist", sep = "", collapse = ""))
+#   }
+#   setwd(docs_path)
+#
+#
+#   lib_dir_pre(lib_dir, lib_dir_bak)
+#   on.exit({
+#     lib_dir_on_exit(lib_dir, lib_dir_bak)
+#     setwd(wd)
+#   })
+#
+#   # generate index.html
+#   if (render_main) {
+#     render("index.Rmd", output_format = pdof1)
+#     check_output("index.html")
+#     if (view_output)
+#       browseURL("index.html")
+#   }
+#
+#   if (render_rd) {
+#     render_rd("rd_skeleton.Rmd", code_path, "./",
+#       rd_index = rd_index, output_format = pdof2)
+#     check_output("rd.html")
+#     if (view_output)
+#       browseURL("rd.html")
+#   }
+#
+# }
 
 
 
@@ -106,11 +106,11 @@ lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
 vig_render_index <- function(
   docs_path, code_path,
   toc_collapse = TRUE,
-  lib_dir = "assets", lib_dir_bak = paste(lib_dir, "_main_bak", sep = ""),
+  lib_dir = assets_dir(), lib_dir_bak = paste(lib_dir, "_main_bak", sep = ""),
   render = TRUE,
   view_output = TRUE,
-  input_file_rmd = "index.Rmd",
-  output_file_html = "index.html",
+  input_file_rmd = index_file_rmd(),
+  output_file_html = index_file_html(),
   self_contained = is_self_contained_build(),
   shell_build = is_shell_build(),
   verbose = TRUE
@@ -162,14 +162,14 @@ vig_render_index <- function(
 vig_render_rd <- function(
   docs_path, code_path,
   toc_collapse = FALSE,
-  lib_dir = "assets", lib_dir_bak = paste(lib_dir, "_rd_bak", sep = ""),
+  lib_dir = assets_dir(), lib_dir_bak = paste(lib_dir, "_rd_bak", sep = ""),
   run_examples = FALSE,
   render = TRUE,
   view_output = TRUE,
   rd_index = NULL,
-  input_file_rmd = "rd_skeleton.Rmd",
-  temp_file_rmd = "rd.Rmd",
-  output_file_html = "rd.html",
+  input_file_rmd = rd_temp_file_rmd(),
+  temp_file_rmd = rd_file_rmd(),
+  output_file_html = rd_file_html(),
   self_contained = is_self_contained_build(),
   shell_build = is_shell_build(),
   verbose = TRUE

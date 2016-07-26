@@ -5,7 +5,7 @@
 # added extra_files to have dirs lib_dir, "index_files", and "rd_files"
 copy_vignettes_and_assets <- function (
   pkg,
-  output_dir = "_gh-pages",
+  output_dir,
   extra_files = c(),
   extra_dirs = c()
 ) {
@@ -64,15 +64,20 @@ build_vignettes <- function (
   pkg = ".",
   dependencies = "VignetteBuilder",
   output_dir = "_gh-pages",
-  devtools = FALSE
-) {
-
-  extra_dirs <- file.path("vignettes", c(
-    "lazy_widgets",
-    "assets",
-    "index_files",
-    "rd_files"
+  devtools = FALSE,
+  extra_dirs = file.path("vignettes", c(
+    lazy_widgets_dir(),
+    assets_dir(),
+    index_files_dir(),
+    rd_files_dir()
+  )),
+  delete_files = file.path("vignettes", c(
+    rd_temp_file_rmd(),
+    ".build.timestamp",
+    rd_file_html(),
+    index_file_html()
   ))
+) {
 
   on.exit({
     # make sure the defaults are set back to expected behavior
@@ -86,13 +91,8 @@ build_vignettes <- function (
       }
     }
 
-    not_needed_files <- file.path("vignettes", c(
-      "rd_combined.Rmd",
-      ".build.timestamp",
-      "rd.html",
-      "index.html"
-    ))
-    for (fp in not_needed_files) {
+    # remove all extra files
+    for (fp in delete_files) {
       if (file.exists(fp)) {
         unlink(fp)
       }

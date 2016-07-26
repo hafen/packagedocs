@@ -16,11 +16,11 @@ render_shell <- function(code_path, output_file_html, is_rd_shell = FALSE) {
   shell_args <- list(
     title = paste0(
       pkg_info$package,
-      ifelse(is_rd_shell, " package documentation", " function reference")
+      ifelse(is_rd_shell, " function reference", " package documentation")
     ),
     url = paste0(
       "https://", user_repo[1], ".github.io/", user_repo[2],
-      ifelse(is_rd_shell, "/rd.html", "") # nolint
+      ifelse(is_rd_shell, paste("/", output_file_html, sep = ""), "") # nolint
     )
   )
   res <- whisker.render(shell_templ, shell_args)

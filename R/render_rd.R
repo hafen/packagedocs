@@ -19,8 +19,8 @@ render_rd <- function(
   exclude = NULL,
   output_format = NULL,
   output = ".",
-  output_file_rmd = "rd.Rmd",
-  output_file_html = "rd.html",
+  output_file_rmd = rd_file_rmd(),
+  output_file_html = rd_file_html(),
   run_examples = FALSE,
   verbose = TRUE
 ) {
@@ -36,7 +36,7 @@ render_rd <- function(
 
   out_path <- normalizePath(output)
   rd_file <- file.path(out_path, output_file_rmd)
-  lib_dir <- file.path(out_path, "assets")
+  lib_dir <- file.path(out_path, assets_dir())
 
   if (is.null(output_format))
     output_format <- package_docs(lib_dir = lib_dir)
