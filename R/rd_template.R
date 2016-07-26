@@ -86,6 +86,8 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
     rd_index <- remove_topics_from_index(rd_index, unknown_topics)
   }
 
+  display_current_rd_index(rd_index)
+
   # allow for null values as they will not be displayed
   dat <- list(
     title = rd_info$title,
@@ -290,4 +292,12 @@ alias_info_from_index <- function(rd_index) {
     unlist(recursive = FALSE)
 }
 
+display_current_rd_index <- function(rd_index) {
+  rd_index %>%
+    lapply(function(section_info) {
+      section_info$topics <- unname(section_info$topics)
+      section_info
+    }) %>%
+    yaml::as.yaml() %>%
+    message("\nrd_index yaml file to be used: \n", .)
 }
