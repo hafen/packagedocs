@@ -64,7 +64,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
     rd_index <- yaml.load_file(rd_index)
   }
 
-  rd_index <- as_rd_index(rd_index)
+  rd_index <- as_rd_index(rd_index, run_examples = run_examples)
 
   # get all rd files from the rd_index topics
   rd_files <- alias_files_from_index(rd_index)

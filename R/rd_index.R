@@ -1,6 +1,7 @@
 
 
-as_rd_index <- function(rd_index) {
+as_rd_index <- function(rd_index, run_examples) {
+
   rd_index %>%
     seq_along() %>%
     lapply(function(section_num) {
@@ -12,35 +13,31 @@ as_rd_index <- function(rd_index) {
 
       topics <- section$topics
 
-      if (!is.list(topics)) {
-        topics %>%
-          lapply(function(topic) {
-            list(
-              file = paste(topic, ".Rd", sep = ""),
-              title = topic
-            )
-          }) ->
-        topics
-      } else {
-        topics %>%
-          seq_along() %>%
-          lapply(function(topic_num) {
-            topic <- topics[[topic_num]]
-            if (is.character(topic)) {
-              topic <- list(file = paste(topic, ".Rd", sep = ""), title = topic)
-            }
-            file <- topic$file
-            if (is.null(file)) {
-              stop(paste0("'file' must be provided within each topic (unless a single string). Error in section: ", section_num, ", topic: ", topic_num)) # nolint
-            }
-            title <- topic$title
-            if (is.null(title)) {
-              stop(paste0("'title' must be provided within each topic (unless a single string). Error in section: ", section_num, ", topic: ", topic_num)) # nolint
-            }
-            topic
-          }) ->
-        topics
-      }
+      topics %>%
+        seq_along() %>%
+        lapply(function(topic_num) {
+          topic <- topics[[topic_num]]
+          if (is.character(topic)) {
+            topic <- list(title = topic)
+            # message("Upgrading section: ", section_name, ", topic: ", topic$title, " title to ", topic$title)
+          }
+          if (is.null(topic$title)) {
+            stop(paste0("'title' must be provided within each topic (unless a single string). Error in section: ", section_name, ", topic: ", topic_num)) # nolint
+          }
+          if (is.null(topic$file)) {
+            topic$file <- paste(topic$title, ".Rd", sep = "")
+            # message("Upgrading section: ", section_name, ", topic: ", topic$title, " file name to ", topic$file)
+          }
+          if (is.null(topic$run_examples)) {
+            topic$run_examples <- run_examples
+            # message("Upgrading section: ", section_name, ", topic: ", topic$title, " run_examples name to ", topic$run_examples)
+          }
+          topic
+        }) ->
+      topics
+
+      # set the topics object name to be the file name
+      names(topics) <- lapply(topics, "[[", "file") %>% unlist()
 
       list(section_name = section_name, topics = topics)
     })

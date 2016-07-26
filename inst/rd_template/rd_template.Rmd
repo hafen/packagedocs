@@ -43,7 +43,7 @@
 {{#examples}}
 
 <h4>Examples</h4>
-```{r {{{ example_name }}}, eval={{{ eval_example }}} }
+```{r ex_{{{ id }}}, eval={{{ eval_example }}} }
 {{{ examples }}}
 ```
 {{/examples}}
