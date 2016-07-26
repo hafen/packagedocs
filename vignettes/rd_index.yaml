@@ -31,6 +31,13 @@
   topics:
     -
       title: test_keyword
+      run_examples: no
+-
+  section_name: Second Loess Section
+  topics:
+    -
+      file: test_keyword.Rd
+      run_examples: yes
 -
   section_name: Debugging Tools
   topics:
