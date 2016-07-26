@@ -161,6 +161,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
 valid_id <- function(x) {
    # x <- gsub(" ", "-", x)
    # tolower(gsub("[^0-9a-zA-Z\\-]+", "", x))
+  x <- gsub("\\.Rd", "", x)
   x
 }
 
