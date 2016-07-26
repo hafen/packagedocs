@@ -7,7 +7,6 @@ cache: packages
 before_script:
   # install the pkg so it can be used as a vig builder
   - Rscript -e "devtools::install()"
-  - Rscript -e "packagedocs::init_vignettes()"
 
 # install locally to avoid rev dep
 r_github_packages:

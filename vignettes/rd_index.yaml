@@ -37,14 +37,14 @@
 -
   section_name: Package Functions
   topics:
+    - build_vignettes
     - check_output
     - deploy_travis
-    -
-      file: initialize.Rd
-      title: "initialize: init_vignettes, packagedocs_init"
+    - init_vignettes
     - package_docs
-    - purl_docs
     - rd_link
     - rd_template
-    - render_docs
     - render_rd
+    -
+      file: vignette_render.Rd
+      title: "vignette_render: vig_render_index, vig_render_rd"
