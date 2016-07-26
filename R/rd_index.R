@@ -2,6 +2,8 @@
 
 as_rd_index <- function(rd_index, run_examples) {
 
+  topic_pos <- 1
+
   rd_index %>%
     seq_along() %>%
     lapply(function(section_num) {
@@ -22,7 +24,11 @@ as_rd_index <- function(rd_index, run_examples) {
             # message("Upgrading section: ", section_name, ", topic: ", topic$title, " title to ", topic$title)
           }
           if (is.null(topic$title)) {
-            stop(paste0("'title' must be provided within each topic (unless a single string). Error in section: ", section_name, ", topic: ", topic_num)) # nolint
+            if (!is.null(topic$file)) {
+              topic$title <- gsub("\\.Rd", "", topic$file)
+            } else {
+              stop(paste0("'title' must be provided within each topic (unless a single string). Error in section: ", section_name, ", topic: ", topic_num)) # nolint
+            }
           }
           if (is.null(topic$file)) {
             topic$file <- paste(topic$title, ".Rd", sep = "")
@@ -32,6 +38,10 @@ as_rd_index <- function(rd_index, run_examples) {
             topic$run_examples <- run_examples
             # message("Upgrading section: ", section_name, ", topic: ", topic$title, " run_examples name to ", topic$run_examples)
           }
+
+          topic$index_id <- paste0("id_", topic_pos)
+          topic_pos <<- topic_pos + 1
+
           topic
         }) ->
       topics
@@ -41,4 +51,21 @@ as_rd_index <- function(rd_index, run_examples) {
 
       list(section_name = section_name, topics = topics)
     })
+}
+
+
+display_current_rd_index <- function(rd_index) {
+  rd_index %>%
+    lapply(function(section_info) {
+      section_info$topics %>%
+        unname() %>%
+        lapply(function(topic) {
+          topic$index_id <- NULL
+          topic
+        }) ->
+      section_info$topics
+      section_info
+    }) %>%
+    yaml::as.yaml() %>%
+    message("\nrd_index yaml file to be used: \n", .)
 }

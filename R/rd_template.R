@@ -83,7 +83,8 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
       "topics found in rd_index that aren't in package (will not be included): ",
       paste(unknown_topics, collapse = ", ")
     )
-    rd_index <- remove_topics_from_index(rd_index, unknown_topics)
+    unknown_ids <- rd_files[rd_files %in% unknown_topics] %>% names()
+    rd_index <- remove_topics_from_index(rd_index, unknown_ids)
   }
 
   display_current_rd_index(rd_index)
@@ -106,34 +107,40 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
   rd_templ <- paste(readLines(file.path(system.file(package = "packagedocs"),
     "rd_template", "rd_template.Rmd")), collapse = "\n")
 
-  alias_info_from_index(rd_index) %>%
-    lapply(function(alias_info) {
-      try(get_rd_data(
-        alias_info,
-        rd_info,
-        img_path = img_path
+  for (ii in rev(seq_along(rd_index))) {
+    alias_info_list <- rd_index[[ii]]$topics
+    alias_info_list %>%
+      lapply(function(alias_info) {
+        try(get_rd_data(
+          alias_info,
+          rd_info,
+          img_path = img_path
+        ))
+      }) ->
+    entries
+
+    idx <- which(
+      as.logical(unlist(
+        sapply(entries, function(x) inherits(x, "try-error"))
       ))
-    }) ->
-  entries
+    )
 
-  idx <- which(
-    as.logical(unlist(
-      sapply(entries, function(x) inherits(x, "try-error"))
-    ))
-  )
-
-  if (length(idx) > 0) {
-    rd_files <- alias_files_from_index(rd_index)
-    error_topics <- entries_rd_file[idx]
-    error_topics <- error_topics[error_topics %in% rd_files]
-    if (length(error_topics) > 0) {
+    if (length(idx) > 0) {
+      error_topics <- alias_files_from_topics(alias_info_list)[idx]
+      entries <- entries[-idx]
       message(
         "there were errors running the following topics (will be removed): ",
         paste(error_topics, collapse = ", ")
       )
-      rd_index <- remove_topics_from_index(rd_index, error_topics)
+      rd_index <- remove_topics_from_index(rd_index, names(error_topics))
+    }
+
+    if (length(idx) < length(alias_info_list)) {
+      # not all files where errors.  therefore the section still exists
+      rd_index[[ii]]$entries <- unname(entries)
     }
   }
+
 
   tmp <- entries[[paste(rd_info$package, "-package", sep = "")]]
   if (!is.null(tmp)) {
@@ -141,16 +148,11 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
   }
 
   main <- whisker.render(main_templ, dat)
-
-  for (ii in seq_along(rd_index)) {
-    ii_files <- alias_files_from_topics(rd_index[[ii]]$topics)
-    rd_index[[ii]]$entries <- unname(entries[ii_files])
-  }
   all_entries <- whisker.render(rd_templ, rd_index)
 
   package_load <- paste("
   ```{r echo=FALSE}
-  suppressWarnings(suppressMessages(library(", rd_info$package, ")))
+  suppressWarnings(suppressMessages(library(", rd_info$package, ", quietly = TRUE, warn.conflicts = FALSE, verbose = FALSE)))
   ```
   ", sep = "")
 
@@ -193,10 +195,13 @@ get_rd_data <- function(
   data$examples <- rd_info$example_text[[alias_file]]
   data$eval_example <- as.character(alias_info$run_examples)
 
-  data$id <- valid_id(alias_file)
+  data$id <- valid_id(paste(alias_file, "_", alias_info$index_id, sep = ""))
   data$name <- alias_info$title
 
   # if (runif(1) < 0.1) {
+  #   stop("asdfasdf")
+  # }
+  # if (alias_file == "test_not_exported.Rd") {
   #   stop("asdfasdf")
   # }
 
@@ -254,14 +259,14 @@ get_rd_data <- function(
 }
 
 
-remove_topics_from_index <- function(rd_index, bad_topics) {
+remove_topics_from_index <- function(rd_index, bad_topic_ids) {
 
   # by going in rev order, sections may be removed without worry
   messages <- c()
   for (ii in rev(seq_along(rd_index))) {
-    ii_files <- alias_files_from_topics(rd_index[[ii]]$topics)
-    rd_index[[ii]]$topics <- rd_index[[ii]]$topics [
-      ! (ii_files %in% bad_topics)
+    ii_ids <- alias_id_from_topics(rd_index[[ii]]$topics)
+    rd_index[[ii]]$topics <- rd_index[[ii]]$topics[
+      ! (ii_ids %in% bad_topic_ids)
     ]
 
     if (length(rd_index[[ii]]$topics) == 0) {
@@ -276,29 +281,28 @@ remove_topics_from_index <- function(rd_index, bad_topics) {
 }
 
 
-alias_files_from_topics <- function(topic) {
-  topic %>%
+alias_files_from_topics <- function(topics) {
+  topics %>%
     lapply("[[", "file") %>%
+    unlist() %>%
+    set_names(alias_id_from_topics(topics))
+}
+alias_id_from_topics <- function(topics) {
+  topics %>%
+    lapply("[[", "index_id") %>%
     unlist()
 }
 alias_files_from_index <- function(rd_index) {
   alias_info_from_index(rd_index) %>%
-    lapply("[[", "file") %>%
-    unlist()
+    alias_files_from_topics()
+}
+alias_id_from_index <- function(rd_index) {
+  alias_info_from_index(rd_index) %>%
+    alias_id_from_topics()
 }
 
 alias_info_from_index <- function(rd_index) {
   rd_index %>%
     lapply("[[", "topics") %>%
     unlist(recursive = FALSE)
-}
-
-display_current_rd_index <- function(rd_index) {
-  rd_index %>%
-    lapply(function(section_info) {
-      section_info$topics <- unname(section_info$topics)
-      section_info
-    }) %>%
-    yaml::as.yaml() %>%
-    message("\nrd_index yaml file to be used: \n", .)
 }
