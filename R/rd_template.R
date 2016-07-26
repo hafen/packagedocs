@@ -104,17 +104,15 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
   rd_templ <- paste(readLines(file.path(system.file(package = "packagedocs"),
     "rd_template", "rd_template.Rmd")), collapse = "\n")
 
-  title_map <- title_map_from_index(rd_index)
-  entries_rd_file <- rd_info$rd_index$file_in
-  entries <- lapply(entries_rd_file, function(alias_file) {
-    try(get_rd_data(
-      alias_file, rd_info,
-      title = title_map[[alias_file]],
-      img_path = img_path,
-      run_examples = run_examples
-    ))
-  }) %>%
-    set_names(entries_rd_file)
+  alias_info_from_index(rd_index) %>%
+    lapply(function(alias_info) {
+      try(get_rd_data(
+        alias_info,
+        rd_info,
+        img_path = img_path
+      ))
+    }) ->
+  entries
 
   idx <- which(
     as.logical(unlist(
@@ -174,7 +172,11 @@ fix_hrefs <- function(x) {
   }))
 }
 
-get_rd_data <- function(alias_file, rd_info, title, img_path, run_examples) {
+get_rd_data <- function(
+  alias_info, rd_info, img_path
+  # alias_file, rd_info, title, img_path
+) {
+  alias_file <- alias_info$file
 
   # use staticdocs package output
   rd_obj <- rd_info$rd[[alias_file]]
@@ -186,12 +188,10 @@ get_rd_data <- function(alias_file, rd_info, title, img_path, run_examples) {
   data <- to_html_rd_doc(rd_obj, pkg = rd_info, topic = file.path(img_path, "pic"))
 
   data$examples <- rd_info$example_text[[alias_file]]
-  data$example_name <- gsub("\\.Rd", "", alias_file)
-  data$eval_example <- ifelse(run_examples, "TRUE", "FALSE")
+  data$eval_example <- as.character(alias_info$run_examples)
 
-  name <- gsub("\\.Rd", "", alias_file)
-  data$id <- valid_id(name)
-  data$name <- if_null(title, name)
+  data$id <- valid_id(alias_file)
+  data$name <- alias_info$title
 
   # if (runif(1) < 0.1) {
   #   stop("asdfasdf")
@@ -279,19 +279,15 @@ alias_files_from_topics <- function(topic) {
     unlist()
 }
 alias_files_from_index <- function(rd_index) {
-  rd_index %>%
-    lapply("[[", "topics") %>%
-    unlist(recursive = FALSE) %>%
+  alias_info_from_index(rd_index) %>%
     lapply("[[", "file") %>%
     unlist()
 }
 
-title_map_from_index <- function(rd_index) {
-  alias_files <- alias_files_from_index(rd_index)
-
+alias_info_from_index <- function(rd_index) {
   rd_index %>%
     lapply("[[", "topics") %>%
-    unlist(recursive = FALSE) %>%
-    lapply("[[", "title") %>%
-    set_names(alias_files)
+    unlist(recursive = FALSE)
+}
+
 }
