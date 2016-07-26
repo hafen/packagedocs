@@ -115,7 +115,9 @@ after_success:
   - Rscript -e "packagedocs::deploy_travis()"
 ```
 
-By default, if it is the master branch and it is not a pull request, `packagedocs::deploy_travis()` will build all vignettes and will copy the `inst/doc` as the latest commit in the gh-pages branch.  (By default) This forced commit will be done by "Travis CI" user.  
+By default, if it is the master branch and it is not a pull request, `packagedocs::deploy_travis()` will build all vignettes but with the packagedocs vignettes as html redirects that point to the gh-pages branch of the package repo.  The function will then properly build all vignettes and deploy them from travis to the package's github repo. (By default) This forced commit will be done by "Travis CI" user.  
+
+**Using this function will STOMP the gh-pages every time.  Use this functon wisely!!!**
 
 Please look at `?packagedocs::deploy_travis` for more information.
 
