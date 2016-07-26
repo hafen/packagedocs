@@ -12,5 +12,8 @@ test_not_exported(...)
 \description{
 Test Not Exported
 }
+\examples{
+hist(runif(100))
+}
 \keyword{debugging}
 

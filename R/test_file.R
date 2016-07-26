@@ -25,6 +25,8 @@ test_fn_b <- function(b) {
 #' @param ... pass to print
 #' @export
 #' @keywords loess
+#' @examples
+#' runif(10)
 test_keyword <- function(...) {
   print(...)
 }
@@ -42,6 +44,8 @@ test_hidden <- function(...) {
 #'
 #' @param ... pass to print
 #' @keywords debugging
+#' @examples
+#' hist(runif(100))
 test_not_exported <- function(...) {
   print(...)
 }

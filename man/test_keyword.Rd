@@ -12,5 +12,8 @@ test_keyword(...)
 \description{
 Test Keyword
 }
+\examples{
+runif(10)
+}
 \keyword{loess}
 
