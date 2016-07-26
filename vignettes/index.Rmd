@@ -12,6 +12,7 @@ vignette: >
 navpills: |
   <li class="active"><a href='index.html'>Docs</a></li>
   <li><a href='rd.html'>Package Ref</a></li>
+  <li><a href='other.html'>Other</a></li>
   <li><a href='https://github.com/schloerke/packagedocs'>Github <i class='fa fa-github'></i></a></li>
 ---
 
