@@ -15,6 +15,6 @@ rd_link(txt, rd_page = rd_file_html())
 This is meant to be used inside your packagedocs .Rmd files
 }
 \details{
-Instead of using \code{`myfunction()`} when talking about a package function \code{myfunction} inside your .Rmd file, you can use \code{`rd_link(myfunction())`} or even things like \code{`rd_link(myfunction(arg1 = 1, ...))`} and it will turn it into an href pointing to the online documentation of your package function \code{myfunction} in the page rendered by \code{\link{render_docs}}.
+Instead of using \code{`myfunction()`} when talking about a package function \code{myfunction} inside your .Rmd file, you can use \code{`rd_link(myfunction())`} or even things like \code{`rd_link(myfunction(arg1 = 1, ...))`} and it will turn it into an href pointing to the online documentation of your package function \code{myfunction} in the page rendered by \code{\link{vig_render_index}} and \code{\link{vig_render_rd}}.
 }
 

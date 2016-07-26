@@ -58,6 +58,8 @@ devtools_copy_vignettes <- getFromNamespace("copy_vignettes", "devtools")
 #' @param pkg path to package. Provided directly to \code{devtools::\link[devtools]{as.package}()}
 #' @param dependencies supplied directly to \code{devtools::\link[devtools]{install_deps}()}
 #' @param output_dir directory where the fully contained vignette directory should be exported
+#' @param extra_dirs list of directories that will be copied to the gh-pages that are not vignettes and should not be shipped with the package. Files that should be exist in both gh-pages and the package should be contained in the \code{vignettes/.install_extras} file.
+#' @param delete_files list of files that should be deleted if they still exist when the function ends
 #' @param devtools boolean to determine if the vignettes should be processed as self contained vignettes with devtools.  Runs \code{devtools::build_vignettes(pkg, dependencies)}
 #' @export
 build_vignettes <- function (

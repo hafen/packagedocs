@@ -18,6 +18,10 @@ build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
 \item{output_dir}{directory where the fully contained vignette directory should be exported}
 
 \item{devtools}{boolean to determine if the vignettes should be processed as self contained vignettes with devtools.  Runs \code{devtools::build_vignettes(pkg, dependencies)}}
+
+\item{extra_dirs}{list of directories that will be copied to the gh-pages that are not vignettes and should not be shipped with the package. Files that should be exist in both gh-pages and the package should be contained in the \code{vignettes/.install_extras} file.}
+
+\item{delete_files}{list of files that should be deleted if they still exist when the function ends}
 }
 \description{
 Build shell html vignettes that are placed in inst/doc/ that redirect to the gh-pages branch of the github url provided in the DESCRIPTION file.  This function is heavily inspired by \code{devtools::\link[devtools]{build_vignettes}()}.

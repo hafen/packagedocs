@@ -13,6 +13,7 @@ to_html_rd_doc <- getFromNamespace("to_html.Rd_doc", loadNamespace("staticdocs")
 #' @param rd_index path to yaml file with index layout information
 #' @param exclude vector of Rd entry names to exclude from the resulting document
 #' @param run_examples boolean to determine if examples should be run
+#' @param img_path directory where all evaluated images should be saved
 #' @importFrom magrittr set_names
 #' @importFrom tools Rd_db
 #' @importFrom whisker whisker.render

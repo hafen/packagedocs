@@ -50,7 +50,7 @@ lazy_widgets_dir <- function() {
 # ' @param index_file_rmd name of index file to be created
 # ' @param rd_file_rmd name of rd file to be created
 # ' @param build_file boolean to determine if the build file should be produced
-# ' @export
+#' @export
 init_vignettes <- function(
   code_path = ".",
   title = NULL,
@@ -135,7 +135,8 @@ init_vignettes <- function(
 
   ## rd_index.yaml
   ##---------------------------------------------------------
-  yaml_template <- init_skeleton(rd_index_file_yaml())
+  rd_index_file_yaml <- rd_index_file_yaml()
+  yaml_template <- init_skeleton(rd_index_file_yaml)
 
   code_path %>%
     as_sd_package() %>%

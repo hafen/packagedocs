@@ -103,6 +103,23 @@ lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
   }
 }
 
+
+#' Render vignette files
+#'
+#' @param docs_path location of index file
+#' @param code_path location of library
+#' @param toc_collapse boolean to determine if the table of contents should be collapsed
+#' @param lib_dir directory where all assets are kept
+#' @param lib_dir_bak backup directory where all assets are kept
+#' @param render boolean to determine if the files should be rendered
+#' @param view_output boolean to determine if a browser should be opened to the files
+#' @param input_file_rmd rmd file input
+#' @param output_file_html html file where the output is placed
+#' @param self_contained boolean to determine if the html should be fully self contained
+#' @param shell_build boolean to determine if the html should redirect to the github location of the package
+#' @param verbose boolean to determine if ouput should be displayed
+#' @rdname vignette_render
+#' @export
 vig_render_index <- function(
   docs_path, code_path,
   toc_collapse = TRUE,
@@ -159,6 +176,11 @@ vig_render_index <- function(
 
 
 
+#' @param run_examples boolean to determine if the examples should be executed
+#' @param rd_index location of yaml file that describes the function references of the package.  Defaults to "rd_index.yaml"
+#' @param temp_file_rmd temp rmd file that is a concatination of the input_file_rmd and the compiled rd_index.yaml file
+#' @rdname vignette_render
+#' @export
 vig_render_rd <- function(
   docs_path, code_path,
   toc_collapse = FALSE,
