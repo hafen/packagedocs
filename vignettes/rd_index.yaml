@@ -29,7 +29,8 @@
 -
   section_name: Loess Objects
   topics:
-    - test_keyword
+    -
+      title: test_keyword
 -
   section_name: Debugging Tools
   topics:
