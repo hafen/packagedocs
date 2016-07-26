@@ -5,8 +5,8 @@
 \title{Generate rd.html file}
 \usage{
 render_rd(rd_skeleton, code_path, rd_index = NULL, exclude = NULL,
-  output_format = NULL, output = ".", output_file_rmd = "rd.Rmd",
-  output_file_html = "rd.html", run_examples = FALSE, verbose = TRUE)
+  output_format = NULL, output = ".", output_file_rmd = rd_file_rmd(),
+  output_file_html = rd_file_html(), run_examples = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{rd_skeleton}{path to a .Rmd file that contains the header to use for the rd.Rmd}

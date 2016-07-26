@@ -5,7 +5,7 @@
 \title{Generate the text to put in a rd.rmd file to build a package function reference}
 \usage{
 rd_template(code_path, rd_index = NULL, exclude = NULL,
-  run_examples = FALSE)
+  run_examples = FALSE, img_path = rd_img_dir())
 }
 \arguments{
 \item{code_path}{path to the source code directory of the package}

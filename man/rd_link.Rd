@@ -4,7 +4,7 @@
 \alias{rd_link}
 \title{Translate a reference to a package function into a link to that function's documentation in rd.html}
 \usage{
-rd_link(txt, rd_page = "rd.html")
+rd_link(txt, rd_page = rd_file_html())
 }
 \arguments{
 \item{txt}{a string or expression referencing a function or other Rd object}

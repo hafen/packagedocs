@@ -5,7 +5,10 @@
 \title{Build shell and gh-pages vignettes}
 \usage{
 build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
-  output_dir = "_gh-pages", devtools = FALSE)
+  output_dir = "_gh-pages", devtools = FALSE,
+  extra_dirs = file.path("vignettes", c(lazy_widgets_dir(), assets_dir(),
+  index_files_dir(), rd_files_dir())), delete_files = file.path("vignettes",
+  c(rd_temp_file_rmd(), ".build.timestamp", rd_file_html(), index_file_html())))
 }
 \arguments{
 \item{pkg}{path to package. Provided directly to \code{devtools::\link[devtools]{as.package}()}}
