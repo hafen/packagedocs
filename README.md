@@ -122,6 +122,12 @@ By default, if it is the master branch and it is not a pull request, `packagedoc
 Please look at `?packagedocs::deploy_travis` for more information.
 
 
+## Mixing Vignette Engines
+
+Package docs may be built along side other vignette engines, such as `knitr`. I will use `knitr` as an example in the section.
+
+To include other vignette engines, set your `VignetteBuilder` line in the `DESCRIPTION` file to be `VignetteBuilder: packagedocs,knitr`.  When the regular vignette build process occurs, the non-packagedocs vignettes will be build like normal, and the packagedocs vignettes will produce shells.  `packagedocs::build_vignettes()` and `packagedocs::deploy_travis()` will generate all vignette files (even non-packagedocs vignettes).  Feel free to add your other vignettes to the `navpills` section of `index.Rmd` and `rd.Rmd` vignettes for in between vignette navigation.
+
 ## Notes
 
 This was built primarily for my purposes where the goal is to have a main page for an R package with tutorial/vignette-like content paired with a web version of the .Rd documentation.  This package is similar to (and uses) [staticdocs](https://github.com/hadley/staticdocs) and supplants an earlier similar effort, [buildDocs](https://github.com/hafen/buildDocs).  That previous effort was quite hacky.  This current effort leverages rmarkdown to make it simpler and easier to embed htmlwidgets, etc.
