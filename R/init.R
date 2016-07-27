@@ -144,8 +144,7 @@ init_vignettes <- function(
 
   ## rd_index.yaml
   ##---------------------------------------------------------
-  rd_index_file_yaml <- rd_index_file_yaml()
-  yaml_template <- init_skeleton(rd_index_file_yaml)
+  yaml_template <- init_skeleton("rd_index.yaml")
 
   code_path %>%
     as_sd_package() %>%
@@ -160,9 +159,9 @@ init_vignettes <- function(
   )
 
   cat(whisker::whisker.render(yaml_template, args),
-    file = file.path(docs_path, "rd_index.yaml"))
+    file = file.path(docs_path, rd_index_file_yaml()))
 
-  docs <- c(index_file_rmd, rd_file_rmd, rd_index_file_yaml)
+  docs <- c(index_file_rmd, rd_file_rmd, rd_index_file_yaml())
   # if (build_file) {
   #   docs <- append(docs, "build.R")
   # }
