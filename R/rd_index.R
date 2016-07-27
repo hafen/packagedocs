@@ -63,6 +63,9 @@ display_current_rd_index <- function(rd_index) {
       section_info$topics
       section_info
     }) %>%
-    yaml::as.yaml() %>%
-    message("\nrd_index yaml file to be used: \n", .)
+    yaml::as.yaml() ->
+  yaml_output
+
+  message("\nrd_index yaml file to be used: \n", yaml_output)
+  invisible()
 }
