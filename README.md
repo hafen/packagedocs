@@ -5,13 +5,13 @@ Build an R package documentation website using [rmarkdown](http://rmarkdown.rstu
 
 ## Installation
 
-Simple installation:
+<!-- Simple installation:
 
 ```s
 options(repos = c(tessera = "http://packages.tessera.io",
   getOption("repos")))
 install.packages("packagedocs")
-```
+``` -->
 
 From github with devtools:
 
