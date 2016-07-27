@@ -2,7 +2,6 @@
 # All @export tags were removed as it is only for internal use
 
 
-
 # ' Parse an rd file in to staticdocs format.
 # '
 # ' Rd files are pretty printed with structural elements coloured blue, and
@@ -15,7 +14,8 @@
 # ' @examples
 # ' parse_rd("whisker.render", "whisker")
 parse_rd <- function(topic, package) {
-  rd_raw <- utils:::.getHelpFile(rd_path(topic, package))
+  get_help_file <- getFromNamespace(".getHelpFile", "utils")
+  rd_raw <- get_help_file(rd_path(topic, package))
   rd <- structure(set_classes(rd_raw), class = "Rd_content")
   attr(rd, "Rd_tag") <- "Rd file"
   print(rd)

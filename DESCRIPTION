@@ -12,6 +12,7 @@ License: MIT + file LICENSE
 URL: https://github.com/schloerke/packagedocs
 LazyData: true
 Imports:
+    crayon,
     devtools,
     digest,
     evaluate,

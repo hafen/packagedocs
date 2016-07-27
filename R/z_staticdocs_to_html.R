@@ -1,5 +1,6 @@
 # This file is taken directly from https://github.com/hadley/staticdocs/blob/master/R/to-html.r
 # All @export tags were removed as it is only for internal use
+# to_html.examples will now just return
 #
 
 
@@ -170,13 +171,14 @@ parse_section <- function(x, title, ...) {
 #' @importFrom evaluate evaluate
 # ' @export
 to_html.examples <- function(x, pkg, topic = "unknown", env = new.env(parent = globalenv()), ...) {
-  if (!pkg$examples) return()
+  # if (!pkg$examples)
+  return()
 
-  # First element of examples tag is always empty
-  text <- to_html.TEXT(x[-1], ...)
-  expr <- evaluate(text, env, new_device = TRUE)
-
-  replay_html(expr, pkg = pkg, name = str_c(topic, "-"))
+  # # First element of examples tag is always empty
+  # text <- to_html.TEXT(x[-1], ...)
+  # expr <- evaluate(text, env, new_device = TRUE)
+  #
+  # replay_html(expr, pkg = pkg, name = str_c(topic, "-"))
 }
 
 # Arguments ------------------------------------------------------------------
