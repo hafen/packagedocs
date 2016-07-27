@@ -13,7 +13,6 @@ to_html_rd_doc <- getFromNamespace("to_html.Rd_doc", loadNamespace("staticdocs")
 #' @param rd_index path to yaml file with index layout information
 #' @param exclude vector of Rd entry names to exclude from the resulting document
 #' @param run_examples boolean to determine if examples should be run
-#' @param img_path directory where all evaluated images should be saved
 #' @importFrom magrittr set_names
 #' @importFrom tools Rd_db
 #' @importFrom whisker whisker.render
@@ -21,18 +20,9 @@ to_html_rd_doc <- getFromNamespace("to_html.Rd_doc", loadNamespace("staticdocs")
 #' @import stringr
 # @import staticdocs
 #' @export
-rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples = FALSE, img_path = rd_img_dir()) {
+rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples = FALSE) {
 
-  if (!dir.exists(img_path)) {
-    dir.create(img_path)
-  }
   rd_info <- as_sd_package(code_path)
-  on.exit({
-    # if no images exist, delete the folder
-    if (length(dir(img_path)) == 0) {
-      unlink(img_path)
-    }
-  })
 
   # This should be done in init
     # # Under what conditions do we add `package_name` to exclude?
@@ -113,8 +103,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
       lapply(function(alias_info) {
         try(get_rd_data(
           alias_info,
-          rd_info,
-          img_path = img_path
+          rd_info
         ))
       }) ->
     entries
@@ -178,8 +167,7 @@ fix_hrefs <- function(x) {
 }
 
 get_rd_data <- function(
-  alias_info, rd_info, img_path
-  # alias_file, rd_info, title, img_path
+  alias_info, rd_info
 ) {
   alias_file <- alias_info$file
 
@@ -190,7 +178,7 @@ get_rd_data <- function(
   }
 
   # use to_html.rd_doc to convert nicely to a list
-  data <- to_html_rd_doc(rd_obj, pkg = rd_info, topic = file.path(img_path, "pic"))
+  data <- to_html_rd_doc(rd_obj, pkg = rd_info)
 
   data$examples <- rd_info$example_text[[alias_file]]
   data$eval_example <- as.character(alias_info$run_examples)
