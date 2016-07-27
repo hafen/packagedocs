@@ -22,7 +22,6 @@ Imports:
     lazyrmd,
     magrittr,
     rmarkdown,
-    staticdocs,
     stringr,
     tools,
     whisker,
