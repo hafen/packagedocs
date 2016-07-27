@@ -5,7 +5,7 @@
 \title{Generate the text to put in a rd.rmd file to build a package function reference}
 \usage{
 rd_template(code_path, rd_index = NULL, exclude = NULL,
-  run_examples = FALSE, img_path = rd_img_dir())
+  run_examples = FALSE)
 }
 \arguments{
 \item{code_path}{path to the source code directory of the package}
@@ -15,8 +15,6 @@ rd_template(code_path, rd_index = NULL, exclude = NULL,
 \item{exclude}{vector of Rd entry names to exclude from the resulting document}
 
 \item{run_examples}{boolean to determine if examples should be run}
-
-\item{img_path}{directory where all evaluated images should be saved}
 }
 \description{
 Generate the text to put in a rd.rmd file to build a package function reference

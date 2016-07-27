@@ -9,16 +9,16 @@ vig_render_index(docs_path, code_path, toc_collapse = TRUE,
   lib_dir = assets_dir(), lib_dir_bak = paste(lib_dir, "_main_bak", sep =
   ""), render = TRUE, view_output = TRUE,
   input_file_rmd = index_file_rmd(), output_file_html = index_file_html(),
-  self_contained = is_self_contained_build(),
-  shell_build = is_shell_build(), verbose = TRUE)
+  self_contained = is_self_contained_build(), cran_build = is_cran_build(),
+  verbose = TRUE)
 
 vig_render_rd(docs_path, code_path, toc_collapse = FALSE,
   lib_dir = assets_dir(), lib_dir_bak = paste(lib_dir, "_rd_bak", sep = ""),
   run_examples = FALSE, render = TRUE, view_output = TRUE,
   rd_index = NULL, input_file_rmd = rd_temp_file_rmd(),
   temp_file_rmd = rd_file_rmd(), output_file_html = rd_file_html(),
-  self_contained = is_self_contained_build(),
-  shell_build = is_shell_build(), verbose = TRUE)
+  self_contained = is_self_contained_build(), cran_build = is_cran_build(),
+  verbose = TRUE)
 }
 \arguments{
 \item{docs_path}{location of index file}
@@ -41,7 +41,7 @@ vig_render_rd(docs_path, code_path, toc_collapse = FALSE,
 
 \item{self_contained}{boolean to determine if the html should be fully self contained}
 
-\item{shell_build}{boolean to determine if the html should redirect to the github location of the package}
+\item{cran_build}{boolean to determine if the html should redirect to the github location of the package}
 
 \item{verbose}{boolean to determine if ouput should be displayed}
 

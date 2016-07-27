@@ -7,7 +7,7 @@
 deploy_travis(repo = gsub(".*[:/]([^/]*/[^.]*)\\\\.git", "\\\\1",
   system("git config --get remote.origin.url", intern = TRUE)),
   valid_branches = "master", token_key = "GITHUB_TOKEN",
-  email = "travis@travis-ci.org", name = "Travis CI", allow_pulls = FALSE,
+  email = "travis@travis-ci.org", name = "Travis CI",
   output_dir = "_gh-pages")
 }
 \arguments{
@@ -21,11 +21,12 @@ deploy_travis(repo = gsub(".*[:/]([^/]*/[^.]*)\\\\.git", "\\\\1",
 
 \item{name}{name for commit}
 
-\item{allow_pulls}{allow pull requests to process. (defaults to FALSE)}
-
 \item{output_dir}{output directory to put the website in}
 }
 \description{
-Deploy to Github Pages from Travis-CI
+This function will generate both the CRAN vignettes and gh-pages vignettes. It will look for your personal github token (\code{GITHUB_TOKEN}) that the function may deploy to the gh-pages branch of the your package's github repo.
+}
+\details{
+The function is designed so that packagedocs will never ask for your token directly. It will only issue commands to the terminal which should evaluate with the necessary information.
 }
 

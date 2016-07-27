@@ -2,7 +2,7 @@
 % Please edit documentation in R/devtools.R
 \name{build_vignettes}
 \alias{build_vignettes}
-\title{Build shell and gh-pages vignettes}
+\title{Build CRAN and gh-pages vignettes}
 \usage{
 build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
   output_dir = "_gh-pages", devtools = FALSE,
@@ -24,6 +24,6 @@ build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
 \item{delete_files}{list of files that should be deleted if they still exist when the function ends}
 }
 \description{
-Build shell html vignettes that are placed in inst/doc/ that redirect to the gh-pages branch of the github url provided in the DESCRIPTION file.  This function is heavily inspired by \code{devtools::\link[devtools]{build_vignettes}()}.
+Build CRAN html redirect vignettes that are placed in inst/doc/ that redirect to the gh-pages branch of the github url provided in the DESCRIPTION file.  This function is heavily inspired by \code{devtools::\link[devtools]{build_vignettes}()}.
 }
 
