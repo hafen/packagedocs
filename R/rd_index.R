@@ -21,7 +21,6 @@ as_rd_index <- function(rd_index, run_examples) {
           topic <- topics[[topic_num]]
           if (is.character(topic)) {
             topic <- list(title = topic)
-            # message("Upgrading section: ", section_name, ", topic: ", topic$title, " title to ", topic$title)
           }
           if (is.null(topic$title)) {
             if (!is.null(topic$file)) {
@@ -32,11 +31,9 @@ as_rd_index <- function(rd_index, run_examples) {
           }
           if (is.null(topic$file)) {
             topic$file <- paste(topic$title, ".Rd", sep = "")
-            # message("Upgrading section: ", section_name, ", topic: ", topic$title, " file name to ", topic$file)
           }
           if (is.null(topic$run_examples)) {
             topic$run_examples <- run_examples
-            # message("Upgrading section: ", section_name, ", topic: ", topic$title, " run_examples name to ", topic$run_examples)
           }
 
           topic$index_id <- paste0("id_", topic_pos)
