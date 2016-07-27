@@ -12,6 +12,7 @@ License: MIT + file LICENSE
 URL: https://github.com/schloerke/packagedocs
 LazyData: true
 Imports:
+    devtools,
     htmltools,
     knitr,
     lazyrmd,
@@ -23,10 +24,8 @@ Imports:
     whisker,
     yaml
 Suggests:
-    devtools,
     testthat
 Remotes:
-  hadley/staticdocs,
   hafen/lazyrmd
 RoxygenNote: 5.0.1
 VignetteBuilder: packagedocs

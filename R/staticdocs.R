@@ -1,12 +1,10 @@
 
-staticdocs_to_html_text <- getFromNamespace("to_html.TEXT", "staticdocs")
-
 
 as_sd_package <- function(pkg_path, site_path = "./") {
   if (! dir.exists(site_path)) {
     dir.create(site_path)
   }
-  rd_info <- staticdocs::as.sd_package(
+  rd_info <- as.sd_package(
     pkg_path,
     examples = FALSE,
     site_path = site_path
@@ -19,7 +17,7 @@ as_sd_package <- function(pkg_path, site_path = "./") {
     if (any(tags == "examples")) {
       # get the example and remove the first item, like to_html.examples
       example_tag <- x[[which(tags == "examples")]]
-      staticdocs_to_html_text(example_tag[-1])
+      to_html.TEXT(example_tag[-1])
     } else {
       NULL
     }

@@ -1,11 +1,4 @@
 
-rd_get_metadata <- getFromNamespace(".Rd_get_metadata", loadNamespace("tools"))
-rd_path <- getFromNamespace("rd_path", loadNamespace("staticdocs"))
-set_classes <- getFromNamespace("set_classes", loadNamespace("staticdocs"))
-to_html_rd_doc <- getFromNamespace("to_html.Rd_doc", loadNamespace("staticdocs"))
-
-
-
 
 #' Generate the text to put in a rd.rmd file to build a package function reference
 #'
@@ -18,7 +11,6 @@ to_html_rd_doc <- getFromNamespace("to_html.Rd_doc", loadNamespace("staticdocs")
 #' @importFrom whisker whisker.render
 #' @importFrom yaml yaml.load_file
 #' @import stringr
-# @import staticdocs
 #' @export
 rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples = FALSE) {
 
@@ -182,7 +174,7 @@ get_rd_data <- function(
   }
 
   # use to_html.rd_doc to convert nicely to a list
-  data <- to_html_rd_doc(rd_obj, pkg = rd_info)
+  data <- to_html.Rd_doc(rd_obj, pkg = rd_info)
 
   data$examples <- rd_info$example_text[[alias_file]]
   data$eval_example <- as.character(alias_info$run_examples)
