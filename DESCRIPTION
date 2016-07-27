@@ -29,4 +29,4 @@ Remotes:
   hadley/staticdocs,
   hafen/lazyrmd
 RoxygenNote: 5.0.1
-VignetteBuilder: packagedocs,knitr
+VignetteBuilder: packagedocs
