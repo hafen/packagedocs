@@ -16,7 +16,7 @@ install.packages("packagedocs")
 From github with devtools:
 
 ```s
-devtools::install_github("hafen/packagedocs")
+devtools::install_github("schloerke/packagedocs")
 ```
 
 <!-- ## Usage
