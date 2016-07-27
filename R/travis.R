@@ -36,7 +36,6 @@ is_cran_build <- (function() {
 #' @param token_key key name that will be autofilled
 #' @param email email for commit
 #' @param name name for commit
-#' @param allow_pulls allow pull requests to process. (defaults to FALSE)
 #' @param output_dir output directory to put the website in
 #' @export
 deploy_travis <- function(
@@ -50,7 +49,6 @@ deploy_travis <- function(
   token_key = "GITHUB_TOKEN",
   email = "travis@travis-ci.org",
   name = "Travis CI",
-  allow_pulls = FALSE,
   output_dir = "_gh-pages"
 ) {
   requireNamespace("devtools")
@@ -84,7 +82,7 @@ deploy_travis <- function(
     return()
   }
 
-  if (travis_pull_request != "false" && allow_pulls) {
+  if (travis_pull_request != "false") {
     cat("Pull requests are not allowed to deploy. Exiting")
     return()
   }
