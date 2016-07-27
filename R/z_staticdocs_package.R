@@ -1,5 +1,7 @@
 # This file is taken directly from https://github.com/hadley/staticdocs/blob/master/R/package.r
 # All @export tags were removed as it is only for internal use
+# pkg$index was removed
+# pkg$icons was removed
 #
 
 
@@ -40,10 +42,13 @@ as.sd_package <- function(
   class(pkg) <- c("sd_package", "package")
   pkg$sd_path <- pkg_sd_path(pkg, site_path = site_path)
 
-  pkg$index <- load_index(pkg)
-  pkg$icons <- load_icons(pkg)
+  # pkg$index <- load_index(pkg)
+  # pkg$icons <- load_icons(pkg)
+  pkg$index <- list()
+  pkg$icons <- list()
 
-  settings <- load_settings(pkg)
+  # settings <- load_settings(pkg)
+  settings <- list()
   pkg$site_path <- site_path %||% settings$site_path %||% "inst/web"
   pkg$examples <- examples %||% settings$examples %||% TRUE
   pkg$templates_path <- templates_path %||% settings$templates_path %||%
