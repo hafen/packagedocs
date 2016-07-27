@@ -141,7 +141,11 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
 
   package_load <- paste("
   ```{r echo=FALSE}
-  suppressWarnings(suppressMessages(library(", rd_info$package, ", quietly = TRUE, warn.conflicts = FALSE, verbose = FALSE)))
+  suppressWarnings(suppressMessages(
+    library(", rd_info$package, ",
+      quietly = TRUE, warn.conflicts = FALSE, verbose = FALSE
+    )
+  ))
   ```
   ", sep = "")
 
