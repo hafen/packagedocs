@@ -5,7 +5,7 @@ sudo: false
 cache: packages
 
 before_script:
-  # install the pkg so it can be used as a vig builder
+  # install the pkg so it can be used as a vig builder (only necessary for packagedocs)
   - Rscript -e "devtools::install()"
 
 # install locally to avoid rev dep
