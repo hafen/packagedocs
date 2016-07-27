@@ -52,9 +52,9 @@ copy_vignettes_and_assets <- function (
 
 devtools_copy_vignettes <- getFromNamespace("copy_vignettes", "devtools")
 
-#' Build shell and gh-pages vignettes
+#' Build CRAN and gh-pages vignettes
 #'
-#' Build shell html vignettes that are placed in inst/doc/ that redirect to the gh-pages branch of the github url provided in the DESCRIPTION file.  This function is heavily inspired by \code{devtools::\link[devtools]{build_vignettes}()}.
+#' Build CRAN html redirect vignettes that are placed in inst/doc/ that redirect to the gh-pages branch of the github url provided in the DESCRIPTION file.  This function is heavily inspired by \code{devtools::\link[devtools]{build_vignettes}()}.
 #' @param pkg path to package. Provided directly to \code{devtools::\link[devtools]{as.package}()}
 #' @param dependencies supplied directly to \code{devtools::\link[devtools]{install_deps}()}
 #' @param output_dir directory where the fully contained vignette directory should be exported
@@ -84,7 +84,7 @@ build_vignettes <- function (
   on.exit({
     # make sure the defaults are set back to expected behavior
     is_self_contained_build(is_self_contained_build_default())
-    is_shell_build(is_shell_build_default())
+    is_cran_build(is_cran_build_default())
 
     # remove all temp directories if an error occurs
     for (fp in extra_dirs) {
@@ -121,11 +121,11 @@ build_vignettes <- function (
 
   is_self_contained_build(FALSE)
 
-  is_shell_build(TRUE)
+  is_cran_build(TRUE)
   tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = TRUE)
   devtools_copy_vignettes(pkg)
 
-  is_shell_build(FALSE)
+  is_cran_build(FALSE)
   tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = FALSE)
   copy_vignettes_and_assets(
     pkg,

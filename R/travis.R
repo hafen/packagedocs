@@ -14,17 +14,17 @@ is_self_contained_build <- (function() {
   }
 })()
 
-is_shell_build_default <- function() {
+is_cran_build_default <- function() {
   TRUE
 }
-is_shell_build <- (function() {
-  is_shell <- is_shell_build_default()
+is_cran_build <- (function() {
+  is_cran <- is_cran_build_default()
   function(val) {
     if (missing(val)) {
-      return(is_shell)
+      return(is_cran)
     }
-    is_shell <<- as.logical(val)
-    return(is_shell)
+    is_cran <<- as.logical(val)
+    return(is_cran)
   }
 })()
 

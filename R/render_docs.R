@@ -116,7 +116,7 @@ lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
 #' @param input_file_rmd rmd file input
 #' @param output_file_html html file where the output is placed
 #' @param self_contained boolean to determine if the html should be fully self contained
-#' @param shell_build boolean to determine if the html should redirect to the github location of the package
+#' @param cran_build boolean to determine if the html should redirect to the github location of the package
 #' @param verbose boolean to determine if ouput should be displayed
 #' @rdname vignette_render
 #' @export
@@ -129,7 +129,7 @@ vig_render_index <- function(
   input_file_rmd = index_file_rmd(),
   output_file_html = index_file_html(),
   self_contained = is_self_contained_build(),
-  shell_build = is_shell_build(),
+  cran_build = is_cran_build(),
   verbose = TRUE
 ) {
 
@@ -157,11 +157,11 @@ vig_render_index <- function(
 
   # generate index.html
   if (render) {
-    if (shell_build) {
-      wrapper_fn(render_shell(
+    if (cran_build) {
+      wrapper_fn(render_cran(
         code_path = code_path,
         output_file_html = output_file_html,
-        is_rd_shell = FALSE
+        is_rd_cran = FALSE
       ))
     } else {
       wrapper_fn(render(input_file_rmd, output_format = pdof1, quiet = !verbose))
@@ -193,7 +193,7 @@ vig_render_rd <- function(
   temp_file_rmd = rd_file_rmd(),
   output_file_html = rd_file_html(),
   self_contained = is_self_contained_build(),
-  shell_build = is_shell_build(),
+  cran_build = is_cran_build(),
   verbose = TRUE
 ) {
 
@@ -224,11 +224,11 @@ vig_render_rd <- function(
       self_contained = self_contained
     )
 
-    if (shell_build) {
-      render_shell(
+    if (cran_build) {
+      render_cran(
         code_path = code_path,
         output_file_html = output_file_html,
-        is_rd_shell = TRUE
+        is_rd_cran = TRUE
       )
     } else {
       wrapper_fn(render_rd(
