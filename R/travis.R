@@ -31,6 +31,10 @@ is_cran_build <- (function() {
 
 #' Deploy to Github Pages from Travis-CI
 #'
+#' This function will generate both the CRAN vignettes and gh-pages vignettes. It will look for your personal github token (\code{GITHUB_TOKEN}) that the function may deploy to the gh-pages branch of the your package's github repo.
+#'
+#' The function is designed so that packagedocs will never ask for your token directly. It will only issue commands to the terminal which should evaluate with the necessary information.
+#'
 #' @param repo character string that has the form USER/REPO
 #' @param valid_branches branch name(s) that are allowed to deploy
 #' @param token_key key name that will be autofilled
@@ -105,8 +109,8 @@ deploy_travis <- function(
     "set -e
 
     # config
-    git config --global user.email \"travis@travis-ci.org\"
-    git config --global user.name \"Travis CI\"
+    git config --global user.email \"", email, "\"
+    git config --global user.name \"", name, "\"
 
     # deploy
     git init      # resets the repo in the website folder
