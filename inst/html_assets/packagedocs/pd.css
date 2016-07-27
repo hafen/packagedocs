@@ -78,7 +78,7 @@ h2 {
 /* make sure pre wraps */
 .hljs {
   word-wrap: normal;
-  white-space: pre;
+  white-space: pre-wrap;
 }
 
 pre.r-output {
