@@ -104,13 +104,13 @@ set_classes <- function(rd) {
   }
 }
 
-# ' @export
+#' @export
 as.list.Rd_content <- function(x, ...) {
   class(x) <- NULL
   x
 }
 
-# ' @export
+#' @export
 print.Rd_content <- function(x, ..., indent = 0) {
   current_tag <- tag(x)
   if (!is.null(current_tag)) {
@@ -121,13 +121,13 @@ print.Rd_content <- function(x, ..., indent = 0) {
   invisible()
 }
 
-# ' @export
+#' @export
 print.TEXT <- function(x, ..., indent = 0) block(x, indent, '"')
-# ' @export
+#' @export
 print.VERB <- function(x, ..., indent = 0) block(x, indent, "'")
-# ' @export
+#' @export
 print.RCODE <- function(x, ..., indent = 0) block(x, indent, ">")
-# ' @export
+#' @export
 print.COMMENT <- function(x, ..., indent = 0) block(x, indent, "%")
 
 block <- function(x, indent = 0, prefix = "'") {

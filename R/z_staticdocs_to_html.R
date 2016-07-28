@@ -4,23 +4,23 @@
 #
 
 
-# ' Convert an rdoc to a list of html components.
-# '
-# ' All span-level tags are converted to html, and higher level blocks are
-# ' returned as components of the list.
-# '
-# ' @return A list, suitable for rendering with
-# '   \code{\link[whisker]{whisker.render}}
-# ' @param x rd object to convert to html
-# ' @param ... other arguments passed onto to methods
-# ' @author Hadley Wickham from hadley/staticdocs
-#  ' @export
+#' Convert an rdoc to a list of html components.
+#'
+#' All span-level tags are converted to html, and higher level blocks are
+#' returned as components of the list.
+#'
+#' @return A list, suitable for rendering with
+#'   \code{\link[whisker]{whisker.render}}
+#' @param x rd object to convert to html
+#' @param ... other arguments passed onto to methods
+#' @author Hadley Wickham from hadley/staticdocs
+#' @export
 to_html <- function(x, ...) {
   UseMethod("to_html")
 }
 
 # Parse a complete Rd file
-# @export
+#' @export
 to_html.Rd_doc <- function(x, ...) {
   tags <- vapply(x, tag, FUN.VALUE = character(1))
   get_tags <- function(tag) x[tags == tag]
@@ -62,48 +62,48 @@ to_html.Rd_doc <- function(x, ...) {
 }
 
 # A list of elements should stay as a list
-# ' @export
+#' @export
 to_html.list <- function(x, ...) {
   lapply(x, to_html, ...)
 }
 
 # Elements that don't return anything ----------------------------------------
 
-# ' @export
+#' @export
 to_html.NULL <- function(x, ...) character(0)
-# ' @export
+#' @export
 to_html.COMMENT <- function(x, ...) character(0)
-# ' @export
+#' @export
 to_html.dontshow <- function(x, ...) character(0)
-# ' @export
+#' @export
 to_html.testonly <- function(x, ...) character(0)
-# ' @export
+#' @export
 to_html.concept <- function(x, ...) character(0)
 
 # Various types of text ------------------------------------------------------
 
 # All components inside a text string should be collapsed into a single string
 # Also need to do html escaping here and in to_html.RCODE
-# ' @export
+#' @export
 to_html.TEXT <- function(x, ...) {
   str_c(unlist(to_html.list(x, ...)), collapse = "")
 }
-# ' @export
+#' @export
 to_html.RCODE <- to_html.TEXT
-# ' @export
+#' @export
 to_html.LIST <- to_html.TEXT
-# ' @export
+#' @export
 to_html.VERB <- to_html.TEXT
 
 # If it's a character vector, we've got to the leaves of the tree
-# ' @export
+#' @export
 to_html.character <- function(x, ...) x
 
-# ' @export
+#' @export
 to_html.name <- function(x, ...) to_html(x[[1]], ...)
-# ' @export
+#' @export
 to_html.title <- function(x, ...) to_html.TEXT(x, ...)
-# ' @export
+#' @export
 to_html.usage <- function(x, pkg, ...) {
   text <- paste(to_html.TEXT(x, ...), collapse = "\n")
 
@@ -120,23 +120,23 @@ to_html.usage <- function(x, pkg, ...) {
 
   src_highlight(text, pkg$rd_index)
 }
-# ' @export
+#' @export
 to_html.alias <- function(x, ...) unlist(to_html.list(x, ...))
-# ' @export
+#' @export
 to_html.keyword <- function(x, ...) unlist(to_html.list(x, ...))
-# ' @export
+#' @export
 to_html.seealso <- function(x, ...) to_html.TEXT(x, ...)
-# ' @export
+#' @export
 to_html.author <- function(x, ...) to_html.TEXT(x, ...)
 
 
 # Sections get a element called text and an element called content, which
 # contains a list of paragraphs.
-# ' @export
+#' @export
 to_html.details <- function(x, ...) parse_section(x, "Details", ...)
-# ' @export
+#' @export
 to_html.description <- function(x, ...) parse_section(x, "Description", ...)
-# ' @export
+#' @export
 to_html.value <- function(x, ...) {
   # Note that \value is implicitly a \describe environment
   class(x) <- c("describe", class(x))
@@ -146,15 +146,15 @@ to_html.value <- function(x, ...) {
 
   list(title = "Value", contents = paras)
 }
-# ' @export
+#' @export
 to_html.references <- function(x, ...) parse_section(x, "References", ...)
-# ' @export
+#' @export
 to_html.source <- function(x, ...) parse_section(x, "Source", ...)
-# ' @export
+#' @export
 to_html.format <- function(x, ...) parse_section(x, "Format", ...)
-# ' @export
+#' @export
 to_html.note <- function(x, ...) parse_section(x, "Note", ...)
-# ' @export
+#' @export
 to_html.section <- function(x, ...) {
   parse_section(x[[2]], to_html(x[[1]], ...), ...)
 }
@@ -169,7 +169,7 @@ parse_section <- function(x, title, ...) {
 # Examples ------------------------------------------------------------------
 
 #' @importFrom evaluate evaluate
-# ' @export
+#' @export
 to_html.examples <- function(x, pkg, topic = "unknown", env = new.env(parent = globalenv()), ...) {
   # if (!pkg$examples)
   return()
@@ -183,13 +183,13 @@ to_html.examples <- function(x, pkg, topic = "unknown", env = new.env(parent = g
 
 # Arguments ------------------------------------------------------------------
 
-# ' @export
+#' @export
 to_html.arguments <- function(x, ...) {
   items <- Filter(function(x) tag(x) == "item", x)
   to_html(items, ...)
 }
 
-# ' @export
+#' @export
 to_html.item <- function(x, ...) {
   # If no subelements, then is an item from a itemise or enumerate, and
   # is dealt with those methods
@@ -200,7 +200,7 @@ to_html.item <- function(x, ...) {
 
 # Equations ------------------------------------------------------------------
 
-# ' @export
+#' @export
 to_html.eqn <- function(x, pkg, ...) {
   stopifnot(length(x) <= 2)
   ascii_rep <- x[[length(x)]]
@@ -211,7 +211,7 @@ to_html.eqn <- function(x, pkg, ...) {
   }
 }
 
-# ' @export
+#' @export
 to_html.deqn <- function(x, pkg, ...) {
   stopifnot(length(x) <= 2)
   if (pkg$mathjax){
@@ -222,18 +222,18 @@ to_html.deqn <- function(x, pkg, ...) {
 }
 
 # Links ----------------------------------------------------------------------
-# ' @export
+#' @export
 to_html.url <- function(x, ...) {
   stopifnot(length(x) == 1)
   str_c("<a href = '", to_html.TEXT(x[[1]]), "'>", to_html.TEXT(x[[1]]), "</a>")
 }
-# ' @export
+#' @export
 to_html.href <- function(x, ...) {
   stopifnot(length(x) == 2)
   str_c("<a href = '", to_html.TEXT(x[[1]]), "'>", to_html.TEXT(x[[2]]),
     "</a>")
 }
-# ' @export
+#' @export
 to_html.email <- function(x, ...) {
   stopifnot(length(x) %in% c(1L, 2L))
   str_c("<a href='mailto:", x[[1]], "'>", x[[length(x)]], "</a>")
@@ -241,7 +241,7 @@ to_html.email <- function(x, ...) {
 
 
 # If single, need to look up alias to find file name and package
-# ' @export
+#' @export
 to_html.link <- function(x, pkg, ...) {
   stopifnot(length(x) == 1)
 
@@ -297,12 +297,12 @@ builtin_packages <- c("base", "boot", "class", "cluster", "codetools", "compiler
 # Miscellaneous --------------------------------------------------------------
 
 # First element of enc is the encoded version (second is the ascii version)
-# ' @export
+#' @export
 to_html.enc <- function(x, ...) {
   to_html(x[[1]], ...)
 }
 
-# ' @export
+#' @export
 to_html.dontrun <- function(x, ...) {
   if (length(x) == 1) {
     str_c("## Not run: " , to_html.TEXT(x))
@@ -315,7 +315,7 @@ to_html.dontrun <- function(x, ...) {
   }
 }
 
-# ' @export
+#' @export
 to_html.special <- function(x, ...) {
   txt <- to_html.TEXT(x, ...)
   # replace '<' and '>' with html markings avoid browser misinterpretation
@@ -331,22 +331,22 @@ to_html.special <- function(x, ...) {
   str_c("<em>", txt, "</em>")
 }
 
-# ' @export
+#' @export
 to_html.method <- function(x, ...) {
   str_c('"', to_html(x[[1]], ...), '"')
 }
-# ' @export
+#' @export
 to_html.S3method <- to_html.method
-# ' @export
+#' @export
 to_html.S4method <- to_html.method
 
-# ' @export
+#' @export
 to_html.docType <- function(...) NULL
 
 
 # Conditionals and Sexprs ----------------------------------------------------
 
-# ' @export
+#' @export
 #' @importFrom tools parse_Rd
 to_html.Sexpr <- function(x, env, ...) {
   code <- to_html.TEXT(x)
@@ -361,20 +361,20 @@ to_html.Sexpr <- function(x, env, ...) {
   to_html.TEXT(rd, ...)
 }
 
-# ' @export
+#' @export
 to_html.if <- function(x, ...) {
   if (x[[1]] != "html") return()
   x[[2]]
 }
 
-# ' @export
+#' @export
 to_html.ifelse <- function(x, ...) {
   if (x[[1]] == "html") x[[2]] else x[[3]]
 }
 
 # Tables ---------------------------------------------------------------------
 
-# ' @export
+#' @export
 to_html.tabular <- function(x, ...) {
   align_abbr <- str_split(to_html(x[[1]], ...), "")[[1]][-1]
   align_abbr <- align_abbr[!(align_abbr %in% c("|", ""))]
@@ -401,23 +401,23 @@ to_html.tabular <- function(x, ...) {
   str_c("<table>", str_c("<tr>", rows, "</tr>", collapse = ""), "</table>")
 }
 
-# ' @export
+#' @export
 to_html.tab <- function(x, ...) character(0)
-# ' @export
+#' @export
 to_html.cr <- function(x, ...) character(0)
 
 
 # List -----------------------------------------------------------------------
 
-# ' @export
+#' @export
 to_html.itemize <- function(x, ...) {
   str_c("<ul>\n", parse_items(x[-1], ...), "</ul>\n")
 }
-# ' @export
+#' @export
 to_html.enumerate <- function(x, ...) {
   str_c("<ol>\n", parse_items(x[-1], ...), "</ol>\n")
 }
-# ' @export
+#' @export
 to_html.describe <- function(x, ...) {
   str_c("<dl>\n", parse_descriptions(x[-1], ...), "</dl>\n")
 }
@@ -457,7 +457,7 @@ parse_descriptions <- function(rd, ...) {
 
 # Simple tags that need minimal processing -----------------------------------
 
-# ' @export
+#' @export
 to_html.Rd_content <- function(x, ...) {
   tag <- tag(x)
 

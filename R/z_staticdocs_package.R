@@ -126,7 +126,7 @@ extract_name <- function(x) {
 }
 
 
-# ' @export
+#' @export
 print.sd_package <- function(x, ...) {
   cat("Package: ", x$package, " @ ", dirname(x$path), " -> ", x$site_path,
     "\n", sep = "")
