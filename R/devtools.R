@@ -111,14 +111,12 @@ build_vignettes <- function (
     return()
   }
 
-  if (inherits(try(getNamespace(pkg$package), silent = TRUE), "try-error")) {
-    message("Installing ", pkg$package)
-    devtools::install(pkg$path)
+  if (pkg$package != "packagedocs") {
+    message("Installing dependencies")
+    devtools::install_deps(pkg, dependencies, upgrade = FALSE)
   }
 
-  devtools::install_deps(pkg, dependencies, upgrade = FALSE)
   message("Building ", pkg$package, " vignettes")
-
   is_self_contained_build(FALSE)
 
   is_cran_build(TRUE)
