@@ -6,8 +6,4 @@ linters: with_defaults(
   )
 exclusions:
   list(
-    "R/z_staticdocs_highlight.R",
-    "R/z_staticdocs_package.R",
-    "R/z_staticdocs_to_html.R",
-    "R/z_staticdocs_util.R"
   )

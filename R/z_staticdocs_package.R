@@ -1,3 +1,5 @@
+# nolint start
+
 # This file is taken directly from https://github.com/hadley/staticdocs/blob/master/R/package.r
 # All @export tags were removed as it is only for internal use
 # pkg$index was removed
@@ -136,3 +138,5 @@ print.sd_package <- function(x, ...) {
   cat("Topics:\n", paste(topics, collapse = "\n"), "\n", sep = "")
 
 }
+
+# nolint end

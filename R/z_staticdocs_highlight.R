@@ -1,3 +1,4 @@
+# nolint start
 # This file is taken directly from https://github.com/hadley/staticdocs/blob/master/R/highlight.r
 # All @export tags were removed as it is only for internal use
 
@@ -31,3 +32,5 @@ src_highlight <- function(text, index) {
   out <- out[-c(1, length(out))]
   str_c(out, collapse = "\n")
 }
+
+# nolint end

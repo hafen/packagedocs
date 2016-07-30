@@ -1,3 +1,5 @@
+# nolint start
+
 # This file is taken directly from https://github.com/hadley/staticdocs/blob/master/R/to-html.r
 # All @export tags were removed as it is only for internal use
 # to_html.examples will now just return
@@ -504,3 +506,6 @@ simple_tags <- list(
   "var" =          c("<var>", "</var>"),
   "verb" =         c("<code>", "</code>")
 )
+
+
+# nolint end

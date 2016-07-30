@@ -1,3 +1,5 @@
+# nolint start
+
 # This file is taken directly from https://github.com/hadley/staticdocs/blob/master/R/util.r
 # All @export tags were removed as it is only for internal use
 #
@@ -37,3 +39,6 @@ pkg_sd_path <- function(package, site_path) {
 "%||%" <- function(a, b) {
   if (!is.null(a)) a else b
 }
+
+
+# nolint end
