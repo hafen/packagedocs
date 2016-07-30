@@ -42,9 +42,7 @@ install.packages("packagedocs")
 
 From github with devtools:
 
-```{r install}
-devtools::install_github("schloerke/packagedocs")
-```
+<pre class="r"><code>`r rdl(devtools::install_github("schloerke/packagedocs"))`</code></pre>
 
 # Motivation
 
@@ -68,9 +66,7 @@ I recommend initializing your vignettes once your package is no longer rapidly c
 
 From your package directory...
 
-```{r init}
-packagedocs::init_vignettes()
-```
+<pre class="r"><code>`r rdl(packagedocs::init_vignettes())`</code></pre>
 
 This will produce four files in the `vignettes` folder: `index.Rmd`, `rd_index.yaml`, `rd.Rmd`, `.install_extras`.
 
@@ -94,7 +90,7 @@ When R CMD build builds the vignettes, it copies these and the vignette sources 
 
 ## Editing your `rd_index.yaml`
 
-This file will be auto-generated from `packagedocs::init_vignettes()`.  It will contain a list of `section_name` and `topics` pairs.  The `topics` field is a list of items that can either be a character string or an object.  
+This file will be auto-generated from `r rdl(packagedocs::init_vignettes())`.  It will contain a list of `section_name` and `topics` pairs.  The `topics` field is a list of items that can either be a character string or an object.  
 
 A topic may be a single character string.  This will be upgraded at run time.  The folowing example will produce the same topic:
 
@@ -176,7 +172,7 @@ This will allow travis to publish to your specific repo.
 To deploy (all) your gh-pages vignettes, add this config to your `.travis.yml` file:
 
 <pre><code class = "hljs">after_success:
-  - Rscript -e "packagedocs::deploy_travis()"
+  - Rscript -e "`r rdl(packagedocs::deploy_travis())`"
 </code></pre>
 
 By default, if it is the master branch and it is not a pull request, `r rdl(packagedocs::deploy_travis())` will build both the CRAN vignettes and gh-pages vignettes.  `r rdl(deploy_travis())` will then deploy the generated `_gh-pages` folder (default) from Travis to the package's github repo. This forced commit will be done by "Travis CI" user (default).  
