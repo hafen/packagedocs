@@ -29,7 +29,6 @@ rdl <- function(x) packagedocs::rd_link(deparse(substitute(x)))
 
 Build an R package documentation website using [rmarkdown](http://rmarkdown.rstudio.com).  Example [here](http://hafen.github.io/rbokeh/) or ([here](http://tessera.io/docs-datadr/)).
 
-
 # Installation
 
 <!-- Simple installation:
@@ -38,7 +37,8 @@ Build an R package documentation website using [rmarkdown](http://rmarkdown.rstu
 options(repos = c(tessera = "http://packages.tessera.io",
   getOption("repos")))
 install.packages("packagedocs")
-``` -->
+```
+-->
 
 From github with devtools:
 
@@ -64,9 +64,10 @@ Compiling all of the necessary components into two self contained vignettes make
 
 ## Initialize your vignettes
 
-I recommend initializing your vignettes once your package is no longer rapidly changing as function names are auto-generated from the current state of the package.  Make sure to have your github repo stated in the `DESCRIPTION` file as one of the `URLS`.  This url is needed to determine where the gh-pages vignettes are deployed.
+I recommend initializing your vignettes once your package is no longer rapidly changing as function names are auto-generated from the current state of the package.  Make sure to have your github repo stated in the `DESCRIPTION` file as one of the `URL`s.  This url is needed to determine where the gh-pages vignettes are deployed.
 
 From your package directory...
+
 ```{r init}
 packagedocs::init_vignettes()
 ```
@@ -96,7 +97,8 @@ When R CMD build builds the vignettes, it copies these and the vignette sources 
 This file will be auto-generated from `packagedocs::init_vignettes()`.  It will contain a list of `section_name` and `topics` pairs.  The `topics` field is a list of items that can either be a character string or an object.  
 
 A topic may be a single character string.  This will be upgraded at run time.  The folowing example will produce the same topic:
-```
+
+```{cat}
 - my_function
 -
   title: my_function
@@ -118,7 +120,8 @@ The following topic object fields will be understood by `packagedocs`:
     * This field is optional
 
 The topics below will all produce the same information:
-```
+
+```{cat}
 - my_function
 -
   title: my_function
@@ -132,15 +135,13 @@ The topics below will all produce the same information:
 ## Checking your vignettes
 
 To check your vignette output, run:
-```{r}
-packagedocs::build_vignettes()
-```
+<pre class="r"><code>`r rdl(packagedocs::build_vignettes())`</code></pre>
 
 ## Mixing Vignette Engines
 
 Package docs may be built along side other vignette engines, such as `knitr`. `knitr` will be used as an example in the section.
 
-To include other vignette engines, set your `VignetteBuilder` line in the `DESCRIPTION` file to be `VignetteBuilder: packagedocs,knitr`.  When the regular vignette build process occurs, the non-`packagedocs` vignettes will be built like normal, and the `packagedocs` vignettes will produce html redirects to the gh-pages vignettes on github.  `packagedocs::build_vignettes()` and `packagedocs::deploy_travis()` will generate all vignette files (even non-`packagedocs` vignettes).  Feel free to add your other vignettes to the `navpills` header field of `index.Rmd` and `rd.Rmd` vignettes for in between vignette navigation.
+To include other vignette engines, set your `VignetteBuilder` line in the `DESCRIPTION` file to be `VignetteBuilder: packagedocs,knitr`.  When the regular vignette build process occurs, the non-`packagedocs` vignettes will be built like normal, and the `packagedocs` vignettes will produce html redirects to the gh-pages vignettes on github.  `r rdl(packagedocs::build_vignettes())` and `r rdl(packagedocs::deploy_travis())` will generate all vignette files (even non-`packagedocs` vignettes).  Feel free to add your other vignettes to the `navpills` header field of `index.Rmd` and `rd.Rmd` vignettes for in between vignette navigation.
 
 
 # Deploying to Travis
@@ -151,7 +152,7 @@ Please visit [https://docs.travis-ci.com/user/encryption-keys/](https://docs.tra
 
 To install Travis CLI, run the following command in the terminal: (you may need sudo)
 
-```
+```{bash}
 gem install travis
 ```
 
@@ -161,7 +162,7 @@ Visit [https://github.com/settings/tokens](Github > Settings > Tokens) to create
 
 To keep your token safe, encrypt your secret token (in your package directory) and add it to your `.travis.yml` file with:
 
-```
+```{bash}
 travis encrypt GITHUB_TOKEN=your_secret_github_token --add
 ```
 
@@ -170,18 +171,17 @@ This will allow travis to publish to your specific repo.
 
 ## Deploy after success
 
-**!!! Using this function will STOMP the gh-pages every time `packagedoce::deploy_travis()` is called.  Use this function wisely! !!!**
+**!!! Using this function will STOMP the gh-pages every time `r rdl(packagedocs::deploy_travis())` is called.  Use this function wisely! !!!**
 
 To deploy (all) your gh-pages vignettes, add this config to your `.travis.yml` file:
 
-```
-after_success:
+<pre><code class = "hljs">after_success:
   - Rscript -e "packagedocs::deploy_travis()"
-```
+</code></pre>
 
-By default, if it is the master branch and it is not a pull request, `packagedocs::deploy_travis()` will build both the CRAN vignettes and gh-pages vignettes.  `deploy_travis()` will then deploy the generated `_gh-pages` folder (default) from Travis to the package's github repo. This forced commit will be done by "Travis CI" user (default).  
+By default, if it is the master branch and it is not a pull request, `r rdl(packagedocs::deploy_travis())` will build both the CRAN vignettes and gh-pages vignettes.  `r rdl(deploy_travis())` will then deploy the generated `_gh-pages` folder (default) from Travis to the package's github repo. This forced commit will be done by "Travis CI" user (default).  
 
-Please look at `?packagedocs::deploy_travis` for more information.
+Please look at `r rdl(deploy_travis)` for more information.
 
 
 # Vignette Engines
