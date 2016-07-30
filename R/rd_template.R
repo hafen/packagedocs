@@ -172,6 +172,7 @@ get_rd_data <- function(
   data$examples <- rd_info$example_text[[alias_file]]
   data$eval_example <- as.character(alias_info$run_examples)
 
+  data$alias_name <- make_alias_id(alias_file)
   data$id <- valid_id(paste(alias_file, "_", alias_info$index_id, sep = ""))
   data$name <- alias_info$title
 
