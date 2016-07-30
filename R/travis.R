@@ -1,33 +1,20 @@
 
-
-is_self_contained_build_default <- function() {
-  FALSE
-}
-is_self_contained_build <- (function() {
-  is_contained <- is_self_contained_build_default()
+cache_boolean <- function(default_value) {
+  cur_val <- default_value
   function(val) {
     if (missing(val)) {
-      return(is_contained)
+      return(cur_val)
     }
-    is_contained <<- as.logical(val)
-    return(is_contained)
+    cur_val <<- as.logical(val)
+    return(cur_val)
   }
-})()
-
-is_cran_build_default <- function() {
-  TRUE
 }
-is_cran_build <- (function() {
-  is_cran <- is_cran_build_default()
-  function(val) {
-    if (missing(val)) {
-      return(is_cran)
-    }
-    is_cran <<- as.logical(val)
-    return(is_cran)
-  }
-})()
 
+is_self_contained_build_default <- function() FALSE
+is_self_contained_build <- cache_boolean(is_self_contained_build_default())
+
+is_cran_build_default <- function() TRUE
+is_cran_build <- cache_boolean(is_cran_build_default())
 
 #' Deploy to Github Pages from Travis-CI
 #'
