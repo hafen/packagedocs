@@ -35,17 +35,10 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
   }
 
   if (is.null(rd_index)) {
-    rd_index <- list(
-      list(
-        section_name = "Package Functions",
-        desc = "",
-        topics = gsub("\\.Rd", "", rd_info$rd_index$file_in)
-      )
-    )
-  } else {
-    rd_index <- yaml.load_file(rd_index)
+    stop(paste0("'rd_index' must be supplied or ", rd_index_file_yaml(), " must exist"))
   }
 
+  rd_index <- yaml.load_file(rd_index)
   rd_index <- as_rd_index(rd_index, run_examples = run_examples)
 
   # get all rd files from the rd_index topics
