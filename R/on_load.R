@@ -1,8 +1,8 @@
 # nolint start
 
-#      Vignettes are normally processed by ‘Sweave’, but package writers
+#      Vignettes are normally processed by 'Sweave', but package writers
 #      may choose to use a different engine (e.g., one provided by the
-#      ‘knitr’, ‘noweb’ or ‘R.rsp’ packages).  This function is used by
+#      'knitr', 'noweb' or 'R.rsp' packages).  This function is used by
 #      those packages to register their engines, and internally by R to
 #      retrieve them.
 #
@@ -15,45 +15,45 @@
 #    weave: a function to convert vignette source files to LaTeX output.
 #   tangle: a function to convert vignette source files to R code.
 #  pattern: a regular expression pattern for the filenames handled by
-#           this engine, or ‘NULL’ for the default pattern.
+#           this engine, or 'NULL' for the default pattern.
 #  package: the package registering the engine.  By default, this is the
-#           package calling ‘vignetteEngine’.
-#   aspell: a list with element names ‘filter’ and/or ‘control’ giving
+#           package calling 'vignetteEngine'.
+#   aspell: a list with element names 'filter' and/or 'control' giving
 #           the respective arguments to be used when spell checking the
-#           text in the vignette source file with ‘aspell’.
+#           text in the vignette source file with 'aspell'.
 #
 # Details:
 #
-#      If ‘weave’ is missing, ‘vignetteEngine’ will return the currently
-#      registered engine matching ‘name’ and ‘package’.
+#      If 'weave' is missing, 'vignetteEngine' will return the currently
+#      registered engine matching 'name' and 'package'.
 #
-#      If ‘weave’ is ‘NULL’, the specified engine will be deleted.
+#      If 'weave' is 'NULL', the specified engine will be deleted.
 #
-#      Other settings define a new engine. The ‘weave’ and ‘tangle’
+#      Other settings define a new engine. The 'weave' and 'tangle'
 #      functions must be defined with argument lists compatible with
-#      ‘function(file, ...)’. Currently the ‘...’ arguments may include
-#      logical argument ‘quiet’ and character argument ‘encoding’; others
+#      'function(file, ...)'. Currently the '...' arguments may include
+#      logical argument 'quiet' and character argument 'encoding'; others
 #      may be added in future. These are described in the documentation
-#      for ‘Sweave’ and ‘Stangle’.
-#      The ‘weave’ and ‘tangle’ functions should return the filename of
-#          the output file that has been produced. Currently the ‘weave’
-#          function, when operating on a file named ‘<name> <pattern>’ must
-#          produce a file named ‘<name>[.](tex|pdf|html)’. The ‘.tex’ files
-#          will be processed by ‘pdflatex’ to produce ‘.pdf’ output for
+#      for 'Sweave' and 'Stangle'.
+#      The 'weave' and 'tangle' functions should return the filename of
+#          the output file that has been produced. Currently the 'weave'
+#          function, when operating on a file named '<name> <pattern>' must
+#          produce a file named '<name>[.](tex|pdf|html)'. The '.tex' files
+#          will be processed by 'pdflatex' to produce '.pdf' output for
 #          display to the user; the others will be displayed as produced.
-#          The ‘tangle’ function must produce a file named ‘<name>[.][rRsS]’
-#          containing the executable R code from the vignette.  The ‘tangle’
-#          function may support a ‘split = TRUE’ argument, and then it should
-#          produce files named ‘<name>.*[.][rRsS]’.
+#          The 'tangle' function must produce a file named '<name>[.][rRsS]'
+#          containing the executable R code from the vignette.  The 'tangle'
+#          function may support a 'split = TRUE' argument, and then it should
+#          produce files named '<name>.*[.][rRsS]'.
 #
-#          The ‘pattern’ argument gives a regular expression to match the
+#          The 'pattern' argument gives a regular expression to match the
 #          extensions of files which are to be processed as vignette input
-#          files. If set to ‘NULL’, the default pattern
-#          ‘"[.][RrSs](nw|tex)$"’ is used.
+#          files. If set to 'NULL', the default pattern
+#          '"[.][RrSs](nw|tex)$' is used.
 #
 #     Value:
 #
-#          If the engine is being deleted, ‘NULL’.  Otherwise a list
+#          If the engine is being deleted, 'NULL'.  Otherwise a list
 #          containing components
 #
 #         name: The name of the engine
@@ -72,7 +72,7 @@
 #
 #     See Also:
 #
-#          ‘Sweave’ and the ‘Writing R Extensions’ manual.
+#          'Sweave' and the 'Writing R Extensions' manual.
 #
 #     Examples:
 #
@@ -129,12 +129,12 @@
   #    weave: a function to convert vignette source files to LaTeX output.
   #   tangle: a function to convert vignette source files to R code.
   #  pattern: a regular expression pattern for the filenames handled by
-  #           this engine, or ‘NULL’ for the default pattern.
+  #           this engine, or 'NULL' for the default pattern.
   #  package: the package registering the engine.  By default, this is the
-  #           package calling ‘vignetteEngine’.
-  #   aspell: a list with element names ‘filter’ and/or ‘control’ giving
+  #           package calling 'vignetteEngine'.
+  #   aspell: a list with element names 'filter' and/or 'control' giving
   #           the respective arguments to be used when spell checking the
-  #           text in the vignette source file with ‘aspell’.
+  #           text in the vignette source file with 'aspell'.
 
   index_weaver <- function(
     toc_collapse,
