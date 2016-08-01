@@ -28,7 +28,5 @@ Imports:
     yaml
 Suggests:
     testthat
-Remotes:
-  hafen/lazyrmd
 RoxygenNote: 5.0.1
 VignetteBuilder: packagedocs
