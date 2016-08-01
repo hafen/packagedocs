@@ -13,5 +13,5 @@ packagedocs.sublime*
 lintr
 .travis.yml
 ^_docs$
-
 ^_gh-pages
+^cran-comments\.md$
