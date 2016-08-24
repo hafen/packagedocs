@@ -9,13 +9,17 @@ before_script:
   - Rscript -e "devtools::install()"
 
 # install locally to avoid rev dep
+r_binary_packages:
+  # - covr # code coverage check
+  - lintr # code lint
+
 r_github_packages:
-  # - jimhester/covr # code coverage check
-  - jimhester/lintr # code lint
+  - schloerke/travisDrat # deploy to drat
+
 
 after_success:
-  # - Rscript -e "packagedocs::deploy_travis(repo = 'schloerke/docs-packagedocs')"
   - Rscript -e "packagedocs::deploy_travis()"
+  - Rscript -e "travisDrat::deploy_drat()"
 
 notifications:
   email:
@@ -29,4 +33,4 @@ branches:
   - travis
 env:
   global:
-    - secure: "qYznVQzCqSxoLiWPGW6GuhWXIs07NZdOIEbCFWweWloQp3sBxExNq09F1KDZgeLKdPIQf/enqes8PFBbGUZjaS2HRMcoxOFRkqB2fI2LmJk9+l0MJ9hEM4Aq/kjXrUtECsNyofIUSnsiBJv9UUtubnuEICYKXkeM1tdZ1o30+MoERFstHVHxqRWE/DjGhVLQEi95t8EeGDHHS8iASMUGl+OKEpxZfmVHgMnMpdkazkUQh1MxcUZPUyaTAB1Rz5NAgePDq6ZnETizx7vrZNtwwQRmurfzyCFe2A8YI0Xk6eLfARDN5dzeUR8baWoKFWi584P1WsBxFQybH2EcPzArswNHCTh6G30dGMRxKL2cqPfNjgpsLoR08sWMqCCZ+ePWF4v1oaDYLY8eDAAcsT41dsdY1ebuo8YpljQUOxWg470rsltqbuAFLnqzyTqO7KlcNqVNp3ofrCuG2XZ4JAL5f/HzBmQuQ3llurI/ETZsu2SbVSlrVtE0iUJoo+uecCAy51CItsVi9aOa5J7V4wlJ0qo19c2G8As6vU8hxATwPdsEli/xqCy/bwiIuZ8Uy2ZYfBNqdO2yWNC0sItcl3zsD9t+aSj3Dw3m/DiQyo806rYjTDj+HEBPGUPf4Js0D79WL+YVTGQEsOlx/EIv7JWP71mQGWGZieSMd/Steixp3JA="
+    secure: "NOVFLZuO7dUzmab2c1lQfua0ibLICLPSCsKcD4WKnEH4xrE8W72GVhsXFTLDEmTjgQnUjoq7uGlMf9VoUo2w0t3VhV683mGFOfYSncg01xiDIUU7lT6LXSAjEBLyOYE/jNr1V2lkIYaGrSvjbEGHSxU3lA1WCzXIZCVcjw+qS1NOnPOpMU1SCKNprq995KrYFTCBLlusMbRnySwM+SWrWJX4o1GcUKCrAKA5BiTqTb/7MndcL80hBlv+898ARFhZqsKkyZWFSWb/yk8Ym7m9XyX+OyUGp+APK62qavo9n8tF6ATywgwubjy0DH4pAovzGMwwVBttp0wUcL+CiFJSv7w9njC5IEQmMbW1tkEFDuD22qEZLg3FA74JkSIhHKevcBW7tcmLjwDNTSd2RuUGJaj0/odszZz1lovtHYl9VQUccJK9y6Az9JmUDrYHWhp3/eshMI6OwlWwuUgCc0paM/mzUQjx9sgf0AyYsgb4XfrZ+OVSK1WDWzoYrTRgG2Ip38ZJH0ZqXq8AOvvkzo8wAjMkUxg6YOK2tZ9Bx6QE8WKYEGVVtjJXqK8yPDroaBH15Siwtd3w40xxdcEMSQfTSvuHMIYsbsjm3/XMO53iFyl5hM4LRq6KDCf8Vv7OnP4dCuI6p688o4ZX/PMxSXeIe06o+2OkedglGR6kmQZWPk4="
