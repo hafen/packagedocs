@@ -37,7 +37,7 @@ deploy_travis <- function(
     system("git config --get remote.origin.url", intern = TRUE)
   ),
   valid_branches = "master",
-  token_key = "GITHUB_TOKEN",
+  token_key = "GITHUB_PAT",
   email = "travis@travis-ci.org",
   name = "Travis CI",
   output_dir = "_gh-pages"
