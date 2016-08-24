@@ -6,7 +6,7 @@
 \usage{
 deploy_travis(repo = gsub(".*[:/]([^/]*/[^.]*)\\\\.git", "\\\\1",
   system("git config --get remote.origin.url", intern = TRUE)),
-  valid_branches = "master", token_key = "GITHUB_TOKEN",
+  valid_branches = "master", token_key = "GITHUB_PAT",
   email = "travis@travis-ci.org", name = "Travis CI",
   output_dir = "_gh-pages")
 }
