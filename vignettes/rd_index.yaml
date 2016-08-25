@@ -1,4 +1,8 @@
 
+knitr:
+  eval: true
+
+sections:
 -
   section_name: Main Functions
   topics:
