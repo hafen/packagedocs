@@ -85,23 +85,25 @@
 #   )
 # }
 
-lib_dir_pre <- function(lib_dir, lib_dir_bak) {
-  if (file.exists(lib_dir)) {
-    if (file.exists(lib_dir_bak))
-      unlink(lib_dir_bak, recursive = TRUE)
-    file.rename(lib_dir, lib_dir_bak)
-  }
-}
-
-lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
-  if (!file.exists(lib_dir)) {
-    if (file.exists(lib_dir_bak)) {
-      file.rename(lib_dir_bak, lib_dir)
-    }
-  } else {
-    unlink(lib_dir_bak, recursive = TRUE)
-  }
-}
+# lib_dir_pre <- function(lib_dir, lib_dir_bak) {
+#   return()
+#   if (file.exists(lib_dir)) {
+#     if (file.exists(lib_dir_bak))
+#       unlink(lib_dir_bak, recursive = TRUE)
+#     file.rename(lib_dir, lib_dir_bak)
+#   }
+# }
+#
+# lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
+#   return()
+#   if (!file.exists(lib_dir)) {
+#     if (file.exists(lib_dir_bak)) {
+#       file.rename(lib_dir_bak, lib_dir)
+#     }
+#   } else {
+#     unlink(lib_dir_bak, recursive = TRUE)
+#   }
+# }
 
 
 #' Render vignette files
@@ -110,7 +112,6 @@ lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
 #' @param code_path location of library
 #' @param toc_collapse boolean to determine if the table of contents should be collapsed
 #' @param lib_dir directory where all assets are kept
-#' @param lib_dir_bak backup directory where all assets are kept
 #' @param render boolean to determine if the files should be rendered
 #' @param view_output boolean to determine if a browser should be opened to the files
 #' @param is_https boolean to determine if the cran http redirects should point to a http or https website
@@ -124,7 +125,7 @@ lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
 vig_render_index <- function(
   docs_path, code_path,
   toc_collapse = TRUE,
-  lib_dir = assets_dir(), lib_dir_bak = paste(lib_dir, "_main_bak", sep = ""),
+  lib_dir = assets_dir(),
   render = TRUE,
   view_output = TRUE,
   is_https = FALSE,
@@ -146,11 +147,9 @@ vig_render_index <- function(
   if (! dir.exists(docs_path)) {
     stop(paste("docs_path:'", docs_path, "' does not exist", sep = "", collapse = ""))
   }
-  setwd(docs_path)
 
-  lib_dir_pre(lib_dir, lib_dir_bak)
+  setwd(docs_path)
   on.exit({
-    lib_dir_on_exit(lib_dir, lib_dir_bak)
     setwd(wd)
   })
 
@@ -187,7 +186,7 @@ vig_render_index <- function(
 vig_render_rd <- function(
   docs_path, code_path,
   toc_collapse = FALSE,
-  lib_dir = assets_dir(), lib_dir_bak = paste(lib_dir, "_rd_bak", sep = ""),
+  lib_dir = assets_dir(),
   run_examples = FALSE,
   render = TRUE,
   view_output = TRUE,
@@ -210,9 +209,7 @@ vig_render_rd <- function(
   }
   setwd(docs_path)
 
-  lib_dir_pre(lib_dir, lib_dir_bak)
   on.exit({
-    lib_dir_on_exit(lib_dir, lib_dir_bak)
     setwd(wd)
   })
 

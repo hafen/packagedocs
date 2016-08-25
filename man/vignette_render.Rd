@@ -6,17 +6,17 @@
 \title{Render vignette files}
 \usage{
 vig_render_index(docs_path, code_path, toc_collapse = TRUE,
-  lib_dir = assets_dir(), lib_dir_bak = paste(lib_dir, "_main_bak", sep =
-  ""), render = TRUE, view_output = TRUE, is_https = FALSE,
-  input_file_rmd = index_file_rmd(), output_file_html = index_file_html(),
+  lib_dir = assets_dir(), render = TRUE, view_output = TRUE,
+  is_https = FALSE, input_file_rmd = index_file_rmd(),
+  output_file_html = index_file_html(),
   self_contained = is_self_contained_build(), cran_build = is_cran_build(),
   verbose = TRUE)
 
 vig_render_rd(docs_path, code_path, toc_collapse = FALSE,
-  lib_dir = assets_dir(), lib_dir_bak = paste(lib_dir, "_rd_bak", sep = ""),
-  run_examples = FALSE, render = TRUE, view_output = TRUE,
-  rd_index = NULL, is_https = FALSE, input_file_rmd = rd_temp_file_rmd(),
-  temp_file_rmd = rd_file_rmd(), output_file_html = rd_file_html(),
+  lib_dir = assets_dir(), run_examples = FALSE, render = TRUE,
+  view_output = TRUE, rd_index = NULL, is_https = FALSE,
+  input_file_rmd = rd_temp_file_rmd(), temp_file_rmd = rd_file_rmd(),
+  output_file_html = rd_file_html(),
   self_contained = is_self_contained_build(), cran_build = is_cran_build(),
   verbose = TRUE)
 }
@@ -28,8 +28,6 @@ vig_render_rd(docs_path, code_path, toc_collapse = FALSE,
 \item{toc_collapse}{boolean to determine if the table of contents should be collapsed}
 
 \item{lib_dir}{directory where all assets are kept}
-
-\item{lib_dir_bak}{backup directory where all assets are kept}
 
 \item{render}{boolean to determine if the files should be rendered}
 
