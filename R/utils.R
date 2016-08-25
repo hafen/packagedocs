@@ -7,3 +7,7 @@ if_null <- function(a, b) {
     b
   }
 }
+
+str_replace <- function(x, pattern, replacement) {
+  gsub(pattern, replacement, x)
+}
