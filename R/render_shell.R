@@ -1,7 +1,7 @@
 
 
 
-render_cran <- function(code_path, output_file_html, is_rd_cran = FALSE) {
+render_cran <- function(code_path, output_file_html, is_rd_cran = FALSE, is_https = FALSE) {
   cran_templ <- paste(readLines(file.path(system.file(package = "packagedocs"),
     "rd_template", "cran_template.html")), collapse = "\n")
 
@@ -13,13 +13,15 @@ render_cran <- function(code_path, output_file_html, is_rd_cran = FALSE) {
   }
   user_repo <- strsplit(github_ref, "/")[[1]]
 
+  http <- ifelse(isTRUE(is_https), "https", "http")
+
   cran_args <- list(
     title = paste0(
       pkg_info$package,
       ifelse(is_rd_cran, " function reference", " package documentation")
     ),
     url = paste0(
-      "https://", user_repo[1], ".github.io/", user_repo[2],
+      http, "://", user_repo[1], ".github.io/", user_repo[2],
       ifelse(is_rd_cran, paste("/", output_file_html, sep = ""), "") # nolint
     )
   )

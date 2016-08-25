@@ -113,6 +113,7 @@ lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
 #' @param lib_dir_bak backup directory where all assets are kept
 #' @param render boolean to determine if the files should be rendered
 #' @param view_output boolean to determine if a browser should be opened to the files
+#' @param is_https boolean to determine if the cran http redirects should point to a http or https website
 #' @param input_file_rmd rmd file input
 #' @param output_file_html html file where the output is placed
 #' @param self_contained boolean to determine if the html should be fully self contained
@@ -126,6 +127,7 @@ vig_render_index <- function(
   lib_dir = assets_dir(), lib_dir_bak = paste(lib_dir, "_main_bak", sep = ""),
   render = TRUE,
   view_output = TRUE,
+  is_https = FALSE,
   input_file_rmd = index_file_rmd(),
   output_file_html = index_file_html(),
   self_contained = is_self_contained_build(),
@@ -161,6 +163,7 @@ vig_render_index <- function(
       wrapper_fn(render_cran(
         code_path = code_path,
         output_file_html = output_file_html,
+        is_https = is_https,
         is_rd_cran = FALSE
       ))
     } else {
@@ -189,6 +192,7 @@ vig_render_rd <- function(
   render = TRUE,
   view_output = TRUE,
   rd_index = NULL,
+  is_https = FALSE,
   input_file_rmd = rd_temp_file_rmd(),
   temp_file_rmd = rd_file_rmd(),
   output_file_html = rd_file_html(),
@@ -225,11 +229,12 @@ vig_render_rd <- function(
     )
 
     if (cran_build) {
-      render_cran(
+      wrapper_fn(render_cran(
         code_path = code_path,
         output_file_html = output_file_html,
+        is_https = is_https,
         is_rd_cran = TRUE
-      )
+      ))
     } else {
       wrapper_fn(render_rd(
         input_file_rmd,
