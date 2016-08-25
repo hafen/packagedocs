@@ -38,8 +38,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
     stop(paste0("'rd_index' must be supplied or ", rd_index_file_yaml(), " must exist"))
   }
 
-  rd_index <- yaml.load_file(rd_index)
-  rd_index <- as_rd_index(rd_index, run_examples = run_examples)
+  rd_index <- yaml.load_file(rd_index) %>% as_rd_index(run_examples = run_examples)
 
   # get all rd files from the rd_index topics
   rd_files <- alias_files_from_index(rd_index)
@@ -85,9 +84,9 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
   for (ii in rev(seq_along(rd_index))) {
     alias_info_list <- rd_index[[ii]]$topics
     alias_info_list %>%
-      lapply(function(alias_info) {
+      lapply(function(topic_info) {
         try(get_rd_data(
-          alias_info,
+          topic_info,
           rd_info
         ))
       }) ->
@@ -156,9 +155,9 @@ fix_hrefs <- function(x) {
 }
 
 get_rd_data <- function(
-  alias_info, rd_info
+  topic_info, rd_info
 ) {
-  alias_file <- alias_info$file
+  alias_file <- topic_info$file
 
   # use staticdocs package output
   rd_obj <- rd_info$rd[[alias_file]]
@@ -170,11 +169,20 @@ get_rd_data <- function(
   data <- to_html.Rd_doc(rd_obj, pkg = rd_info)
 
   data$examples <- rd_info$example_text[[alias_file]]
-  data$eval_example <- as.character(alias_info$run_examples)
+  data$eval_example <- as.character(topic_info$knitr$eval)
+  convert_to_text <- function(x) {
+    capture.output(dput(x, control = c("keepNA", "keepInteger")))
+  }
+  topic_info$knitr %>%
+    convert_to_text() %>%
+    str_replace("^list\\(", "") %>%
+    str_replace("\\)$", "") ->
+  data$knitr_txt
+
 
   data$alias_name <- make_alias_id(alias_file)
-  data$id <- valid_id(paste(alias_file, "_", alias_info$index_id, sep = ""))
-  data$name <- alias_info$title
+  data$id <- valid_id(paste(alias_file, "_", topic_info$index_id, sep = ""))
+  data$name <- topic_info$title
 
   # if (runif(1) < 0.1) {
   #   stop("asdfasdf")
