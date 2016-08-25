@@ -97,7 +97,7 @@ When R CMD build builds the vignettes, it copies these and the vignette sources 
 
 This file will be auto-generated from `r rdl(packagedocs::init_vignettes())`.  It will contain a list of `section_name` and `topics` pairs.  The `topics` field is a list of items that can either be a character string or an object.  
 
-A topic may be a single character string.  This will be upgraded at run time.  The folowing example will produce the same topic:
+A topic may be a single character string.  This will be upgraded at run time.  The following example will produce the same topic:
 
 ```{cat}
 - my_function
