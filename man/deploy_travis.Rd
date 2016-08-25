@@ -8,7 +8,7 @@ deploy_travis(repo = gsub(".*[:/]([^/]*/[^.]*)\\\\.git", "\\\\1",
   system("git config --get remote.origin.url", intern = TRUE)),
   valid_branches = "master", token_key = "GITHUB_PAT",
   email = "travis@travis-ci.org", name = "Travis CI",
-  output_dir = "_gh-pages")
+  push_branch = "gh-pages", output_dir = "_gh-pages")
 }
 \arguments{
 \item{repo}{character string that has the form USER/REPO}
@@ -20,6 +20,8 @@ deploy_travis(repo = gsub(".*[:/]([^/]*/[^.]*)\\\\.git", "\\\\1",
 \item{email}{email for commit}
 
 \item{name}{name for commit}
+
+\item{push_branch}{branch the website should be pushed to. Defaults to 'gh-pages'}
 
 \item{output_dir}{output directory to put the website in}
 }

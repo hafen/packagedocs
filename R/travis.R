@@ -27,6 +27,7 @@ is_cran_build <- cache_boolean(is_cran_build_default())
 #' @param token_key key name that will be autofilled
 #' @param email email for commit
 #' @param name name for commit
+#' @param push_branch branch the website should be pushed to. Defaults to 'gh-pages'
 #' @param output_dir output directory to put the website in
 #' @export
 deploy_travis <- function(
@@ -40,6 +41,7 @@ deploy_travis <- function(
   token_key = "GITHUB_PAT",
   email = "travis@travis-ci.org",
   name = "Travis CI",
+  push_branch = "gh-pages",
   output_dir = "_gh-pages"
 ) {
   requireNamespace("devtools")
@@ -103,11 +105,11 @@ deploy_travis <- function(
     git init      # resets the repo in the website folder
     git add .     # add all files
     git commit -m \"Travis build: $TRAVIS_BUILD_NUMBER\"
-    # push the above commit and force it on the gh-pages branch
+    # push the above commit and force it on the 'gh-pages' branch
     # since it's coming from a \"new\" repo, this is the master branch
 
-    echo \"Attempting a silent push to '", repo, "@gh-pages'\"
-    git push --force --quiet \"https://${", token_key, "}@github.com/", repo, ".git\" master:gh-pages > /dev/null 2>&1
+    echo \"Attempting a silent push to '", repo, "@", push_branch, "'\"
+    git push --force --quiet \"https://${", token_key, "}@github.com/", repo, ".git\" master:", push_branch, " > /dev/null 2>&1
     "
     , sep = ""
   ))
