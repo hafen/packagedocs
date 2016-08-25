@@ -1,6 +1,6 @@
 
 
-as_rd_index <- function(rd_index, run_examples) {
+as_rd_index <- function(rd_index) {
 
   topic_pos <- 1
   knitr_args <- rd_index$knitr

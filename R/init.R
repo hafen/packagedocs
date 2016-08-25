@@ -109,7 +109,7 @@ init_vignettes <- function(
     github_ref = github_ref,
     vig_text = paste(
       "  %\\VignetteIndexEntry{", package_name, "_rd}\n",
-      "  %\\VignetteEngine{packagedocs::rd_run_examples}",
+      "  %\\VignetteEngine{packagedocs::rd}",
       sep = ""
     )
   )

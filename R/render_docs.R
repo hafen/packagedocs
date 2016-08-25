@@ -178,7 +178,6 @@ vig_render_index <- function(
 
 
 
-#' @param run_examples boolean to determine if the examples should be executed
 #' @param rd_index location of yaml file that describes the function references of the package.  Defaults to "rd_index.yaml"
 #' @param temp_file_rmd temp rmd file that is a concatination of the input_file_rmd and the compiled rd_index.yaml file
 #' @rdname vignette_render
@@ -187,7 +186,6 @@ vig_render_rd <- function(
   docs_path, code_path,
   toc_collapse = FALSE,
   lib_dir = assets_dir(),
-  run_examples = FALSE,
   render = TRUE,
   view_output = TRUE,
   rd_index = NULL,
@@ -240,8 +238,7 @@ vig_render_rd <- function(
         rd_index = rd_index, output_format = pdof2,
         output_file_rmd = temp_file_rmd,
         output_file_html = output_file_html,
-        verbose = verbose,
-        run_examples = run_examples
+        verbose = verbose
       ))
       wrapper_fn(check_output(output_file_html))
       if (delete_temp_rmd) {

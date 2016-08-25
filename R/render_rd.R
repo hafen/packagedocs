@@ -9,7 +9,6 @@
 #' @param output directory to put the output_file and output html file
 #' @param output_file_rmd combined Rmd file that is created. Should end in ".Rmd"
 #' @param output_file_html rendered \code{output_file_rmd} file. Should end in ".html"
-#' @param run_examples boolean to determine if the examples should be executed in the documentation
 #' @param verbose boolean to determine if processing output should be displayed
 #' @export
 render_rd <- function(
@@ -21,10 +20,9 @@ render_rd <- function(
   output = ".",
   output_file_rmd = rd_file_rmd(),
   output_file_html = rd_file_html(),
-  run_examples = FALSE,
   verbose = TRUE
 ) {
-  a <- rd_template(code_path, rd_index, exclude, run_examples = run_examples)
+  a <- rd_template(code_path, rd_index, exclude)
 
   if (!file.exists(rd_skeleton))
     stop("'rd_skeleton' file ", rd_skeleton, " doesn't exist.", call. = FALSE)

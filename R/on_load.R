@@ -161,7 +161,6 @@
 
   rd_weaver <- function(
     toc_collapse = TRUE,
-    run_examples = TRUE,
     verbose = TRUE
   ) {
     function(file, ...) {
@@ -170,7 +169,6 @@
         vig_render_rd(
           docs_path = "./",
           code_path = "../",
-          run_examples = run_examples,
           toc_collapse = toc_collapse,
           lib_dir = "assets",
           render = TRUE,
@@ -205,9 +203,7 @@
   reg_eng("index", index_weaver(toc_collapse = TRUE))
   reg_eng("index_no_collapse", index_weaver(toc_collapse = FALSE))
 
-  reg_eng("rd_run_examples", rd_weaver(toc_collapse = TRUE, run_examples = TRUE))
-  reg_eng("rd_no_run_examples", rd_weaver(toc_collapse = TRUE, run_examples = FALSE))
-  reg_eng("rd_run_examples_no_collapse", rd_weaver(toc_collapse = FALSE, run_examples = TRUE))
-  reg_eng("rd_no_run_examples_no_collapse", rd_weaver(toc_collapse = FALSE, run_examples = FALSE))
+  reg_eng("rd", rd_weaver(toc_collapse = TRUE))
+  reg_eng("rd_no_collapse", rd_weaver(toc_collapse = FALSE))
 
 }

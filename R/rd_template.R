@@ -5,14 +5,13 @@
 #' @param code_path path to the source code directory of the package
 #' @param rd_index path to yaml file with index layout information
 #' @param exclude vector of Rd entry names to exclude from the resulting document
-#' @param run_examples boolean to determine if examples should be run
 #' @importFrom magrittr set_names
 #' @importFrom tools Rd_db
 #' @importFrom whisker whisker.render
 #' @importFrom yaml yaml.load_file
 #' @import stringr
 #' @export
-rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples = FALSE) {
+rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
 
   rd_info <- as_sd_package(code_path)
 
@@ -38,7 +37,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL, run_examples
     stop(paste0("'rd_index' must be supplied or ", rd_index_file_yaml(), " must exist"))
   }
 
-  rd_index <- yaml.load_file(rd_index) %>% as_rd_index(run_examples = run_examples)
+  rd_index <- yaml.load_file(rd_index) %>% as_rd_index()
 
   # get all rd files from the rd_index topics
   rd_files <- alias_files_from_index(rd_index)
