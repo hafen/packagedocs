@@ -13,10 +13,9 @@ vig_render_index(docs_path, code_path, toc_collapse = TRUE,
   verbose = TRUE)
 
 vig_render_rd(docs_path, code_path, toc_collapse = FALSE,
-  lib_dir = assets_dir(), run_examples = FALSE, render = TRUE,
-  view_output = TRUE, rd_index = NULL, is_https = FALSE,
-  input_file_rmd = rd_temp_file_rmd(), temp_file_rmd = rd_file_rmd(),
-  output_file_html = rd_file_html(),
+  lib_dir = assets_dir(), render = TRUE, view_output = TRUE,
+  rd_index = NULL, is_https = FALSE, input_file_rmd = rd_file_rmd(),
+  temp_file_rmd = rd_temp_file_rmd(), output_file_html = rd_file_html(),
   self_contained = is_self_contained_build(), cran_build = is_cran_build(),
   verbose = TRUE)
 }
@@ -44,8 +43,6 @@ vig_render_rd(docs_path, code_path, toc_collapse = FALSE,
 \item{cran_build}{boolean to determine if the html should redirect to the github location of the package}
 
 \item{verbose}{boolean to determine if ouput should be displayed}
-
-\item{run_examples}{boolean to determine if the examples should be executed}
 
 \item{rd_index}{location of yaml file that describes the function references of the package.  Defaults to "rd_index.yaml"}
 
