@@ -77,9 +77,14 @@ This will produce four files in the `vignettes` folder: `index.Rmd`, `rd_index.y
     * Add any information about the functions that you'd like users to see first!
 * `rd_index.yaml`
     * The `rd_index.yaml` is a yaml file that contains the layout for the `rd.Rmd` file.  
-    * It contains a list of `section` and `topics` pairs.  Editing the topics field is talked about in the next section.
-    * The section pairs in the `rd_index.yaml` file are auto-generated according to the keywords used in the package documentation.  All functions that do not have a keyword will be placed in the last section.  `internal` keyword functions will not be added automatically.
-    * It is okay to rename, remove, rearrange, or repeat the sections and topics!
+    * There are two main sections: `knitr` and `sections`.
+        * `knitr`
+            * Is a list of [knitr chunk options](http://yihui.name/knitr/options/)
+            * These options are the default options for all topics. They may be overwritten in each topic for different behavior
+        * `sections`
+            * It contains a list of `section` and `topics` pairs.  Editing the topics field is talked about in the next section.
+            * The section pairs in the `rd_index.yaml` file are auto-generated according to the keywords used in the package documentation.  All functions that do not have a keyword will be placed in the last section.  `internal` keyword functions will not be added automatically.
+            * It is okay to rename, remove, rearrange, or repeat the sections and topics!
 * `.install_extras`
     * As taken from [Writing R Extension](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-package-vignettes)
 <pre style="white-space: pre-wrap;">
@@ -110,9 +115,8 @@ The following topic object fields will be understood by `packagedocs`:
     * The `file` field corresponds to the name of the R documentation file that will be displayed.  These files can be found in your `man` folder.
     * The default value is equivalent to `paste0(title, ".Rd")`.
     * At least one of the `title` or `file` fields must be provided
-* `run_examples`
-    * The `rd.Rmd` file will be processed with a vignette engine.  This will set the default behavior for each topic's example section.  
-    * If you would like to override that behavior for a given topic, set the `run_examples` to a `yes` or `no` to either "execute" or "only display" the examples.
+* `knitr`
+    * If you would like to override example knitr behavior for a given topic, set this field to a list of [knitr chunk options](http://yihui.name/knitr/options/).
     * This field is optional
 
 The topics below will all produce the same information:
@@ -189,13 +193,9 @@ There are two `index.Rmd` vignette engines:
 * `%\VignetteEngine{packagedocs::index_no_collapse}`
     * This will **NOT** collapse the left side table of contents.
 
-There are four `rd.Rmd` vignette engines:
+There are two `rd.Rmd` vignette engines:
 
-* `%\VignetteEngine{packagedocs::rd_run_examples}`
-    * This will run all examples in each topic and collapse the left side table of contents.  This is the default auto-generated engine.
-* `%\VignetteEngine{packagedocs::rd_no_run_examples}`
-    * This will **NOT** run any examples in the topics but will still collapse the left side table of contents.
-* `%\VignetteEngine{packagedocs::rd_run_examples_no_collapse}`
-    * This will run all examples in each topic, but will **NOT** collapse the left side table of contents.
-* `%\VignetteEngine{packagedocs::rd_no_run_examples_no_collapse}`
-    * This will **NOT** run any examples in the topics and will **NOT** collapse the left side table of contents.
+* `%\VignetteEngine{packagedocs::rd}`
+    * This will collapse the left side table of contents.  This is the default auto-generated engine.
+* `%\VignetteEngine{packagedocs::rd_no_collapse}`
+    * This will **NOT** collapse the left side table of contents.
