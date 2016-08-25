@@ -8,6 +8,10 @@
 # cur <- yaml::yaml.load_file("rd_index.yaml")
 # cur <- unlist(lapply(cur, function(x) x$topics))
 # cat(paste(setdiff(topics, cur), collapse = "\n"))
+knitr: 
+  eval: true
+
+sections:
 -
   section_name: Plotting
   topics:

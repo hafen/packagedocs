@@ -45,7 +45,7 @@
 {{#examples}}
 
 <h4>Examples</h4>
-```{r {{{ id }}}, eval={{{ eval_example }}} }
+```{r {{{ id }}}, {{{ knitr_txt }}} }
 {{{ examples }}}
 ```
 {{/examples}}
