@@ -86,6 +86,7 @@
 # }
 
 lib_dir_pre <- function(lib_dir, lib_dir_bak) {
+  return()
   if (file.exists(lib_dir)) {
     if (file.exists(lib_dir_bak))
       unlink(lib_dir_bak, recursive = TRUE)
@@ -94,6 +95,7 @@ lib_dir_pre <- function(lib_dir, lib_dir_bak) {
 }
 
 lib_dir_on_exit <- function(lib_dir, lib_dir_bak) {
+  return()
   if (!file.exists(lib_dir)) {
     if (file.exists(lib_dir_bak)) {
       file.rename(lib_dir_bak, lib_dir)
