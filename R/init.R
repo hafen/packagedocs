@@ -13,7 +13,7 @@ rd_file_html <- function() {
   "rd.html"
 }
 rd_temp_file_rmd <- function() {
-  "_rd_temp.Rmd"
+  "_rd.Rmd"
 }
 
 rd_index_file_yaml <- function() {
