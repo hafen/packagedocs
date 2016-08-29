@@ -123,7 +123,7 @@
 #' @rdname vignette_render
 #' @export
 vig_render_index <- function(
-  docs_path, code_path,
+  docs_path = "vignettes", code_path = ".",
   toc_collapse = TRUE,
   lib_dir = assets_dir(),
   render = TRUE,
@@ -177,13 +177,12 @@ vig_render_index <- function(
 }
 
 
-
 #' @param rd_index location of yaml file that describes the function references of the package.  Defaults to "rd_index.yaml"
 #' @param temp_file_rmd temp rmd file that is a concatination of the input_file_rmd and the compiled rd_index.yaml file
 #' @rdname vignette_render
 #' @export
 vig_render_rd <- function(
-  docs_path, code_path,
+  docs_path = "vignettes", code_path = ".",
   toc_collapse = FALSE,
   lib_dir = assets_dir(),
   render = TRUE,
@@ -250,4 +249,20 @@ vig_render_rd <- function(
   }
 
   file.path(docs_path, output_file_html)
+}
+
+
+
+#' @export
+#' @rdname vignette_render
+#' @param ... parameters passed directly to \code{vig_render_rd} or \code{vig_render_index}
+rd_render <- function(...) {
+  vig_render_rd(..., cran_build = FALSE)
+}
+
+
+#' @export
+#' @rdname vignette_render
+index_render <- function(...) {
+  vig_render_index(..., cran_build = FALSE)
 }
