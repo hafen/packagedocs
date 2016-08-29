@@ -16,16 +16,19 @@ test_that("links", {
 
   expect_equivalent(
     rdl(devtools::build_vignettes(a = 2)),
-    "<code>devtools::<a href='http://www.inside-r.org/packages/cran/devtools/docs/build_vignettes'>build_vignettes</a>(a = 2)</code>" # nolint
+    # "<code>devtools::<a href='http://www.inside-r.org/packages/cran/devtools/docs/build_vignettes'>build_vignettes</a>(a = 2)</code>" # nolint
+    "<code>devtools::<a href='http://www.rdocumentation.org/packages/devtools/topics/build_vignettes'>build_vignettes</a>(a = 2)</code>" # nolint
   )
 
   expect_equivalent(
     rdl(graphics::plot(b = 2)),
-    "<code>graphics::<a href='http://www.inside-r.org/r-doc/graphics/plot'>plot</a>(b = 2)</code>" # nolint
+    # "<code>graphics::<a href='http://www.inside-r.org/r-doc/graphics/plot'>plot</a>(b = 2)</code>" # nolint
+    "<code>graphics::<a href='http://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a>(b = 2)</code>" # nolint
   )
   expect_equivalent(
     rdl(plot(b = 21)),
-    "<code><a href='http://www.inside-r.org/r-doc/graphics/plot'>plot</a>(b = 21)</code>" # nolint
+    # "<code><a href='http://www.inside-r.org/r-doc/graphics/plot'>plot</a>(b = 21)</code>" # nolint
+    "<code><a href='http://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a>(b = 21)</code>" # nolint
   )
 
   expect_equivalent(
@@ -50,7 +53,8 @@ test_that("links", {
 
   expect_equivalent(
     rdl(devtools::build_vignettes),
-    "<code>devtools::<a href='http://www.inside-r.org/packages/cran/devtools/docs/build_vignettes'>build_vignettes</a></code>" # nolint
+    # "<code>devtools::<a href='http://www.inside-r.org/packages/cran/devtools/docs/build_vignettes'>build_vignettes</a></code>" # nolint
+    "<code>devtools::<a href='http://www.rdocumentation.org/packages/devtools/topics/build_vignettes'>build_vignettes</a></code>" # nolint
   )
 
 })
