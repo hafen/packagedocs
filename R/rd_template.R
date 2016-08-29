@@ -123,7 +123,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
   all_entries <- whisker.render(rd_templ, rd_index)
 
   package_load <- paste("
-  ```{r echo=FALSE}
+  ```{r packagedocs_load_library, echo=FALSE}
   suppressWarnings(suppressMessages(
     library(", rd_info$package, ",
       quietly = TRUE, warn.conflicts = FALSE, verbose = FALSE
