@@ -106,8 +106,19 @@ build_vignettes <- function (
   }
 
   pkg <- devtools::as.package(pkg)
+
   vigns <- tools::pkgVignettes(dir = pkg$path)
+  if (is.null(vigns)) {
+    message("Could not vignettes directory:\n",
+      vigns$dir,
+      "\nRun packagedocs::init_vignettes() to get started.")
+  }
+
   if (length(vigns$docs) == 0) {
+    message("Could not find docs files in vignettes directory:\n",
+      vigns$dir,
+      "\nPlease check your package's DESCRIPTION file to make sure there is an entry:",
+      "\nVignetteBuilder: packagedocs")
     return()
   }
 
