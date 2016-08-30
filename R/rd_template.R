@@ -37,7 +37,11 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
     stop(paste0("'rd_index' must be supplied or ", rd_index_file_yaml(), " must exist"))
   }
 
-  rd_index <- yaml.load_file(rd_index) %>% as_rd_index()
+  rd_index <- try(yaml.load_file(rd_index) %>% as_rd_index(), silent = TRUE)
+  if (inherits(rd_index, "try-error")) {
+    stop("There was an error reading ", file.path(getwd(), rd_index_file_yaml()), ":\n",
+      geterrmessage())
+  }
 
   # get all rd files from the rd_index topics
   rd_files <- alias_files_from_index(rd_index)
@@ -45,7 +49,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
   missing_topics <- setdiff(rd_info$rd_index$file_in, rd_files)
   if (length(missing_topics) > 0) {
     message(
-      "topics in package that were not found in rd_index (will not be included): ",
+      "*** topics in package that were not found in rd_index (will not be included): ",
       paste(missing_topics, collapse = ", ")
     )
   }
@@ -53,7 +57,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
   unknown_topics <- setdiff(rd_files, rd_info$rd_index$file_in)
   if (length(unknown_topics) > 0) {
     message(
-      "topics found in rd_index that aren't in package (will not be included): ",
+      "*** topics found in rd_index that aren't in package (will not be included): ",
       paste(unknown_topics, collapse = ", ")
     )
     unknown_ids <- rd_files[rd_files %in% unknown_topics] %>% names()
@@ -98,6 +102,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
     )
 
     if (length(idx) > 0) {
+
       error_topics <- alias_files_from_topics(alias_info_list)[idx]
       entries <- entries[-idx]
       message(
@@ -108,7 +113,7 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
     }
 
     if (length(idx) < length(alias_info_list)) {
-      # not all files where errors.  therefore the section still exists
+      # not all files were errors.  therefore the section still exists
       rd_index[[ii]]$entries <- unname(entries)
     }
   }
