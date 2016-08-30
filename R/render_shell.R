@@ -9,7 +9,8 @@ render_cran <- function(code_path, output_file_html, is_rd_cran = FALSE, is_http
 
   github_ref <- parse_github_ref_val(pkg_info)
   if (is.null(github_ref)) {
-    stop("There must be a github url in the description to produce a CRAN vignette")
+    stop("There must be a github url in the 'url' field of the DESCRIPTION file ",
+      "to produce a CRAN vignette")
   }
   user_repo <- strsplit(github_ref, "/")[[1]]
 
