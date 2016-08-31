@@ -3,9 +3,10 @@
 #' @param toc should a table of contents be included?
 #' @param toc_depth depth of the table of contents (max is 2 for this template)
 #' @param toc_collapse should the table of contents have collapsible subsections?
-#' @param extra_dependencies passed to \code{\link[rmarkdown]{html_document}}
-#' @param self_contained passed to \code{\link[rmarkdown]{html_document}}
-#' @param \ldots parameters passed to \code{\link[rmarkdown]{html_document}}
+#' @param extra_dependencies passed to the rmarkdown rendering function
+#' @param self_contained passed to the rmarkdown rendering function
+#' @param \ldots parameters passed to the rmarkdown rendering function
+#' @param rmarkdown character name of rmarkdown's renderign function.  This defaults to "html_document" which will call rmarkdown::html_document
 #' @export
 #' @import rmarkdown
 #' @import htmltools
