@@ -15,7 +15,8 @@ package_docs <- function(
   toc_collapse = FALSE,
   extra_dependencies = NULL,
   self_contained = FALSE,
-  ...
+  ...,
+  rmarkdown = "html_document"
 ) {
 
   template <-  system.file("html_assets/template.html", package = "packagedocs")
@@ -45,8 +46,10 @@ package_docs <- function(
     extra_dependencies
   )
 
-  # call the base html_document function
-  rmarkdown::html_document(toc = toc,
+  # call the lazy render function that wraps rmarkdown::html_document
+  lazyrmd::lazy_render(
+    rmarkdown = rmarkdown,
+    toc = toc,
     toc_depth = toc_depth,
     fig_width = 6.5,
     fig_height = 4,
