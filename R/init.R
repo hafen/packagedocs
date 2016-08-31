@@ -117,15 +117,16 @@ init_vignettes <- function(
     file = file.path(docs_path, rd_file_rmd))
   cat("\n", file = file.path(docs_path, rd_file_rmd), append = TRUE)
 
-  ## install extras for devtools
-  install_extras <- file.path(docs_path, ".install_extras")
-  if (file.exists(install_extras)) {
-    if (! "rd_index.yaml" %in% readLines(install_extras)) {
-      cat("rd_index.yaml\n", file = install_extras, append = TRUE)
-    }
-  } else {
-    cat("rd_index.yaml\n", file = install_extras)
-  }
+  ### do not include the yaml file to be copied over
+  # ## install extras for devtools
+  # install_extras <- file.path(docs_path, ".install_extras")
+  # if (file.exists(install_extras)) {
+  #   if (! "rd_index.yaml" %in% readLines(install_extras)) {
+  #     cat("rd_index.yaml\n", file = install_extras, append = TRUE)
+  #   }
+  # } else {
+  #   cat("rd_index.yaml\n", file = install_extras)
+  # }
 
 
 
