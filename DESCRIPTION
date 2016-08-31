@@ -28,5 +28,7 @@ Imports:
     yaml
 Suggests:
     testthat
+Remotes:
+    schloerke/lazyrmd
 RoxygenNote: 5.0.1
 VignetteBuilder: packagedocs
