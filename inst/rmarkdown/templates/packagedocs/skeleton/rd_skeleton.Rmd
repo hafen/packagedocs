@@ -6,6 +6,7 @@ copyright: "{{{author}}}"
 output:
   packagedocs:
     toc: true
+    rmarkdown: html_document
 vignette: |
 {{{vig_text}}}
 navpills: |
