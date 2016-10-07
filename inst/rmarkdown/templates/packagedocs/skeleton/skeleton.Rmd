@@ -1,8 +1,8 @@
 ---
 title: "{{{title}}}"
 subtitle: "{{{subtitle}}}"
-author: {{{author}}}
-copyright: {{{author}}}
+author: "{{{author}}}"
+copyright: "{{{author}}}"
 output:
   packagedocs:
     toc: true
