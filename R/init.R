@@ -86,7 +86,7 @@ init_vignettes <- function(
   rd_info <- as_sd_package(code_path)
 
   package_name <- if_null(rd_info$package, "mypackage")
-  title <- if_null(title, package_name)
+  title <- if_null(title, paste(package_name, " Documentation", sep = ""))
   subtitle <- if_null(subtitle, rd_info$title)
   author <- parse_author_info(rd_info, author)
   github_ref <- parse_github_ref(rd_info, NULL)
@@ -105,7 +105,7 @@ init_vignettes <- function(
     author = author,
     github_ref = github_ref,
     vig_text = paste(
-      "  %\\VignetteIndexEntry{", package_name, "}\n",
+      "  %\\VignetteIndexEntry{", package_name, " Documentation}\n",
       "  %\\VignetteEngine{packagedocs::docs}",
       sep = ""
     )
@@ -122,7 +122,7 @@ init_vignettes <- function(
     author = author,
     github_ref = github_ref,
     vig_text = paste(
-      "  %\\VignetteIndexEntry{", package_name, "_rd}\n",
+      "  %\\VignetteIndexEntry{", package_name, " Package Reference}\n",
       "  %\\VignetteEngine{packagedocs::rd}",
       sep = ""
     )
