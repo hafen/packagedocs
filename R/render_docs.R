@@ -1,6 +1,6 @@
 #' Render vignette files
 #'
-#' @param docs_path location of index file
+#' @param docs_path location of docs file
 #' @param code_path location of library
 #' @param toc_collapse boolean to determine if the table of contents should be collapsed
 #' @param lib_dir directory where all assets are kept
@@ -14,15 +14,15 @@
 #' @param verbose boolean to determine if ouput should be displayed
 #' @rdname vignette_render
 #' @export
-vig_render_index <- function(
+vig_render_docs <- function(
   docs_path = "vignettes", code_path = ".",
   toc_collapse = TRUE,
   lib_dir = assets_dir(),
   render = TRUE,
   view_output = TRUE,
   is_https = FALSE,
-  input_file_rmd = index_file_rmd(),
-  output_file_html = index_file_html(),
+  input_file_rmd = docs_file_rmd(),
+  output_file_html = docs_file_html(),
   self_contained = is_self_contained_build(),
   cran_build = is_cran_build(),
   verbose = TRUE
@@ -48,7 +48,7 @@ vig_render_index <- function(
   verbose <- identical(verbose, TRUE)
   wrapper_fn <- if (verbose) identity else suppressMessages
 
-  # generate index.html
+  # generate docs.html
   if (render) {
     if (cran_build) {
       wrapper_fn(render_cran(
@@ -147,7 +147,7 @@ vig_render_rd <- function(
 
 #' @export
 #' @rdname vignette_render
-#' @param ... parameters passed directly to \code{vig_render_rd} or \code{vig_render_index}
+#' @param ... parameters passed directly to \code{vig_render_rd} or \code{vig_render_docs}
 rd_render <- function(...) {
   vig_render_rd(..., cran_build = FALSE)
 }
@@ -155,6 +155,6 @@ rd_render <- function(...) {
 
 #' @export
 #' @rdname vignette_render
-index_render <- function(...) {
-  vig_render_index(..., cran_build = FALSE)
+docs_render <- function(...) {
+  vig_render_docs(..., cran_build = FALSE)
 }

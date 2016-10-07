@@ -136,7 +136,7 @@
   #           the respective arguments to be used when spell checking the
   #           text in the vignette source file with 'aspell'.
 
-  index_weaver <- function(
+  docs_weaver <- function(
     toc_collapse,
     verbose = TRUE
   ) {
@@ -200,8 +200,8 @@
       package = "packagedocs"
     )
   }
-  reg_eng("index", index_weaver(toc_collapse = TRUE))
-  reg_eng("index_no_collapse", index_weaver(toc_collapse = FALSE))
+  reg_eng("docs", docs_weaver(toc_collapse = TRUE))
+  reg_eng("docs_no_collapse", docs_weaver(toc_collapse = FALSE))
 
   reg_eng("rd", rd_weaver(toc_collapse = TRUE))
   reg_eng("rd_no_collapse", rd_weaver(toc_collapse = FALSE))

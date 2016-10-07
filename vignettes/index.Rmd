@@ -10,9 +10,9 @@ output:
     lazyrmd_render_package: rmarkdown
 vignette: >
   %\VignetteIndexEntry{packagedocs}
-  %\VignetteEngine{packagedocs::index}
+  %\VignetteEngine{packagedocs::docs}
 navpills: |
-  <li class="active"><a href='index.html'>Docs</a></li>
+  <li class="active"><a href='docs.html'>Docs</a></li>
   <li><a href='rd.html'>Package Ref</a></li>
   <li><a href='https://github.com/schloerke/packagedocs'>Github <i class='fa fa-github'></i></a></li>
 ---
@@ -188,11 +188,11 @@ Please look at `r rdl(deploy_travis)` for more information.
 
 # Vignette Engines
 
-There are two `index.Rmd` vignette engines:
+There are two `docs.Rmd` vignette engines:
 
-* `%\VignetteEngine{packagedocs::index}`.
+* `%\VignetteEngine{packagedocs::docs}`.
     * This will collapse the left side table of contents. This is the default auto-generated engine.
-* `%\VignetteEngine{packagedocs::index_no_collapse}`
+* `%\VignetteEngine{packagedocs::docs_no_collapse}`
     * This will **NOT** collapse the left side table of contents.
 
 There are two `rd.Rmd` vignette engines:

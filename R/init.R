@@ -1,9 +1,9 @@
 
-index_file_rmd <- function() {
-  "index.Rmd"
+docs_file_rmd <- function() {
+  "docs.Rmd"
 }
-index_file_html <- function() {
-  "index.html"
+docs_file_html <- function() {
+  "docs.html"
 }
 
 rd_file_rmd <- function() {
@@ -29,8 +29,8 @@ rd_img_dir <- function() {
 rd_files_dir <- function() {
   "rd_files"
 }
-index_files_dir <- function() {
-  "index_files"
+docs_files_dir <- function() {
+  "docs_files"
 }
 lazy_widgets_dir <- function() {
   "lazy_widgets"
@@ -47,7 +47,7 @@ lazy_widgets_dir <- function() {
 #' @param subtitle subtitle of main page (can be changed later)
 #' @param author author (can be changed later)
 # ' @param github_ref the "user/repo" part of a link to github - if NULL or "", the github link will not be displayed
-# ' @param index_file_rmd name of index file to be created
+# ' @param docs_file_rmd name of docs file to be created
 # ' @param rd_file_rmd name of rd file to be created
 # ' @param build_file boolean to determine if the build file should be produced
 #' @export
@@ -59,11 +59,11 @@ init_vignettes <- function(
 ) {
 
   docs_path <- file.path(code_path, "vignettes")
-  index_file_rmd <- index_file_rmd()
+  docs_file_rmd <- docs_file_rmd()
   rd_file_rmd <- rd_file_rmd()
 
-  if (file.exists(file.path(docs_path, index_file_rmd))) {
-    ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite ", index_file_rmd, ", ", rd_file_rmd, ", and rd_index.yaml? (y = yes) ", sep = "")) # nolint
+  if (file.exists(file.path(docs_path, docs_file_rmd))) {
+    ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite ", docs_file_rmd, ", ", rd_file_rmd, ", and rd_index.yaml? (y = yes) ", sep = "")) # nolint
     if (!tolower(substr(ans, 1, 1)) == "y") {
       stop("Backing out...", call. = FALSE)
     }
@@ -96,9 +96,9 @@ init_vignettes <- function(
     dir.create(docs_path, recursive = TRUE)
   }
 
-  ## index.Rmd
+  ## docs.Rmd
   ##---------------------------------------------------------
-  index_template <- init_skeleton("skeleton.Rmd")
+  docs_template <- init_skeleton("skeleton.Rmd")
   args <- list(
     title = title,
     subtitle = subtitle,
@@ -106,12 +106,12 @@ init_vignettes <- function(
     github_ref = github_ref,
     vig_text = paste(
       "  %\\VignetteIndexEntry{", package_name, "}\n",
-      "  %\\VignetteEngine{packagedocs::index}",
+      "  %\\VignetteEngine{packagedocs::docs}",
       sep = ""
     )
   )
-  cat(whisker::whisker.render(index_template, args),
-    file = file.path(docs_path, index_file_rmd))
+  cat(whisker::whisker.render(docs_template, args),
+    file = file.path(docs_path, docs_file_rmd))
 
   ## rd_skeleton.Rmd
   ##---------------------------------------------------------
@@ -176,7 +176,7 @@ init_vignettes <- function(
   cat(whisker::whisker.render(yaml_template, args),
     file = file.path(docs_path, rd_index_file_yaml()))
 
-  docs <- c(index_file_rmd, rd_file_rmd, rd_index_file_yaml())
+  docs <- c(docs_file_rmd, rd_file_rmd, rd_index_file_yaml())
   # if (build_file) {
   #   docs <- append(docs, "build.R")
   # }

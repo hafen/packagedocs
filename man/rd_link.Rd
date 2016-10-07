@@ -14,7 +14,7 @@ rd_link(txt, rd_html = rd_file_html(), pkg = "../")
 \item{pkg}{path to package being documented}
 }
 \description{
-This is meant to be used inside your packagedocs vignette index.Rmd and rd.Rmd files
+This is meant to be used inside your packagedocs vignette docs.Rmd and rd.Rmd files
 }
 \details{
 Instead of using \code{&#96;myfunction()&#96;} when talking about a package function \code{myfunction} inside your .Rmd file, you can use \code{&#96;r rd_link(myfunction())&#96;} or even things like \code{&#96;r rd_link(myfunction(arg1 = 1, ...))&#96;} and it will turn it into an href pointing to the online documentation of your package function \code{myfunction} in the page rendered by packagedocs.

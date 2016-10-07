@@ -11,6 +11,6 @@ output:
 vignette: |
 {{{vig_text}}}
 navpills: |
-  <li><a href='index.html'>Docs</a></li>
+  <li><a href='docs.html'>Docs</a></li>
   <li class="active"><a href='rd.html'>Package Ref</a></li>{{{github_ref}}}
 ---

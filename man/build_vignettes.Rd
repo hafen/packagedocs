@@ -6,9 +6,9 @@
 \usage{
 build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
   output_dir = "_gh-pages", extra_dirs = file.path("vignettes",
-  c(lazy_widgets_dir(), assets_dir(), index_files_dir(), rd_files_dir())),
+  c(lazy_widgets_dir(), assets_dir(), docs_files_dir(), rd_files_dir())),
   delete_files = file.path("vignettes", c(rd_temp_file_rmd(),
-  ".build.timestamp", rd_file_html(), index_file_html())), devtools = FALSE,
+  ".build.timestamp", rd_file_html(), docs_file_html())), devtools = FALSE,
   include_vignette_source = FALSE)
 }
 \arguments{

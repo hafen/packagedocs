@@ -6,7 +6,7 @@ make_alias_id <- function(alias_file_name) {
 
 #' Translate a reference to a package function into a link to that function's documentation in rd.html
 #'
-#' This is meant to be used inside your packagedocs vignette index.Rmd and rd.Rmd files
+#' This is meant to be used inside your packagedocs vignette docs.Rmd and rd.Rmd files
 #'
 #' @param txt a string or expression referencing a function or other Rd object
 #' @param rd_html the string to be used in the href string pointing to the page where Rd documentation is provided

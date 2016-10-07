@@ -1,7 +1,7 @@
 
 # direct copy of copy_vignettes from devtools
 # added doc_dir as arg
-# added extra_files to have dirs lib_dir, "index_files", and "rd_files"
+# added extra_files to have dirs lib_dir, "docs_files", and "rd_files"
 # added option to include or exclude sources
 copy_vignettes_and_assets <- function (
   pkg,
@@ -76,14 +76,14 @@ build_vignettes <- function (
   extra_dirs = file.path("vignettes", c(
     lazy_widgets_dir(),
     assets_dir(),
-    index_files_dir(),
+    docs_files_dir(),
     rd_files_dir()
   )),
   delete_files = file.path("vignettes", c(
     rd_temp_file_rmd(),
     ".build.timestamp",
     rd_file_html(),
-    index_file_html()
+    docs_file_html()
   )),
   devtools = FALSE,
   include_vignette_source = FALSE
@@ -149,13 +149,18 @@ build_vignettes <- function (
     include_vignette_source = include_vignette_source
   )
 
-  rmdsExist <- file.exists(file.path("inst", "doc", c("index.Rmd", "rd.Rmd")))
-  if (any(rmdsExist)) {
-    if (rmdsExist[1]) {
-      message("Removing copied index.Rmd: ")
+  rmd_files <- file.path("inst", "doc", c("docs.Rmd", "rd.Rmd"))
+  rmds_exist <- file.exists(rmd_files)
+  if (any(rmds_exist)) {
+    if (rmds_exist[1]) {
+      message("Removing copied docs.Rmd")
+      unlink(rmd_files[1])
+    }
+    if (rmds_exist[2]) {
+      message("Removing copied rd.Rmd")
+      unlink(rmd_files[2])
     }
   }
-  file.exists(file.path("inst", "doc", c("index.Rmd", "rd.Rmd")))
 
   is_cran_build(FALSE)
   tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = FALSE)
