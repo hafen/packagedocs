@@ -72,12 +72,12 @@ deploy_travis <- function(
 
   if (! (travis_branch %in% valid_branches)) {
     cat("Branch not allowed to deploy. Exiting")
-    return()
+    return(invisible())
   }
 
   if (travis_pull_request != "false") {
     cat("Pull requests are not allowed to deploy. Exiting")
-    return()
+    return(invisible())
   }
 
   # build the vigs

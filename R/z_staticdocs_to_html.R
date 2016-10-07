@@ -426,7 +426,11 @@ to_html.enumerate <- function(x, ...) {
 }
 #' @export
 to_html.describe <- function(x, ...) {
-  str_c("<dl>\n", parse_descriptions(x[-1], ...), "</dl>\n")
+  if (attr(x, "Rd_tag") == "\\describe") {
+    str_c("<dl>\n", parse_descriptions(x, ...), "</dl>\n")
+  } else {
+    str_c("<dl>\n", parse_descriptions(x[-1], ...), "</dl>\n")
+  }
 }
 
 parse_items <- function(rd, ...) {

@@ -5,7 +5,8 @@
 \title{Generate package docs}
 \usage{
 package_docs(toc = TRUE, toc_depth = 2, toc_collapse = FALSE,
-  extra_dependencies = NULL, self_contained = FALSE, ...)
+  extra_dependencies = NULL, self_contained = FALSE, ...,
+  rmarkdown = "html_document")
 }
 \arguments{
 \item{toc}{should a table of contents be included?}
@@ -14,11 +15,13 @@ package_docs(toc = TRUE, toc_depth = 2, toc_collapse = FALSE,
 
 \item{toc_collapse}{should the table of contents have collapsible subsections?}
 
-\item{extra_dependencies}{passed to \code{\link[rmarkdown]{html_document}}}
+\item{extra_dependencies}{passed to the rmarkdown rendering function}
 
-\item{self_contained}{passed to \code{\link[rmarkdown]{html_document}}}
+\item{self_contained}{passed to the rmarkdown rendering function}
 
-\item{\ldots}{parameters passed to \code{\link[rmarkdown]{html_document}}}
+\item{rmarkdown}{character name of rmarkdown's renderign function.  This defaults to "html_document" which will call rmarkdown::html_document}
+
+\item{\ldots}{parameters passed to the rmarkdown rendering function}
 }
 \description{
 Generate package docs

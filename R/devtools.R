@@ -1,14 +1,16 @@
 
-
 # direct copy of copy_vignettes from devtools
 # added doc_dir as arg
 # added extra_files to have dirs lib_dir, "index_files", and "rd_files"
+# added option to include or exclude sources
 copy_vignettes_and_assets <- function (
   pkg,
   output_dir,
   extra_files = c(),
-  extra_dirs = c()
+  extra_dirs = c(),
+  include_vignette_source = TRUE
 ) {
+
   pkg <- devtools::as.package(pkg)
   doc_dir <- output_dir
 
@@ -23,11 +25,15 @@ copy_vignettes_and_assets <- function (
   }
   out_mv <- c(vigns$outputs, unlist(vigns$sources, use.names = FALSE))
   out_cp <- vigns$docs
-  message("Moving ", paste(basename(out_mv), collapse = ", "), " to ", doc_dir_small)
+
+  message("Moving ", paste(basename(out_mv), collapse = ", "), " to ", doc_dir)
   file.copy(out_mv, doc_dir, overwrite = TRUE)
   file.remove(out_mv)
-  message("Copying ", paste(basename(out_cp), collapse = ", "), " to ", doc_dir_small)
-  file.copy(out_cp, doc_dir, overwrite = TRUE)
+
+  if (isTRUE(include_vignette_source)) {
+    message("Copying ", paste(basename(out_cp), collapse = ", "), " to ", doc_dir)
+    file.copy(out_cp, doc_dir, overwrite = TRUE)
+  }
 
   find_vignette_extras <- getFromNamespace("find_vignette_extras", "devtools")
   extra_files <- append(extra_files, find_vignette_extras(pkg))
@@ -61,12 +67,12 @@ devtools_copy_vignettes <- getFromNamespace("copy_vignettes", "devtools")
 #' @param extra_dirs list of directories that will be copied to the gh-pages that are not vignettes and should not be shipped with the package. Files that should be exist in both gh-pages and the package should be contained in the \code{vignettes/.install_extras} file.
 #' @param delete_files list of files that should be deleted if they still exist when the function ends
 #' @param devtools boolean to determine if the vignettes should be processed as self contained vignettes with devtools.  Runs \code{devtools::build_vignettes(pkg, dependencies)}
+#' @param include_vignette_source boolean to determine if the vignettes should be copied to the destination directory.  Default behavior is to NOT copy the original vignettes
 #' @export
 build_vignettes <- function (
   pkg = ".",
   dependencies = "VignetteBuilder",
   output_dir = "_gh-pages",
-  devtools = FALSE,
   extra_dirs = file.path("vignettes", c(
     lazy_widgets_dir(),
     assets_dir(),
@@ -78,7 +84,9 @@ build_vignettes <- function (
     ".build.timestamp",
     rd_file_html(),
     index_file_html()
-  ))
+  )),
+  devtools = FALSE,
+  include_vignette_source = FALSE
 ) {
 
   on.exit({
@@ -132,7 +140,22 @@ build_vignettes <- function (
 
   is_cran_build(TRUE)
   tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = TRUE)
-  devtools_copy_vignettes(pkg)
+  # devtools_copy_vignettes(pkg)
+  copy_vignettes_and_assets(
+    pkg,
+    output_dir = file.path("inst", "doc"),
+    extra_dirs = c(),
+    extra_files = c(),
+    include_vignette_source = include_vignette_source
+  )
+
+  rmdsExist <- file.exists(file.path("inst", "doc", c("index.Rmd", "rd.Rmd")))
+  if (any(rmdsExist)) {
+    if (rmdsExist[1]) {
+      message("Removing copied index.Rmd: ")
+    }
+  }
+  file.exists(file.path("inst", "doc", c("index.Rmd", "rd.Rmd")))
 
   is_cran_build(FALSE)
   tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = FALSE)
@@ -140,7 +163,8 @@ build_vignettes <- function (
     pkg,
     output_dir = output_dir,
     extra_dirs = extra_dirs,
-    extra_files = c()
+    extra_files = c(),
+    include_vignette_source = include_vignette_source
   )
 
   invisible(TRUE)

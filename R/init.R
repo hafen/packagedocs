@@ -69,6 +69,20 @@ init_vignettes <- function(
     }
   }
 
+  devtools_add_desc_package <- getFromNamespace("add_desc_package", "devtools")
+  devtools_use_directory <- getFromNamespace("use_directory", "devtools")
+  devtools_use_git_ignore <- getFromNamespace("use_git_ignore", "devtools")
+  # Taken directly from devtools::use_vignette
+  # altered for packagedocs specific use
+  pkg <- devtools::as.package(code_path)
+  devtools_add_desc_package(pkg, "Suggests", "packagedocs")
+  devtools_add_desc_package(pkg, "VignetteBuilder", "packagedocs")
+  devtools_use_directory("vignettes", pkg = pkg)
+  devtools_use_git_ignore("inst/doc", pkg = pkg)
+  devtools_use_git_ignore("_gh-pages", pkg = pkg)
+  devtools::use_build_ignore("_gh-pages", pkg = pkg)
+
+
   rd_info <- as_sd_package(code_path)
 
   package_name <- if_null(rd_info$package, "mypackage")
@@ -117,15 +131,16 @@ init_vignettes <- function(
     file = file.path(docs_path, rd_file_rmd))
   cat("\n", file = file.path(docs_path, rd_file_rmd), append = TRUE)
 
-  ## install extras for devtools
-  install_extras <- file.path(docs_path, ".install_extras")
-  if (file.exists(install_extras)) {
-    if (! "rd_index.yaml" %in% readLines(install_extras)) {
-      cat("rd_index.yaml\n", file = install_extras, append = TRUE)
-    }
-  } else {
-    cat("rd_index.yaml\n", file = install_extras)
-  }
+  ### do not include the yaml file to be copied over
+  # ## install extras for devtools
+  # install_extras <- file.path(docs_path, ".install_extras")
+  # if (file.exists(install_extras)) {
+  #   if (! "rd_index.yaml" %in% readLines(install_extras)) {
+  #     cat("rd_index.yaml\n", file = install_extras, append = TRUE)
+  #   }
+  # } else {
+  #   cat("rd_index.yaml\n", file = install_extras)
+  # }
 
 
 
@@ -167,7 +182,7 @@ init_vignettes <- function(
   # }
 
   message("* packagedocs initialized in ", docs_path)
-  message(paste0("* take a look at newly created documents: ", paste(docs, collapse = ", "))) # nolint
+  message(paste0("* take a look at newly created vignette documents: ", paste(docs, collapse = ", "))) # nolint
 }
 
 

@@ -3,28 +3,20 @@
 # History files
 .Rhistory
 .Rapp.history
-
 # Example code in package build process
 *-Ex.R
-
 # R data files from past sessions
 .Rdata
-
 # RStudio files
 .Rproj.user/
-
 node_modules
 bower_components
 _ignore
-
 packagedocs.sublime*
 .Rproj.user
-
 .lintr_cache
 _docs
-
 # ignore for now
 inst/doc
-
 # ignore gh-pages output
 _gh-pages

@@ -68,7 +68,7 @@ From your package directory...
 
 <pre class="r"><code>`r rdl(packagedocs::init_vignettes())`</code></pre>
 
-This will produce four files in the `vignettes` folder: `index.Rmd`, `rd_index.yaml`, `rd.Rmd`, `.install_extras`.
+This will produce three files in the `vignettes` folder: `index.Rmd`, `rd_index.yaml`, and `rd.Rmd`.
 
 * `index.Rmd`
     * The `index.Rmd` file is the home webpage for your package's documentation. The main content has very little structure, allowing you to insert any `rmarkdown` formatted document. (Just like this one!).  The `index.Rmd` file is a great place to show off long examples that regular function documentation just can not do justice.  The classic RStudio rmarkdown example has been inserted by default for inspiration.
@@ -85,12 +85,12 @@ This will produce four files in the `vignettes` folder: `index.Rmd`, `rd_index.y
             * It contains a list of `section` and `topics` pairs.  Editing the topics field is talked about in the next section.
             * The section pairs in the `rd_index.yaml` file are auto-generated according to the keywords used in the package documentation.  All functions that do not have a keyword will be placed in the last section.  `internal` keyword functions will not be added automatically.
             * It is okay to rename, remove, rearrange, or repeat the sections and topics!
-* `.install_extras`
+<!-- * `.install_extras`
     * As taken from [Writing R Extension](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-package-vignettes)
 <pre style="white-space: pre-wrap;">
 When R CMD build builds the vignettes, it copies these and the vignette sources from directory vignettes to inst/doc. To install any other files from the vignettes directory, include a file vignettes/.install_extras which specifies these as Perl-like regular expressions on one or more lines.
 </pre>
-    * By default, only the `rd_index.yaml` file will be copied over to the `inst/doc` folder for CRAN vignettes.  When building gh-pages vignettes, `assets`, `index_files`, `rd_files`, and (maybe) the `lazy_widgets` directories will be copied as well as anything in the `.install_extras` file.  The extra directories are only copied when compiling for gh-pages vignettes as they are not needed for the CRAN vignettes that are shipped with the package.
+    * By default, only the `rd_index.yaml` file will be copied over to the `inst/doc` folder for CRAN vignettes.  When building gh-pages vignettes, `assets`, `index_files`, `rd_files`, and (maybe) the `lazy_widgets` directories will be copied as well as anything in the `.install_extras` file.  The extra directories are only copied when compiling for gh-pages vignettes as they are not needed for the CRAN vignettes that are shipped with the package. -->
 
 
 ## Editing your `rd_index.yaml`

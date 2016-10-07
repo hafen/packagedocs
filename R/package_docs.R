@@ -3,9 +3,10 @@
 #' @param toc should a table of contents be included?
 #' @param toc_depth depth of the table of contents (max is 2 for this template)
 #' @param toc_collapse should the table of contents have collapsible subsections?
-#' @param extra_dependencies passed to \code{\link[rmarkdown]{html_document}}
-#' @param self_contained passed to \code{\link[rmarkdown]{html_document}}
-#' @param \ldots parameters passed to \code{\link[rmarkdown]{html_document}}
+#' @param extra_dependencies passed to the rmarkdown rendering function
+#' @param self_contained passed to the rmarkdown rendering function
+#' @param \ldots parameters passed to the rmarkdown rendering function
+#' @param rmarkdown character name of rmarkdown's renderign function.  This defaults to "html_document" which will call rmarkdown::html_document
 #' @export
 #' @import rmarkdown
 #' @import htmltools
@@ -15,7 +16,8 @@ package_docs <- function(
   toc_collapse = FALSE,
   extra_dependencies = NULL,
   self_contained = FALSE,
-  ...
+  ...,
+  rmarkdown = "html_document"
 ) {
 
   template <-  system.file("html_assets/template.html", package = "packagedocs")
@@ -45,8 +47,10 @@ package_docs <- function(
     extra_dependencies
   )
 
-  # call the base html_document function
-  rmarkdown::html_document(toc = toc,
+  # call the lazy render function that wraps rmarkdown::html_document
+  lazyrmd::lazy_render(
+    rmarkdown = rmarkdown,
+    toc = toc,
     toc_depth = toc_depth,
     fig_width = 6.5,
     fig_height = 4,
