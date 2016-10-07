@@ -141,21 +141,19 @@
     verbose = TRUE
   ) {
     function(file, ...) {
-      if (file == "index.Rmd") {
-        vig_render_index(
-          docs_path = "./",
-          code_path = "../",
-          toc_collapse = toc_collapse,
-          lib_dir = "assets",
-          render = TRUE,
-          view_output = FALSE,
-          verbose = verbose
-        )
-        return("index.html")
-
-      } else {
-        stop("packagedocs::index only compiles a vignette named: index.Rmd") # nolint
-      }
+      output_file <- gsub(".Rmd", ".html", file, fixed = TRUE)
+      vig_render_docs(
+        input_file_rmd = file,
+        output_file_html = output_file,
+        docs_path = "./",
+        code_path = "../",
+        toc_collapse = toc_collapse,
+        lib_dir = "assets",
+        render = TRUE,
+        view_output = FALSE,
+        verbose = verbose
+      )
+      return(output_file)
     }
   }
 
@@ -164,26 +162,21 @@
     verbose = TRUE
   ) {
     function(file, ...) {
-      if (file == "rd.Rmd") {
-        # rd.Rmd
-        vig_render_rd(
-          docs_path = "./",
-          code_path = "../",
-          toc_collapse = toc_collapse,
-          lib_dir = "assets",
-          render = TRUE,
-          view_output = FALSE,
-          rd_index = NULL,
-          input_file_rmd = "rd.Rmd",
-          output_file_html = "rd.html",
-          temp_file_rmd = "rd_combined.Rmd",
-          verbose = verbose
-        )
-        return("rd.html")
-
-      } else {
-        stop("This vignette engine only compiles a vignette named: rd.Rmd") # nolint
-      }
+      output_file <- gsub(".Rmd", ".html", file, fixed = TRUE)
+      vig_render_rd(
+        docs_path = "./",
+        code_path = "../",
+        toc_collapse = toc_collapse,
+        lib_dir = "assets",
+        render = TRUE,
+        view_output = FALSE,
+        rd_index = NULL,
+        input_file_rmd = file,
+        output_file_html = output_file,
+        temp_file_rmd = "rd_combined.Rmd",
+        verbose = verbose
+      )
+      return("rd.html")
     }
   }
   tangler <- function(...) {
