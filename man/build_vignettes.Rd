@@ -5,11 +5,11 @@
 \title{Build CRAN and gh-pages vignettes}
 \usage{
 build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
-  output_dir = "_gh-pages", extra_dirs = file.path("vignettes",
-  c(lazy_widgets_dir(), assets_dir(), docs_files_dir(), rd_files_dir())),
-  delete_files = file.path("vignettes", c(rd_temp_file_rmd(),
-  ".build.timestamp", rd_file_html(), docs_file_html())), devtools = FALSE,
-  include_vignette_source = FALSE)
+  output_dir = "_gh-pages", index_redirect_file = "docs.html",
+  extra_dirs = file.path("vignettes", c(lazy_widgets_dir(), assets_dir(),
+  docs_files_dir(), rd_files_dir())), delete_files = file.path("vignettes",
+  c(rd_temp_file_rmd(), ".build.timestamp", rd_file_html(), docs_file_html())),
+  devtools = FALSE, include_vignette_source = FALSE)
 }
 \arguments{
 \item{pkg}{path to package. Provided directly to \code{devtools::\link[devtools]{as.package}()}}
@@ -17,6 +17,8 @@ build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
 \item{dependencies}{supplied directly to \code{devtools::\link[devtools]{install_deps}()}}
 
 \item{output_dir}{directory where the fully contained vignette directory should be exported}
+
+\item{index_redirect_file}{location of file where the index.html webpage should redirect to.  If no index.html file should be created, set this value to \code{FALSE} or \code{NULL}}
 
 \item{extra_dirs}{list of directories that will be copied to the gh-pages that are not vignettes and should not be shipped with the package. Files that should be exist in both gh-pages and the package should be contained in the \code{vignettes/.install_extras} file.}
 

@@ -64,6 +64,7 @@ devtools_copy_vignettes <- getFromNamespace("copy_vignettes", "devtools")
 #' @param pkg path to package. Provided directly to \code{devtools::\link[devtools]{as.package}()}
 #' @param dependencies supplied directly to \code{devtools::\link[devtools]{install_deps}()}
 #' @param output_dir directory where the fully contained vignette directory should be exported
+#' @param index_redirect_file location of file where the index.html webpage should redirect to.  If no index.html file should be created, set this value to \code{FALSE} or \code{NULL}
 #' @param extra_dirs list of directories that will be copied to the gh-pages that are not vignettes and should not be shipped with the package. Files that should be exist in both gh-pages and the package should be contained in the \code{vignettes/.install_extras} file.
 #' @param delete_files list of files that should be deleted if they still exist when the function ends
 #' @param devtools boolean to determine if the vignettes should be processed as self contained vignettes with devtools.  Runs \code{devtools::build_vignettes(pkg, dependencies)}
@@ -73,6 +74,7 @@ build_vignettes <- function (
   pkg = ".",
   dependencies = "VignetteBuilder",
   output_dir = "_gh-pages",
+  index_redirect_file = "docs.html",
   extra_dirs = file.path("vignettes", c(
     lazy_widgets_dir(),
     assets_dir(),
@@ -171,6 +173,17 @@ build_vignettes <- function (
     extra_files = c(),
     include_vignette_source = include_vignette_source
   )
+  if (is.character(index_redirect_file)) {
+    redir_templ <- paste(readLines(file.path(system.file(package = "packagedocs"),
+      "rd_template", "cran_template.html")), collapse = "\n")
+
+    redir_res <- whisker.render(
+      redir_templ,
+      list(title = pkg$package, url = index_redirect_file)
+    )
+    cat(redir_res, file = file.path(output_dir, "index.html"))
+    cat("\n", file = file.path(output_dir, "index.html"), append = TRUE)
+  }
 
   invisible(TRUE)
 }
