@@ -14,7 +14,7 @@ vignette: >
 navpills: |
   <li class="active"><a href='docs.html'>Docs</a></li>
   <li><a href='rd.html'>Package Ref</a></li>
-  <li><a href='https://github.com/schloerke/packagedocs'>Github <i class='fa fa-github'></i></a></li>
+  <li><a href='https://github.com/hafen/packagedocs'>Github <i class='fa fa-github'></i></a></li>
 ---
 
 ```{r global_options, include=FALSE}
@@ -27,7 +27,7 @@ rdl <- function(x) packagedocs::rd_link(deparse(substitute(x)))
 
 # packagedocs
 
-[![Build Status](https://travis-ci.org/schloerke/packagedocs.svg?branch=master)](https://travis-ci.org/schloerke/packagedocs)
+[![Build Status](https://travis-ci.org/hafen/packagedocs.svg?branch=master)](https://travis-ci.org/hafen/packagedocs)
 
 Build an R package documentation website using [rmarkdown](http://rmarkdown.rstudio.com).  Example [here](http://hafen.github.io/rbokeh/) or ([here](http://tessera.io/docs-datadr/)).
 
@@ -44,7 +44,7 @@ install.packages("packagedocs")
 
 From github with devtools:
 
-<pre class="r"><code>`r rdl(devtools::install_github("schloerke/packagedocs"))`</code></pre>
+<pre class="r"><code>`r rdl(devtools::install_github("hafen/packagedocs"))`</code></pre>
 
 # Motivation
 

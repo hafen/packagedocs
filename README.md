@@ -1,4 +1,4 @@
-# packagedocs [![Build Status](https://travis-ci.org/schloerke/packagedocs.svg?branch=master)](https://travis-ci.org/schloerke/packagedocs)
+# packagedocs [![Build Status](https://travis-ci.org/hafen/packagedocs.svg?branch=master)](https://travis-ci.org/hafen/packagedocs)
 
 
 Build an R package documentation website using [rmarkdown](http://rmarkdown.rstudio.com).  Example [here](http://hafen.github.io/rbokeh/) or ([here](http://tessera.io/docs-datadr/)).
@@ -16,7 +16,7 @@ install.packages("packagedocs")
 From github with devtools:
 
 ```s
-devtools::install_github("schloerke/packagedocs")
+devtools::install_github("hafen/packagedocs")
 ```
 
 ## Vignettes
@@ -34,4 +34,4 @@ To generate your vignettes, run:
 packagedocs::build_vignettes()
 ```
 
-For more information, please visit the [`packagedocs` documentation](https://schloerke.github.io/packagedocs)
+For more information, please visit the [`packagedocs` documentation](https://hafen.github.io/packagedocs)
