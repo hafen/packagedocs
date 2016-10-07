@@ -6,7 +6,7 @@
 \usage{
 package_docs(toc = TRUE, toc_depth = 2, toc_collapse = FALSE,
   extra_dependencies = NULL, self_contained = FALSE, ...,
-  rmarkdown = "html_document")
+  lazyrmd_render_fn = "html_document", lazyrmd_render_package = "rmarkdown")
 }
 \arguments{
 \item{toc}{should a table of contents be included?}
@@ -19,7 +19,7 @@ package_docs(toc = TRUE, toc_depth = 2, toc_collapse = FALSE,
 
 \item{self_contained}{passed to the rmarkdown rendering function}
 
-\item{rmarkdown}{character name of rmarkdown's renderign function.  This defaults to "html_document" which will call rmarkdown::html_document}
+\item{lazyrmd_render_fn, lazyrmd_render_package}{arguments of \code{lazyrmd::\link[lazyrmd]{lazy_render}}.  Defaults to render with \code{rmarkdown::html_document}}
 
 \item{\ldots}{parameters passed to the rmarkdown rendering function}
 }

@@ -6,7 +6,8 @@ copyright: {{{author}}}
 output:
   packagedocs:
     toc: true
-    rmarkdown: html_document
+    lazyrmd_render_fn: html_document
+    lazyrmd_render_package: rmarkdown
 vignette: >
 {{{vig_text}}}
 navpills: |

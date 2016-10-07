@@ -6,7 +6,7 @@
 #' @param extra_dependencies passed to the rmarkdown rendering function
 #' @param self_contained passed to the rmarkdown rendering function
 #' @param \ldots parameters passed to the rmarkdown rendering function
-#' @param rmarkdown character name of rmarkdown's renderign function.  This defaults to "html_document" which will call rmarkdown::html_document
+#' @param lazyrmd_render_fn,lazyrmd_render_package arguments of \code{lazyrmd::\link[lazyrmd]{lazy_render}}.  Defaults to render with \code{rmarkdown::html_document}
 #' @export
 #' @import rmarkdown
 #' @import htmltools
@@ -17,7 +17,8 @@ package_docs <- function(
   extra_dependencies = NULL,
   self_contained = FALSE,
   ...,
-  rmarkdown = "html_document"
+  lazyrmd_render_fn = "html_document",
+  lazyrmd_render_package = "rmarkdown"
 ) {
 
   template <-  system.file("html_assets/template.html", package = "packagedocs")
@@ -49,7 +50,8 @@ package_docs <- function(
 
   # call the lazy render function that wraps rmarkdown::html_document
   lazyrmd::lazy_render(
-    rmarkdown = rmarkdown,
+    lazyrmd_render_fn = lazyrmd_render_fn,
+    lazyrmd_render_package = lazyrmd_render_package,
     toc = toc,
     toc_depth = toc_depth,
     fig_width = 6.5,
@@ -60,8 +62,10 @@ package_docs <- function(
     theme = NULL,
     highlight = NULL,
     extra_dependencies = extra_dependencies,
-    pandoc_args = c("--variable", paste("current_year", format(Sys.time(), "%Y"), sep = "=")), ...)
-    # includes = includes(before_body = header))
+    pandoc_args = c("--variable", paste("current_year", format(Sys.time(), "%Y"), sep = "=")),
+    ...
+  )
+  # includes = includes(before_body = header))
 }
 
 html_dependency_jquery <- getFromNamespace("html_dependency_jquery", "rmarkdown")
