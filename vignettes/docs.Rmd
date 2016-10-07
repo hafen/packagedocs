@@ -9,7 +9,7 @@ output:
     lazyrmd_render_fn: html_document
     lazyrmd_render_package: rmarkdown
 vignette: >
-  %\VignetteIndexEntry{packagedocs}
+  %\VignetteIndexEntry{packagedocs Documentation}
   %\VignetteEngine{packagedocs::docs}
 navpills: |
   <li class="active"><a href='docs.html'>Docs</a></li>
