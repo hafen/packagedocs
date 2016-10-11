@@ -10,7 +10,6 @@
 #' @param input_file_rmd rmd file input
 #' @param output_file_html html file where the output is placed
 #' @param self_contained boolean to determine if the html should be fully self contained
-#' @param cran_build boolean to determine if the html should redirect to the github location of the package
 #' @param verbose boolean to determine if ouput should be displayed
 #' @rdname vignette_render
 #' @export
@@ -23,8 +22,7 @@ vig_render_docs <- function(
   is_https = FALSE,
   input_file_rmd = docs_file_rmd(),
   output_file_html = docs_file_html(),
-  self_contained = is_self_contained_build(),
-  cran_build = is_cran_build(),
+  self_contained = FALSE,
   verbose = TRUE
 ) {
 
@@ -50,19 +48,12 @@ vig_render_docs <- function(
 
   # generate docs.html
   if (render) {
-    if (cran_build) {
-      wrapper_fn(render_cran(
-        code_path = code_path,
-        output_file_html = output_file_html,
-        is_https = is_https,
-        is_rd_cran = FALSE
-      ))
-    } else {
-      wrapper_fn(render(input_file_rmd, output_format = pdof1, quiet = !verbose))
-      wrapper_fn(check_output(output_file_html))
-    }
-    if (view_output)
+    wrapper_fn(render(input_file_rmd, output_format = pdof1, quiet = !verbose))
+    wrapper_fn(check_output(output_file_html))
+
+    if (view_output) {
       browseURL(output_file_html)
+    }
   }
 
   file.path(docs_path, output_file_html)
@@ -84,8 +75,7 @@ vig_render_rd <- function(
   input_file_rmd = rd_file_rmd(),
   temp_file_rmd = rd_temp_file_rmd(),
   output_file_html = rd_file_html(),
-  self_contained = is_self_contained_build(),
-  cran_build = is_cran_build(),
+  self_contained = FALSE,
   verbose = TRUE
 ) {
 
@@ -114,30 +104,23 @@ vig_render_rd <- function(
       self_contained = self_contained
     )
 
-    if (cran_build) {
-      wrapper_fn(render_cran(
-        code_path = code_path,
-        output_file_html = output_file_html,
-        is_https = is_https,
-        is_rd_cran = TRUE
-      ))
-    } else {
-      wrapper_fn(render_rd(
-        input_file_rmd,
-        code_path = code_path,
-        # docs_path = "./",
-        rd_index = rd_index, output_format = pdof2,
-        output_file_rmd = temp_file_rmd,
-        output_file_html = output_file_html,
-        verbose = verbose
-      ))
-      wrapper_fn(check_output(output_file_html))
-      if (delete_temp_rmd) {
-        unlink(temp_file_rmd)
-      }
+    wrapper_fn(render_rd(
+      input_file_rmd,
+      code_path = code_path,
+      # docs_path = "./",
+      rd_index = rd_index, output_format = pdof2,
+      output_file_rmd = temp_file_rmd,
+      output_file_html = output_file_html,
+      verbose = verbose
+    ))
+    wrapper_fn(check_output(output_file_html))
+    if (delete_temp_rmd) {
+      unlink(temp_file_rmd)
     }
-    if (view_output)
+
+    if (view_output) {
       browseURL(output_file_html)
+    }
   }
 
   file.path(docs_path, output_file_html)
@@ -149,12 +132,12 @@ vig_render_rd <- function(
 #' @rdname vignette_render
 #' @param ... parameters passed directly to \code{vig_render_rd} or \code{vig_render_docs}
 rd_render <- function(...) {
-  vig_render_rd(..., cran_build = FALSE)
+  vig_render_rd(...)
 }
 
 
 #' @export
 #' @rdname vignette_render
 docs_render <- function(...) {
-  vig_render_docs(..., cran_build = FALSE)
+  vig_render_docs(...)
 }
