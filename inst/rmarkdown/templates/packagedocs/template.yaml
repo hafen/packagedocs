@@ -1,4 +1,0 @@
-name: Package docs template
-description: >
- Template for creating website for R package documentation
-create_dir: true
