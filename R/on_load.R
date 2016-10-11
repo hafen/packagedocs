@@ -136,67 +136,25 @@
   #           the respective arguments to be used when spell checking the
   #           text in the vignette source file with 'aspell'.
 
-  docs_weaver <- function(
-    toc_collapse,
-    verbose = TRUE
-  ) {
-    function(file, ...) {
-      output_file <- gsub(".Rmd", ".html", file, fixed = TRUE)
-      vig_render_docs(
-        input_file_rmd = file,
-        output_file_html = output_file,
-        docs_path = "./",
-        code_path = "../",
-        toc_collapse = toc_collapse,
-        lib_dir = "assets",
-        render = TRUE,
-        view_output = FALSE,
-        verbose = verbose
-      )
-      return(output_file)
-    }
-  }
-
-  rd_weaver <- function(
-    toc_collapse = TRUE,
-    verbose = TRUE
-  ) {
-    function(file, ...) {
-      output_file <- gsub(".Rmd", ".html", file, fixed = TRUE)
-      vig_render_rd(
-        docs_path = "./",
-        code_path = "../",
-        toc_collapse = toc_collapse,
-        lib_dir = "assets",
-        render = TRUE,
-        view_output = FALSE,
-        rd_index = NULL,
-        input_file_rmd = file,
-        output_file_html = output_file,
-        temp_file_rmd = "rd_combined.Rmd",
-        verbose = verbose
-      )
-      return("rd.html")
-    }
+  redirect_weaver <- function(file, ...) {
+    output_file <- gsub(".Rmd", ".html", file, fixed = TRUE)
+    render_redirect(
+      input_file_rmd = file,
+      output_file_html = output_file
+    )
+    return(output_file)
   }
   tangler <- function(...) {
     # do not create an R file with all the R code.
     return()
   }
 
-  reg_eng <- function(name, weave_fn) {
-    tools::vignetteEngine(
-      name = name,
-      weave = weave_fn,
-      tangle = tangler,
-      pattern = "\\.Rmd$",
-      package = "packagedocs"
-    )
-  }
-  reg_eng("docs", docs_weaver(toc_collapse = TRUE))
-  reg_eng("docs_no_collapse", docs_weaver(toc_collapse = FALSE))
-
-  reg_eng("rd", rd_weaver(toc_collapse = TRUE))
-  reg_eng("rd_no_collapse", rd_weaver(toc_collapse = FALSE))
+  tools::vignetteEngine(
+    name = "redirect",
+    weave = redirect_weaver,
+    tangle = tangler,
+    pattern = "\\.Rmd$",
+    package = "packagedocs"
+  )
 
 }
