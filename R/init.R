@@ -85,6 +85,8 @@ init_vignettes <- function(
 
   rd_info <- as_sd_package(code_path)
 
+  redirect_url <- parse_github_redirect_url(rd_info)
+
   package_name <- if_null(rd_info$package, "mypackage")
   title <- if_null(title, paste(package_name, " Documentation", sep = ""))
   subtitle <- if_null(subtitle, rd_info$title)
@@ -104,9 +106,10 @@ init_vignettes <- function(
     subtitle = subtitle,
     author = author,
     github_ref = github_ref,
+    redirect_url = redirect_url,
     vig_text = paste(
       "  %\\VignetteIndexEntry{", package_name, " Documentation}\n",
-      "  %\\VignetteEngine{packagedocs::docs}",
+      "  %\\VignetteEngine{packagedocs::redirect}",
       sep = ""
     )
   )
@@ -121,9 +124,10 @@ init_vignettes <- function(
     subtitle = subtitle,
     author = author,
     github_ref = github_ref,
+    redirect_url = paste(redirect_url, "/rd.html", sep = ""),
     vig_text = paste(
       "  %\\VignetteIndexEntry{", package_name, " Package Reference}\n",
-      "  %\\VignetteEngine{packagedocs::rd}",
+      "  %\\VignetteEngine{packagedocs::redirect}",
       sep = ""
     )
   )
@@ -253,4 +257,38 @@ init_skeleton <- function(filename) {
       filename
     )
   ), collapse = "\n")
+}
+
+
+parse_github_redirect_url <- function(rd_info) {
+  git_url <- rd_info$urls
+  if (any(grepl("github.io", git_url))) {
+    git_url <- git_url[grepl("github.io", git_url)]
+    if (length(git_url) > 1) {
+      git_url <- git_url[1]
+      message("Using first github.io url as redirect")
+    }
+  } else {
+    git_url <- git_url[grepl("github.com", git_url)]
+    if (length(git_url) > 1) {
+      git_url <- unique(gsub("/issues$", "", git_url))
+    }
+    if (length(git_url) > 1) {
+      git_url <- git_url[1]
+      message("Using first github url as source: ", git_url[1])
+    } else if (length(git_url) == 0) {
+      tryCatch(gsub(
+        ".*[:/]([^/]*/[^.]*)\\.git",
+        "\\1",
+        system("git config --get remote.origin.url", intern = TRUE)
+      ), error = function(e){
+        stop("Please add a redirect url 'PackagedocsRedirect' in the DESCRIPTION file")
+      })
+    }
+    git_user <- gsub(".*\\.com/([^/]*)/.*", "\\1", git_url)
+    git_project <- gsub(".*\\.com/[^/]*/(.*)", "\\1", git_url)
+    git_url <- paste("http://", git_user, ".github.io/", git_project, sep = "")
+  }
+
+  git_url
 }
