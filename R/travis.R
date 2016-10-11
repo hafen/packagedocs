@@ -33,9 +33,9 @@ is_cran_build <- cache_boolean(is_cran_build_default())
 deploy_travis <- function(
   # remove the href or git@github at the beginning and only keep USER/REPO
   repo = gsub(
-    ".*[:/]([^/]*/[^.]*)\\.git",
-    "\\1",
-    system("git config --get remote.origin.url", intern = TRUE)
+    ".*://([^.]*)\\.github.io/([^/]*).*",
+    "\\1/\\2",
+    read_rmd_yaml(file.path("vignettes", "docs.Rmd"))$packagedocs_redirect
   ),
   valid_branches = "master",
   token_key = "GITHUB_PAT",
