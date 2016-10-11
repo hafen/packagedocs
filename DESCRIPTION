@@ -9,7 +9,7 @@ Description: Use lazyrmd to build a package documentation site.
 Depends:
     R (>= 3.1.1)
 License: MIT + file LICENSE
-URL: https://github.com/hafen/packagedocs
+URL: http://hafen.github.io/packagedocs, https://github.com/hafen/packagedocs
 LazyData: true
 Imports:
     crayon,
