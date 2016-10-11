@@ -1,32 +1,34 @@
 
+#' Read .Rmd yaml header
+#'
+#' @param file input file to read
+#' @export
+read_rmd_yaml <- function(file) {
+  input_lines <- readLines(file)
+  from_to <- which(grepl("^---$", input_lines))[1:2]
+  from_to <- from_to + c(1, -1)
+  yaml_txt <- paste(input_lines[seq(from_to[1], from_to[2])], collapse = "\n")
+  yaml::yaml.load(yaml_txt)
+}
 
 
-render_cran <- function(code_path, output_file_html, is_rd_cran = FALSE, is_https = FALSE) {
+render_redirect <- function(input_file_rmd, output_file_html) {
+
+  input_yaml <- read_rmd_yaml(input_file_rmd)
+
+
+  redirect_url <- input_yaml$packagedocs_redirect
+  if (is.null(redirect_url)) {
+    stop("key 'packagedocs_redirect' must be located in the .Rmd header")
+  }
+  title <- input_yaml$title
+  if (is.null(title)) {
+    stop("key 'title' must be located in the .Rmd header")
+  }
+
   cran_templ <- paste(readLines(file.path(system.file(package = "packagedocs"),
     "rd_template", "cran_template.html")), collapse = "\n")
-
-  pkg_info <- as_sd_package(code_path)
-
-  github_ref <- parse_github_ref_val(pkg_info)
-  if (is.null(github_ref)) {
-    stop("There must be a github url in the 'url' field of the DESCRIPTION file ",
-      "to produce a CRAN vignette")
-  }
-  user_repo <- strsplit(github_ref, "/")[[1]]
-
-  http <- ifelse(isTRUE(is_https), "https", "http")
-
-  cran_args <- list(
-    title = paste0(
-      pkg_info$package,
-      ifelse(is_rd_cran, " function reference", " package documentation")
-    ),
-    url = paste0(
-      http, "://", user_repo[1], ".github.io/", user_repo[2],
-      ifelse(is_rd_cran, paste("/", output_file_html, sep = ""), "") # nolint
-    )
-  )
-  res <- whisker.render(cran_templ, cran_args)
+  res <- whisker.render(cran_templ, list(title = title, url = redirect_url))
 
   cat(res, file = output_file_html)
   cat("\n", file = output_file_html, append = TRUE)
