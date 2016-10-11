@@ -4,11 +4,11 @@ subtitle: "{{{subtitle}}}"
 author: "{{{author}}}"
 copyright: "{{{author}}}"
 output:
-  packagedocs:
-    toc: true
+  lazyrmd::lazy_render
     lazyrmd_render_fn: html_document
     lazyrmd_render_package: rmarkdown
-vignette: >
+packagedocs_redirect: {{{ redirect_url }}}
+vignette: |
 {{{vig_text}}}
 navpills: |
   <li class="active"><a href='docs.html'>Docs</a></li>
