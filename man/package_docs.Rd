@@ -5,7 +5,8 @@
 \title{Generate package docs}
 \usage{
 package_docs(toc = TRUE, toc_depth = 2, toc_collapse = FALSE,
-  extra_dependencies = NULL, self_contained = FALSE, ...,
+  extra_dependencies = NULL, self_contained = FALSE, fig_width = 6.5,
+  fig_height = 4, mathjax = NULL, ...,
   lazyrmd_render_fn = "html_document", lazyrmd_render_package = "rmarkdown")
 }
 \arguments{
@@ -15,9 +16,7 @@ package_docs(toc = TRUE, toc_depth = 2, toc_collapse = FALSE,
 
 \item{toc_collapse}{should the table of contents have collapsible subsections?}
 
-\item{extra_dependencies}{passed to the rmarkdown rendering function}
-
-\item{self_contained}{passed to the rmarkdown rendering function}
+\item{extra_dependencies, self_contained, fig_width, fig_height, mathjax}{passed to the rmarkdown rendering function}
 
 \item{lazyrmd_render_fn, lazyrmd_render_package}{arguments of \code{lazyrmd::\link[lazyrmd]{lazy_render}}.  Defaults to render with \code{rmarkdown::html_document}}
 

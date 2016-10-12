@@ -3,8 +3,7 @@
 #' @param toc should a table of contents be included?
 #' @param toc_depth depth of the table of contents (max is 2 for this template)
 #' @param toc_collapse should the table of contents have collapsible subsections?
-#' @param extra_dependencies passed to the rmarkdown rendering function
-#' @param self_contained passed to the rmarkdown rendering function
+#' @param extra_dependencies,self_contained,fig_width,fig_height,mathjax passed to the rmarkdown rendering function
 #' @param \ldots parameters passed to the rmarkdown rendering function
 #' @param lazyrmd_render_fn,lazyrmd_render_package arguments of \code{lazyrmd::\link[lazyrmd]{lazy_render}}.  Defaults to render with \code{rmarkdown::html_document}
 #' @export
@@ -16,6 +15,9 @@ package_docs <- function(
   toc_collapse = FALSE,
   extra_dependencies = NULL,
   self_contained = FALSE,
+  fig_width = 6.5,
+  fig_height = 4,
+  mathjax = NULL,
   ...,
   lazyrmd_render_fn = "html_document",
   lazyrmd_render_package = "rmarkdown"
@@ -54,9 +56,9 @@ package_docs <- function(
     lazyrmd_render_package = lazyrmd_render_package,
     toc = toc,
     toc_depth = toc_depth,
-    fig_width = 6.5,
-    fig_height = 4,
-    mathjax = NULL,
+    fig_width = fig_width,
+    fig_height = fig_height,
+    mathjax = mathjax,
     self_contained = self_contained,
     template = template,
     theme = NULL,
