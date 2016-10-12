@@ -9,18 +9,15 @@
 \usage{
 vig_render_docs(docs_path = "vignettes", code_path = ".",
   toc_collapse = TRUE, lib_dir = assets_dir(), render = TRUE,
-  view_output = TRUE, is_https = FALSE, input_file_rmd = docs_file_rmd(),
-  output_file_html = docs_file_html(),
-  self_contained = is_self_contained_build(), cran_build = is_cran_build(),
+  view_output = TRUE, input_file_rmd = docs_file_rmd(),
+  output_file_html = docs_file_html(), self_contained = FALSE,
   verbose = TRUE)
 
 vig_render_rd(docs_path = "vignettes", code_path = ".",
   toc_collapse = FALSE, lib_dir = assets_dir(), render = TRUE,
-  view_output = TRUE, rd_index = NULL, is_https = FALSE,
-  input_file_rmd = rd_file_rmd(), temp_file_rmd = rd_temp_file_rmd(),
-  output_file_html = rd_file_html(),
-  self_contained = is_self_contained_build(), cran_build = is_cran_build(),
-  verbose = TRUE)
+  view_output = TRUE, rd_index = NULL, input_file_rmd = rd_file_rmd(),
+  temp_file_rmd = rd_temp_file_rmd(), output_file_html = rd_file_html(),
+  self_contained = FALSE, verbose = TRUE)
 
 rd_render(...)
 
@@ -39,15 +36,11 @@ docs_render(...)
 
 \item{view_output}{boolean to determine if a browser should be opened to the files}
 
-\item{is_https}{boolean to determine if the cran http redirects should point to a http or https website}
-
 \item{input_file_rmd}{rmd file input}
 
 \item{output_file_html}{html file where the output is placed}
 
 \item{self_contained}{boolean to determine if the html should be fully self contained}
-
-\item{cran_build}{boolean to determine if the html should redirect to the github location of the package}
 
 \item{verbose}{boolean to determine if ouput should be displayed}
 

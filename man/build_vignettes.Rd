@@ -9,7 +9,7 @@ build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
   extra_dirs = file.path("vignettes", c(lazy_widgets_dir(), assets_dir(),
   docs_files_dir(), rd_files_dir())), delete_files = file.path("vignettes",
   c(rd_temp_file_rmd(), ".build.timestamp", rd_file_html(), docs_file_html())),
-  devtools = FALSE, include_vignette_source = FALSE)
+  include_vignette_source = FALSE)
 }
 \arguments{
 \item{pkg}{path to package. Provided directly to \code{devtools::\link[devtools]{as.package}()}}
@@ -23,8 +23,6 @@ build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
 \item{extra_dirs}{list of directories that will be copied to the gh-pages that are not vignettes and should not be shipped with the package. Files that should be exist in both gh-pages and the package should be contained in the \code{vignettes/.install_extras} file.}
 
 \item{delete_files}{list of files that should be deleted if they still exist when the function ends}
-
-\item{devtools}{boolean to determine if the vignettes should be processed as self contained vignettes with devtools.  Runs \code{devtools::build_vignettes(pkg, dependencies)}}
 
 \item{include_vignette_source}{boolean to determine if the vignettes should be copied to the destination directory.  Default behavior is to NOT copy the original vignettes}
 }

@@ -4,11 +4,11 @@
 \alias{deploy_travis}
 \title{Deploy to Github Pages from Travis-CI}
 \usage{
-deploy_travis(repo = gsub(".*[:/]([^/]*/[^.]*)\\\\.git", "\\\\1",
-  system("git config --get remote.origin.url", intern = TRUE)),
-  valid_branches = "master", token_key = "GITHUB_PAT",
-  email = "travis@travis-ci.org", name = "Travis CI",
-  push_branch = "gh-pages", output_dir = "_gh-pages")
+deploy_travis(repo = gsub(".*://([^.]*)\\\\.github.io/([^/]*).*",
+  "\\\\1/\\\\2", read_rmd_yaml(file.path("vignettes",
+  "docs.Rmd"))$packagedocs_redirect), valid_branches = "master",
+  token_key = "GITHUB_PAT", email = "travis@travis-ci.org",
+  name = "Travis CI", push_branch = "gh-pages", output_dir = "_gh-pages")
 }
 \arguments{
 \item{repo}{character string that has the form USER/REPO}
