@@ -16,9 +16,13 @@ render_redirect <- function(input_file_rmd, output_file_html) {
 
   input_yaml <- read_rmd_yaml(input_file_rmd)
 
-  redirect_url <- input_yaml$packagedocs_redirect
+  pkgdocs_obj <- input_yaml$packagedocs
+  if (is.null(pkgdocs_obj)) {
+    stop("key 'packagedocs' must be located in the .Rmd header")
+  }
+  redirect_url <- pkgdocs_obj$redirect
   if (is.null(redirect_url)) {
-    stop("key 'packagedocs_redirect' must be located in the .Rmd header")
+    stop("key 'redirect' must be located in the packagedocs object in the .Rmd header")
   }
   title <- input_yaml$title
   if (is.null(title)) {
