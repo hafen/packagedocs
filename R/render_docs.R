@@ -6,7 +6,6 @@
 #' @param lib_dir directory where all assets are kept
 #' @param render boolean to determine if the files should be rendered
 #' @param view_output boolean to determine if a browser should be opened to the files
-#' @param is_https boolean to determine if the cran http redirects should point to a http or https website
 #' @param input_file_rmd rmd file input
 #' @param output_file_html html file where the output is placed
 #' @param self_contained boolean to determine if the html should be fully self contained
@@ -19,7 +18,6 @@ vig_render_docs <- function(
   lib_dir = assets_dir(),
   render = TRUE,
   view_output = TRUE,
-  is_https = FALSE,
   input_file_rmd = docs_file_rmd(),
   output_file_html = docs_file_html(),
   self_contained = FALSE,
@@ -71,7 +69,6 @@ vig_render_rd <- function(
   render = TRUE,
   view_output = TRUE,
   rd_index = NULL,
-  is_https = FALSE,
   input_file_rmd = rd_file_rmd(),
   temp_file_rmd = rd_temp_file_rmd(),
   output_file_html = rd_file_html(),
