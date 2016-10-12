@@ -11,6 +11,11 @@
 # #' packagedocs:::test_fn_a(4)
 # #' packagedocs:::test_fn_b("world")
 # #' hist(rnorm(1000))
+# #' library(rbokeh)
+# #' figure() %>%
+# #'   ly_points(Sepal.Length, Sepal.Width, data = iris,
+# #'   color = Species, glyph = Species,
+# #'   hover = list(Sepal.Length, Sepal.Width))
 # test_fn_a <- function(a) {
 #   a
 # }
