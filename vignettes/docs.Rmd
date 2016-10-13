@@ -108,7 +108,8 @@ A topic may be a single character string.  This will be upgraded at run time.  T
   file: my_function.Rd
 ```
 
-The following topic object fields will be understood by `packagedocs`:
+The following `topic` object fields will be understood by packagedocs:
+
 * `title`
     * The `title` field is the string of text that will be displayed in the table of contents and at the top of the documentation for the specific topic.
     * The default value is equivalent to `gsub("\\.Rd", "", file)`
@@ -138,6 +139,13 @@ The topics below will all produce the same information:
 
 To check your vignette output, run:
 <pre class="r"><code>`r rdl(packagedocs::build_vignettes())`</code></pre>
+
+By default, this will produce all gh-pages vignettes in the `"_gh-pages"` folder.
+
+# Vignette Engines
+
+There only one packagedocs vignette engine: `packagedocs::redirect`.  This engine requires an `.Rmd` file with the key `redirect` in the yaml header of the `.Rmd` file.  It will produce an html vignette that automatically redirects to the website provided.
+
 
 ## Mixing Vignette Engines
 
@@ -184,20 +192,3 @@ To deploy (all) your gh-pages vignettes, add this config to your `.travis.yml` f
 By default, if it is the master branch and it is not a pull request, `r rdl(packagedocs::deploy_travis())` will build both the CRAN vignettes and gh-pages vignettes.  `r rdl(deploy_travis())` will then deploy the generated `_gh-pages` folder (default) from Travis to the package's github repo. This forced commit will be done by "Travis CI" user (default).  
 
 Please look at `r rdl(deploy_travis)` for more information.
-
-
-# Vignette Engines
-
-There are two `docs.Rmd` vignette engines:
-
-* `%\VignetteEngine{packagedocs::docs}`.
-    * This will collapse the left side table of contents. This is the default auto-generated engine.
-* `%\VignetteEngine{packagedocs::docs_no_collapse}`
-    * This will **NOT** collapse the left side table of contents.
-
-There are two `rd.Rmd` vignette engines:
-
-* `%\VignetteEngine{packagedocs::rd}`
-    * This will collapse the left side table of contents.  This is the default auto-generated engine.
-* `%\VignetteEngine{packagedocs::rd_no_collapse}`
-    * This will **NOT** collapse the left side table of contents.
