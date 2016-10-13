@@ -1,14 +1,17 @@
 #' Generate package docs
 #'
+#' \code{rmarkdown} output formats for the main documentation and package reference pacakge respectively.
+#'
 #' @param toc should a table of contents be included?
 #' @param toc_depth depth of the table of contents (max is 2 for this template)
 #' @param toc_collapse should the table of contents have collapsible subsections?
 #' @param extra_dependencies,self_contained,fig_width,fig_height,mathjax passed to the rmarkdown rendering function
-#' @param \ldots parameters passed to the rmarkdown rendering function
-#' @param lazyrmd_render_fn,lazyrmd_render_package arguments of \code{lazyrmd::\link[lazyrmd]{lazy_render}}.  Defaults to render with \code{rmarkdown::html_document}
+#' @param \ldots In \code{pacakge_docs}, the parameters are passed to the \code{lazyrmd::\link[lazyrmd]{lazy_render}} rendering function. In \code{package_docs_rd}, the parameters are passed to \code{package_docs}
+#' @param lazyrmd_render_fn,lazyrmd_render_package,lib_dir arguments of \code{lazyrmd::\link[lazyrmd]{lazy_render}}.  Defaults to render with \code{rmarkdown::html_document}
 #' @export
 #' @import rmarkdown
 #' @import htmltools
+#' @rdname package_docs
 package_docs <- function(
   toc = TRUE,
   toc_depth = 2,
@@ -18,6 +21,7 @@ package_docs <- function(
   fig_width = 6.5,
   fig_height = 4,
   mathjax = NULL,
+  lib_dir = assets_dir(),
   ...,
   lazyrmd_render_fn = "html_document",
   lazyrmd_render_package = "rmarkdown"
@@ -50,25 +54,75 @@ package_docs <- function(
     extra_dependencies
   )
 
-  # call the lazy render function that wraps rmarkdown::html_document
-  lazyrmd::lazy_render(
-    lazyrmd_render_fn = lazyrmd_render_fn,
-    lazyrmd_render_package = lazyrmd_render_package,
-    toc = toc,
-    toc_depth = toc_depth,
-    fig_width = fig_width,
-    fig_height = fig_height,
-    mathjax = mathjax,
-    self_contained = self_contained,
-    template = template,
-    theme = NULL,
-    highlight = NULL,
-    extra_dependencies = extra_dependencies,
-    pandoc_args = c("--variable", paste("current_year", format(Sys.time(), "%Y"), sep = "=")),
-    ...
-  )
   # includes = includes(before_body = header))
+
+  # call the lazy render function that wraps rmarkdown::html_document
+  rmarkdown::output_format(
+    knitr = NULL,
+    pandoc = NULL,
+    clean_supporting = FALSE,
+    post_knit = function(metadata, input_file, runtime, ...) {
+      check_output(input_file)
+    },
+    base = lazyrmd::lazy_render(
+      lazyrmd_render_fn = lazyrmd_render_fn,
+      lazyrmd_render_package = lazyrmd_render_package,
+      toc = toc,
+      toc_depth = toc_depth,
+      fig_width = fig_width,
+      fig_height = fig_height,
+      mathjax = mathjax,
+      self_contained = self_contained,
+      template = template,
+      theme = NULL,
+      highlight = NULL,
+      extra_dependencies = extra_dependencies,
+      pandoc_args = c("--variable", paste("current_year", format(Sys.time(), "%Y"), sep = "=")),
+      ...
+    )
+  )
 }
+
+#' @export
+#' @rdname package_docs
+#' @param rd_index,code_path,exclude parameters passed directly to \code{\link{rd_template}}
+package_docs_rd <- function(..., rd_index = "rd_index.yaml", code_path = ".", exclude = NULL) {
+
+  rmarkdown::output_format(
+    knitr = NULL,
+    pandoc = NULL,
+    clean_supporting = FALSE,
+    pre_knit = function(input, ...) {
+      a <- rd_template(code_path, rd_index, exclude)
+      cat(a, file = file.path(dirname(input), "auto-generated-rd.Rmd"))
+    },
+    post_knit = function(metadata, input_file, runtime, ...) {
+      auto_file <- file.path(dirname(input_file), "auto-generated-rd.Rmd")
+      if(file.exists(auto_file)) {
+        unlink(auto_file)
+      }
+      NULL
+    },
+    base = package_docs(...)
+  )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 html_dependency_jquery <- getFromNamespace("html_dependency_jquery", "rmarkdown")
 
