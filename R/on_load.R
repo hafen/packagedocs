@@ -137,7 +137,7 @@
   #           text in the vignette source file with 'aspell'.
 
   redirect_weaver <- function(file, ...) {
-    output_file <- gsub(".Rmd", ".html", file, fixed = TRUE)
+    output_file <- gsub(".Rmd$", ".html", file)
     render_redirect(
       input_file_rmd = file,
       output_file_html = output_file
