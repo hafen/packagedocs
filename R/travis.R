@@ -12,6 +12,7 @@
 #' @param name name for commit
 #' @param push_branch branch the website should be pushed to. Defaults to 'gh-pages'
 #' @param output_dir output directory to put the website in
+#' @param build_fn function to build the documentation. This function must take \code{ouput_dir} and \code{...} for future expansion.  Defaults to \code{packagedocs::\link{build_vignettes}}
 #' @export
 deploy_travis <- function(
   # remove the href or git@github at the beginning and only keep USER/REPO
@@ -25,9 +26,11 @@ deploy_travis <- function(
   email = "travis@travis-ci.org",
   name = "Travis CI",
   push_branch = "gh-pages",
-  output_dir = "_gh-pages"
+  output_dir = "_gh-pages",
+  build_fn = function(ouput_dir, ...) {
+    build_vignettes(pkg = ".", output_dir = output_dir)
+  }
 ) {
-  requireNamespace("devtools")
 
   # Altered from: http://ricostacruz.com/cheatsheets/travis-gh-pages.html
   # Original: https://medium.com/@nthgergo/publishing-gh-pages-with-travis-ci-53a8270e87db
@@ -64,7 +67,7 @@ deploy_travis <- function(
   }
 
   # build the vigs
-  build_vignettes(pkg = ".", output_dir = output_dir)
+  build_fn(output_dir = output_dir)
 
   # move into the docs folder where the vigs are locally
   wd <- getwd()
