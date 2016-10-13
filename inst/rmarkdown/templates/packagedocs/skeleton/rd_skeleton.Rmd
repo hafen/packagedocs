@@ -3,12 +3,11 @@ title: "{{{title}}}"
 subtitle: "{{{subtitle}}}"
 author: "{{{author}}}"
 copyright: "{{{author}}}"
-toc: true
 output:
-  lazyrmd::lazy_render:
-    lazyrmd_render_fn: html_document
-    lazyrmd_render_package: rmarkdown
-packagedocs_redirect: {{{ redirect_url }}}
+  packagedocs::package_docs_rd:
+    toc: true
+    toc_collapse: false
+redirect: {{{ redirect_url }}}
 vignette: |
 {{{vig_text}}}
 navpills: |
