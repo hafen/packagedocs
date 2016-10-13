@@ -262,13 +262,17 @@ parse_github_redirect_url <- function(rd_info) {
       git_url <- git_url[1]
       message("Using first github url as source: ", git_url[1])
     } else if (length(git_url) == 0) {
-      tryCatch(gsub(
+      git_url <- tryCatch(gsub(
         ".*[:/]([^/]*/[^.]*)\\.git",
         "\\1",
         system("git config --get remote.origin.url", intern = TRUE)
       ), error = function(e){
-        stop("Please add a redirect url 'PackagedocsRedirect' in the DESCRIPTION file")
+        warning("Please fix the redirect urls in each file")
+        "INSERT_REDIRECT_URL_HERE"
       })
+      if (!grepl("git", git_url)) {
+        return(git_url)
+      }
     }
     git_user <- gsub(".*\\.com/([^/]*)/.*", "\\1", git_url)
     git_project <- gsub(".*\\.com/[^/]*/(.*)", "\\1", git_url)
