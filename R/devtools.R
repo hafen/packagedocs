@@ -131,10 +131,6 @@ build_vignettes <- function (
 ) {
 
   on.exit({
-    # make sure the defaults are set back to expected behavior
-    # is_self_contained_build(is_self_contained_build_default())
-    # is_cran_build(is_cran_build_default())
-
     # remove all temp directories if an error occurs
     for (fp in extra_dirs) {
       if (dir.exists(fp)) {
