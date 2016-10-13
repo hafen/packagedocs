@@ -1,5 +1,7 @@
-devtools_copy_vignettes_two <- function (pkg, to_dir = file.path(pkg$path, "inst", "doc"))
-{
+devtools_copy_vignettes_two <- function (
+  pkg,
+  to_dir = file.path(pkg$path, "inst", "doc")
+) {
     pkg <- as.package(pkg)
 
     lapply(to_dir, function(to_dir_) {

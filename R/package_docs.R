@@ -98,7 +98,7 @@ package_docs_rd <- function(..., rd_index = "rd_index.yaml", code_path = ".", ex
     },
     post_knit = function(metadata, input_file, runtime, ...) {
       auto_file <- file.path(dirname(input_file), "auto-generated-rd.Rmd")
-      if(file.exists(auto_file)) {
+      if (file.exists(auto_file)) {
         unlink(auto_file)
       }
       NULL

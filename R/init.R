@@ -109,7 +109,7 @@ init_vignettes <- function(
     subtitle = subtitle,
     author = author,
     github_ref = github_ref,
-    redirect_url = paste(redirect_url, "/rd.html", sep = ""),
+    redirect_url = paste(redirect_url, "rd.html", sep = "/"),
     vig_text = paste(
       "  %\\VignetteIndexEntry{", package_name, " Package Reference}\n",
       "  %\\VignetteEngine{packagedocs::redirect}",
@@ -256,7 +256,7 @@ parse_github_redirect_url <- function(rd_info) {
   } else {
     git_url <- git_url[grepl("github.com", git_url)]
     if (length(git_url) > 1) {
-      git_url <- unique(gsub("/issues$", "", git_url))
+      git_url <- unique(gsub("/issues$", "", git_url)) # nolint
     }
     if (length(git_url) > 1) {
       git_url <- git_url[1]
