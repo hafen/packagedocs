@@ -8,7 +8,9 @@ deploy_travis(repo = gsub(".*://([^.]*)\\\\.github.io/([^/]*).*",
   "\\\\1/\\\\2", read_rmd_yaml(file.path("vignettes",
   "docs.Rmd"))$packagedocs_redirect), valid_branches = "master",
   token_key = "GITHUB_PAT", email = "travis@travis-ci.org",
-  name = "Travis CI", push_branch = "gh-pages", output_dir = "_gh-pages")
+  name = "Travis CI", push_branch = "gh-pages", output_dir = "_gh-pages",
+  build_fn = function(ouput_dir, ...) {     build_vignettes(pkg = ".",
+  output_dir = output_dir) })
 }
 \arguments{
 \item{repo}{character string that has the form USER/REPO}
@@ -24,6 +26,8 @@ deploy_travis(repo = gsub(".*://([^.]*)\\\\.github.io/([^/]*).*",
 \item{push_branch}{branch the website should be pushed to. Defaults to 'gh-pages'}
 
 \item{output_dir}{output directory to put the website in}
+
+\item{build_fn}{function to build the documentation. This function must take \code{ouput_dir} and \code{...} for future expansion.  Defaults to \code{packagedocs::\link{build_vignettes}}}
 }
 \description{
 This function will generate both the CRAN vignettes and gh-pages vignettes. It will look for your personal github token (\code{GITHUB_TOKEN}) that the function may deploy to the gh-pages branch of the your package's github repo.

@@ -2,12 +2,16 @@
 % Please edit documentation in R/package_docs.R
 \name{package_docs}
 \alias{package_docs}
+\alias{package_docs_rd}
 \title{Generate package docs}
 \usage{
 package_docs(toc = TRUE, toc_depth = 2, toc_collapse = FALSE,
   extra_dependencies = NULL, self_contained = FALSE, fig_width = 6.5,
-  fig_height = 4, mathjax = NULL, ...,
+  fig_height = 4, mathjax = NULL, lib_dir = assets_dir(), ...,
   lazyrmd_render_fn = "html_document", lazyrmd_render_package = "rmarkdown")
+
+package_docs_rd(..., rd_index = "rd_index.yaml", code_path = ".",
+  exclude = NULL)
 }
 \arguments{
 \item{toc}{should a table of contents be included?}
@@ -18,7 +22,9 @@ package_docs(toc = TRUE, toc_depth = 2, toc_collapse = FALSE,
 
 \item{extra_dependencies, self_contained, fig_width, fig_height, mathjax}{passed to the rmarkdown rendering function}
 
-\item{lazyrmd_render_fn, lazyrmd_render_package}{arguments of \code{lazyrmd::\link[lazyrmd]{lazy_render}}.  Defaults to render with \code{rmarkdown::html_document}}
+\item{lazyrmd_render_fn, lazyrmd_render_package, lib_dir}{arguments of \code{lazyrmd::\link[lazyrmd]{lazy_render}}.  Defaults to render with \code{rmarkdown::html_document}}
+
+\item{rd_index, code_path, exclude}{parameters passed directly to \code{\link{rd_template}}}
 
 \item{\ldots}{parameters passed to the rmarkdown rendering function}
 }
