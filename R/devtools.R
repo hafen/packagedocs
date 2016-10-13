@@ -122,15 +122,10 @@ build_vignettes <- function (
   index_redirect_file = "docs.html",
   extra_dirs = file.path("vignettes", c(
     lazy_widgets_dir(),
-    assets_dir(),
-    docs_files_dir(),
-    rd_files_dir()
+    assets_dir()
   )),
   delete_files = file.path("vignettes", c(
-    rd_temp_file_rmd(),
-    ".build.timestamp",
-    rd_file_html(),
-    docs_file_html()
+    ".build.timestamp"
   )),
   include_vignette_source = FALSE
 ) {
@@ -188,51 +183,18 @@ build_vignettes <- function (
     )
   )
 
+  extra_dir_files <- c()
+
   vigns <- tools::pkgVignettes(dir = pkg$path, output = FALSE, source = FALSE)
   vig_files <- vigns$docs[vigns$engines == "packagedocs::redirect"]
-
-
-  extra_dir_files <- c()
   if (length(vig_files) > 0) {
     message("Building packagedocs::redirect vignettes")
-    lapply(vig_files, function(vig_file) {
-      vig_yaml <- read_rmd_yaml(vig_file)
-      output_file_html <- gsub(".Rmd$", ".html", vig_file)
-      extra_dir_files <<- append(extra_dir_files, output_file_html)
+    lapply(vig_files, render)
 
-      if (!is.null(vig_yaml$packagedocs$rd_index)) {
-        rd_render(
-          docs_path = file.path(pkg$path, "vignettes"),
-          code_path = pkg$path,
-          toc_collapse = if_null(vig_yaml$packagedocs$toc_collapse, TRUE),
-          lib_dir = assets_dir(),
-          render = TRUE,
-          view_output = FALSE,
-          rd_index = vig_yaml$packagedocs$rd_index,
-          input_file_rmd = vig_file,
-          temp_file_rmd = rd_temp_file_rmd(),
-          output_file_html = output_file_html,
-          self_contained = if_null(vig_yaml$packagedocs$self_contained, FALSE),
-          verbose = if_null(vig_yaml$packagedocs$verbose, TRUE)
-        )
-
-      } else {
-        # must be a docs file
-        vig_render_docs(
-          docs_path = file.path(pkg$path, "vignettes"),
-          code_path = pkg$path,
-          toc_collapse = TRUE,
-          lib_dir = assets_dir(),
-          render = TRUE,
-          view_output = FALSE,
-          input_file_rmd = vig_file,
-          output_file_html = output_file_html,
-          self_contained = FALSE,
-          verbose = TRUE
-        )
-      }
-    })
-
+    output_file_html <- gsub(".Rmd$", ".html", vig_files)
+    extra_dir_files <- append(extra_dir_files, output_file_html)
+    extra_dirs <- append(extra_dirs, gsub(".Rmd", "_files", vig_files))
+    delete_files <- append(delete_files, output_file_html)
   }
 
   for (dir_val in extra_dirs) {
