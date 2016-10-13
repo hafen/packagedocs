@@ -16,10 +16,9 @@ sections:
 -
   section_name: Rendering Functions
   topics:
-    - package_docs
-    - rd_template
-    - render_rd
     -
-      file: vignette_render.Rd
-      title: "vignette_render: vig_render_index, vig_render_rd"
+      title: Vignette Engines
+      file: package_docs.Rd
+    - render_redirect
+    - rd_template
     - check_output
