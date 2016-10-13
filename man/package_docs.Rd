@@ -26,9 +26,9 @@ package_docs_rd(..., rd_index = "rd_index.yaml", code_path = ".",
 
 \item{rd_index, code_path, exclude}{parameters passed directly to \code{\link{rd_template}}}
 
-\item{\ldots}{parameters passed to the rmarkdown rendering function}
+\item{\ldots}{In \code{pacakge_docs}, the parameters are passed to the \code{lazyrmd::\link[lazyrmd]{lazy_render}} rendering function. In \code{package_docs_rd}, the parameters are passed to \code{package_docs}}
 }
 \description{
-Generate package docs
+\code{rmarkdown} output formats for the main documentation and package reference pacakge respectively.
 }
 
