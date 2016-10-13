@@ -70,10 +70,10 @@ From your package directory...
 
 <pre class="r"><code>`r rdl(packagedocs::init_vignettes())`</code></pre>
 
-This will produce three files in the `vignettes` folder: `index.Rmd`, `rd_index.yaml`, and `rd.Rmd`.
+This will produce three files in the `vignettes` folder: `docs.Rmd`, `rd_index.yaml`, and `rd.Rmd`.
 
-* `index.Rmd`
-    * The `index.Rmd` file is the home webpage for your package's documentation. The main content has very little structure, allowing you to insert any `rmarkdown` formatted document. (Just like this one!).  The `index.Rmd` file is a great place to show off long examples that regular function documentation just can not do justice.  The classic RStudio rmarkdown example has been inserted by default for inspiration.
+* `docs.Rmd`
+    * The `docs.Rmd` file is the home webpage for your package's documentation. The main content has very little structure, allowing you to insert any `rmarkdown` formatted document. (Just like this one!).  The `docs.Rmd` file is a great place to show off long examples that regular function documentation just can not do justice.  The classic RStudio rmarkdown example has been inserted by default for inspiration.
 * `rd.Rmd`
     * This file is a shell file that will be filled with compiled `rd_index.yaml` information.  The compiled `rd_index.yaml` information will be appended to the `rmarkdown` document.  
     * Add any information about the functions that you'd like users to see first!
@@ -143,7 +143,7 @@ To check your vignette output, run:
 
 Package docs may be built along side other vignette engines, such as `knitr`. `knitr` will be used as an example in the section.
 
-To include other vignette engines, set your `VignetteBuilder` line in the `DESCRIPTION` file to be `VignetteBuilder: packagedocs,knitr`.  When the regular vignette build process occurs, the non-`packagedocs` vignettes will be built like normal, and the `packagedocs` vignettes will produce html redirects to the gh-pages vignettes on github.  `r rdl(packagedocs::build_vignettes())` and `r rdl(packagedocs::deploy_travis())` will generate all vignette files (even non-`packagedocs` vignettes).  Feel free to add your other vignettes to the `navpills` header field of `index.Rmd` and `rd.Rmd` vignettes for in between vignette navigation.
+To include other vignette engines, set your `VignetteBuilder` line in the `DESCRIPTION` file to be `VignetteBuilder: packagedocs,knitr`.  When the regular vignette build process occurs, the non-`packagedocs` vignettes will be built like normal, and the `packagedocs` vignettes will produce html redirects to the gh-pages vignettes on github.  `r rdl(packagedocs::build_vignettes())` and `r rdl(packagedocs::deploy_travis())` will generate all vignette files (even non-`packagedocs` vignettes).  Feel free to add your other vignettes to the `navpills` header field of `docs.Rmd` and `rd.Rmd` vignettes for in between vignette navigation.
 
 
 # Deploying to Travis
