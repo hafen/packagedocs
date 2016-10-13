@@ -1,21 +1,4 @@
 
-cache_boolean <- function(default_value) {
-  cur_val <- default_value
-  function(val) {
-    if (missing(val)) {
-      return(cur_val)
-    }
-    cur_val <<- as.logical(val)
-    return(cur_val)
-  }
-}
-
-is_self_contained_build_default <- function() FALSE
-is_self_contained_build <- cache_boolean(is_self_contained_build_default())
-
-is_cran_build_default <- function() TRUE
-is_cran_build <- cache_boolean(is_cran_build_default())
-
 #' Deploy to Github Pages from Travis-CI
 #'
 #' This function will generate both the CRAN vignettes and gh-pages vignettes. It will look for your personal github token (\code{GITHUB_TOKEN}) that the function may deploy to the gh-pages branch of the your package's github repo.
