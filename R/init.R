@@ -1,30 +1,14 @@
 
-docs_file_rmd <- function() {
-  "docs.Rmd"
-}
 docs_file_html <- function() {
   "docs.html"
 }
 
-rd_file_rmd <- function() {
-  "rd.Rmd"
-}
 rd_file_html <- function() {
   "rd.html"
-}
-rd_temp_file_rmd <- function() {
-  "_rd.Rmd"
-}
-
-rd_index_file_yaml <- function() {
-  "rd_index.yaml"
 }
 
 assets_dir <- function() {
   "assets"
-}
-rd_img_dir <- function() {
-  "rd_img"
 }
 rd_files_dir <- function() {
   "rd_files"
@@ -59,8 +43,9 @@ init_vignettes <- function(
 ) {
 
   docs_path <- file.path(code_path, "vignettes")
-  docs_file_rmd <- docs_file_rmd()
-  rd_file_rmd <- rd_file_rmd()
+  docs_file_rmd <- "docs.Rmd"
+  rd_file_rmd <- "rd.Rmd"
+  rd_index_file_yaml <- "rd_index.yaml"
 
   if (file.exists(file.path(docs_path, docs_file_rmd))) {
     ans <- readline(paste0("It appears that '", docs_path, "' has already been initialized.  Overwrite ", docs_file_rmd, ", ", rd_file_rmd, ", and rd_index.yaml? (y = yes) ", sep = "")) # nolint
