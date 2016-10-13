@@ -15,3 +15,6 @@ navpills: |
   <li><a href='docs.html'>Docs</a></li>
   <li class="active"><a href='rd.html'>Package Ref</a></li>{{{github_ref}}}
 ---
+
+```{r auto-gen-child, child="auto-generated-rd.Rmd"}
+```
