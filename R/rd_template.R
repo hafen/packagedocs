@@ -11,7 +11,7 @@
 #' @importFrom yaml yaml.load_file
 #' @import stringr
 #' @export
-rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
+rd_template <- function(code_path, rd_index = "rd_index.yaml", exclude = NULL) {
 
   rd_info <- as_sd_package(code_path)
 
@@ -27,19 +27,10 @@ rd_template <- function(code_path, rd_index = NULL, exclude = NULL) {
     # }
     # nms <- setdiff(nms, exclude)
 
-  if (is.null(rd_index)) {
-    if (file.exists(rd_index_file_yaml())) {
-      rd_index <- rd_index_file_yaml()
-    }
-  }
-
-  if (is.null(rd_index)) {
-    stop(paste0("'rd_index' must be supplied or ", rd_index_file_yaml(), " must exist"))
-  }
-
+  rd_index_file <- rd_index
   rd_index <- try(yaml.load_file(rd_index) %>% as_rd_index(), silent = TRUE)
   if (inherits(rd_index, "try-error")) {
-    stop("There was an error reading ", file.path(getwd(), rd_index_file_yaml()), ":\n",
+    stop("There was an error reading ", file.path(getwd(), rd_index_file), ":\n",
       geterrmessage())
   }
 
