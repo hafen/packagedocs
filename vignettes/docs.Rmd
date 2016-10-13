@@ -4,13 +4,13 @@ subtitle: "Build Website of Package Documentation"
 author: Barret Schloerke
 copyright: Barret Schloerke
 output:
-  packagedocs:
+  packagedocs::package_docs:
     toc: true
-    lazyrmd_render_fn: html_document
-    lazyrmd_render_package: rmarkdown
-vignette: >
+    toc_collapse: false
+redirect: http://hafen.github.io/packagedocs
+vignette: |
   %\VignetteIndexEntry{packagedocs Documentation}
-  %\VignetteEngine{packagedocs::docs}
+  %\VignetteEngine{packagedocs::redirect}
 navpills: |
   <li class="active"><a href='docs.html'>Docs</a></li>
   <li><a href='rd.html'>Package Ref</a></li>
