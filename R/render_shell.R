@@ -16,7 +16,7 @@ read_rmd_yaml <- function(file) {
 #'
 #' Create a html redirect file that will automatically redirect to another webpage.  This is useful for making a html reidrect in a vignette.  By submitting a small redirect vignette, the package is not bloated in size
 #'
-#' @param intput_file_rmd input file name to read its yaml header with 'redirect' key
+#' @param input_file_rmd input file name to read its yaml header with 'redirect' key
 #' @param output_file_html output file name
 #' @export
 render_redirect <- function(input_file_rmd, output_file_html) {
