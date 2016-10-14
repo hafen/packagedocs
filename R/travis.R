@@ -19,7 +19,7 @@ deploy_travis <- function(
   repo = gsub(
     ".*://([^.]*)\\.github.io/([^/]*).*",
     "\\1/\\2",
-    read_rmd_yaml(file.path("vignettes", "docs.Rmd"))$packagedocs_redirect
+    read_rmd_yaml(file.path("vignettes", "docs.Rmd"))$redirect
   ),
   valid_branches = "master",
   token_key = "GITHUB_PAT",
