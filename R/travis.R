@@ -32,6 +32,8 @@ deploy_travis <- function(
   }
 ) {
 
+  repo <- force(repo)
+
   # Altered from: http://ricostacruz.com/cheatsheets/travis-gh-pages.html
   # Original: https://medium.com/@nthgergo/publishing-gh-pages-with-travis-ci-53a8270e87db
 
