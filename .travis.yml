@@ -18,6 +18,8 @@ r_github_packages:
 
 
 after_success:
+  # install the pkg so it can be used as a vig builder (only necessary for packagedocs)
+  - Rscript -e "devtools::install()"
   - Rscript -e "packagedocs::deploy_travis()"
   - Rscript -e "packagedocs::deploy_travis(valid_branches = 'dev', push_branch = 'gh-pages-dev')"
   - Rscript -e "travisDrat::deploy_drat()"
