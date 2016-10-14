@@ -187,7 +187,10 @@ build_vignettes <- function (
   vig_files <- vigns$docs[vigns$engines == "packagedocs::redirect"]
   if (length(vig_files) > 0) {
     message("Building packagedocs::redirect vignettes")
-    lapply(vig_files, rmarkdown::render)
+    for (vig_file in vig_files) {
+      rmarkdown::render(vig_file)
+    }
+    # lapply(vig_files, rmarkdown::render)
 
     output_file_html <- gsub(".Rmd$", ".html", vig_files)
     extra_dir_files <- append(extra_dir_files, output_file_html)
