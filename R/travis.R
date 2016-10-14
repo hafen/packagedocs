@@ -59,12 +59,12 @@ deploy_travis <- function(
   travis_branch <- Sys.getenv("TRAVIS_BRANCH")
 
   if (! (travis_branch %in% valid_branches)) {
-    cat("Branch not allowed to deploy. Exiting")
+    cat("Branch '", travis_branch, "' is not allowed to deploy. Valid branches: c(", paste(valid_branches, collapse = ", "), ") Exiting", sep = "")
     return(invisible())
   }
 
   if (travis_pull_request != "false") {
-    cat("Pull requests are not allowed to deploy. Exiting")
+    cat("Pull requests are not allowed to deploy. Recieved value: '", travis_pull_request, "'. Exiting")
     return(invisible())
   }
 
