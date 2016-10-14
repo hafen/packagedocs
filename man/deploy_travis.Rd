@@ -5,10 +5,10 @@
 \title{Deploy to Github Pages from Travis-CI}
 \usage{
 deploy_travis(repo = gsub(".*://([^.]*)\\\\.github.io/([^/]*).*",
-  "\\\\1/\\\\2", read_rmd_yaml(file.path("vignettes",
-  "docs.Rmd"))$packagedocs_redirect), valid_branches = "master",
-  token_key = "GITHUB_PAT", email = "travis@travis-ci.org",
-  name = "Travis CI", push_branch = "gh-pages", output_dir = "_gh-pages",
+  "\\\\1/\\\\2", read_rmd_yaml(file.path("vignettes", "docs.Rmd"))$redirect),
+  valid_branches = "master", token_key = "GITHUB_PAT",
+  email = "travis@travis-ci.org", name = "Travis CI",
+  push_branch = "gh-pages", output_dir = "_gh-pages",
   build_fn = function(ouput_dir, ...) {     build_vignettes(pkg = ".",
   output_dir = output_dir) })
 }
