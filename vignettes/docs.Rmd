@@ -173,7 +173,7 @@ Visit [https://github.com/settings/tokens](Github > Settings > Tokens) to create
 To keep your token safe, encrypt your secret token (in your package directory) and add it to your `.travis.yml` file with:
 
 ```{bash}
-travis encrypt GITHUB_TOKEN=your_secret_github_token --add
+travis encrypt GITHUB_PAT=your_secret_github_token --add
 ```
 
 This will allow travis to publish to your specific repo.
