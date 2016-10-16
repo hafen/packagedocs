@@ -1,0 +1,260 @@
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc" />
+
+    <meta name="author" content="Barret Schloerke" />
+  
+  
+  <title>packagedocs</title>
+
+    <script src="docs_files/jquery-1.11.3/jquery.min.js"></script>
+  <link href="docs_files/bootstrap-3.3.2/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="docs_files/bootstrap-3.3.2/js/bootstrap.min.js"></script>
+  <script src="docs_files/bootstrap-3.3.2/shim/html5shiv.min.js"></script>
+  <script src="docs_files/bootstrap-3.3.2/shim/respond.min.js"></script>
+  <link href="docs_files/highlight-8.4/tomorrow.css" rel="stylesheet" />
+  <script src="docs_files/highlight-8.4/highlight.pack.js"></script>
+  <link href="docs_files/fontawesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+  <script src="docs_files/stickykit-1.1.1/sticky-kit.min.js"></script>
+  <script src="docs_files/jqueryeasing-1.3/jquery.easing.min.js"></script>
+  <link href="docs_files/recliner-0.2.2/recliner.css" rel="stylesheet" />
+  <script src="docs_files/recliner-0.2.2/recliner.min.js"></script>
+  <script src="docs_files/recliner-0.2.2/onload.js"></script>
+  <link href="docs_files/packagedocs-0.0.1/pd.css" rel="stylesheet" />
+  <script src="docs_files/packagedocs-0.0.1/pd.js"></script>
+  <script src="docs_files/packagedocs-0.0.1/pd-sticky-toc.js"></script>
+  
+  
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+
+<body>
+
+  
+  <header class="navbar navbar-white navbar-fixed-top" role="banner" id="header">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+                <a href="index.html" class="navbar-brand page-scroll">
+        packagedocs - Build Website of Package Documentation
+        </a>
+      </div>
+            <nav class="collapse navbar-collapse" role="navigation">
+        <ul class="nav nav-pills pull-right">
+<li class="active">
+<a href='docs.html'>Docs</a>
+</li>
+<li>
+<a href='rd.html'>Package Ref</a>
+</li>
+<li>
+<a href='https://github.com/hafen/packagedocs'>Github <i class='fa fa-github'></i></a>
+</li>
+        </ul>
+      </nav>
+          </div>
+  </header>
+
+  <!-- Begin Body -->
+  <div class="container">
+    <div class="row">
+            <div class="col-md-3" id="sidebar-col">
+        <div id="toc">
+          <ul>
+          <li><a href="#packagedocs">packagedocs</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#motivation">Motivation</a></li>
+          <li><a href="#package-size-constraint">Package Size Constraint</a></li>
+          <li><a href="#usage">Usage</a><ul>
+          <li><a href="#initialize-your-vignettes">Initialize your vignettes</a></li>
+          <li><a href="#editing-your-rd_index.yaml">Editing your <code>rd_index.yaml</code></a></li>
+          <li><a href="#checking-your-vignettes">Checking your vignettes</a></li>
+          </ul></li>
+          <li><a href="#vignette-engines">Vignette Engines</a><ul>
+          <li><a href="#mixing-vignette-engines">Mixing Vignette Engines</a></li>
+          </ul></li>
+          <li><a href="#deploying-to-travis">Deploying to Travis</a><ul>
+          <li><a href="#setting-up-travis-cli">Setting up Travis CLI</a></li>
+          <li><a href="#encrypting-your-public-key">Encrypting your public key</a></li>
+          <li><a href="#deploy-after-success">Deploy after success</a></li>
+          </ul></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-9" id="content-col">
+      
+<div id="content-top"></div>
+<div id="packagedocs" class="section level1">
+<h1>packagedocs</h1>
+<p><a href="https://travis-ci.org/hafen/packagedocs"><img src="https://travis-ci.org/hafen/packagedocs.svg?branch=master" alt="Build Status" /></a></p>
+<p>Build an R package documentation website using <a href="http://rmarkdown.rstudio.com">rmarkdown</a>. Example <a href="http://hafen.github.io/rbokeh/">here</a> or (<a href="http://tessera.io/docs-datadr/">here</a>).</p>
+</div>
+<div id="installation" class="section level1">
+<h1>Installation</h1>
+<!-- Simple installation:
+
+
+```r
+options(repos = c(tessera = "http://packages.tessera.io",
+  getOption("repos")))
+install.packages("packagedocs")
+```
+-->
+<p>From github with devtools:</p>
+<pre class="r"><code><code>devtools::<a href='http://www.rdocumentation.org/packages/devtools/topics/install_github'>install_github</a>("hafen/packagedocs")</code></code></pre>
+</div>
+<div id="motivation" class="section level1">
+<h1>Motivation</h1>
+<p>This was built primarily for my purposes where the goal is to have a main page for an R package with tutorial/vignette-like content paired with a web version of the .Rd documentation. This package is similar to (and uses) <a href="https://github.com/hadley/staticdocs">staticdocs</a> and supplants an earlier similar effort, <a href="https://github.com/hafen/buildDocs">buildDocs</a>. That previous effort was quite hacky. This current effort leverages rmarkdown to make it simpler and easier to embed htmlwidgets, etc.</p>
+<p>Essentially this package provides a special template and format for rmarkdown with a few extra functions for building the web-based .Rd files. If you like the template you can use it for non-package documentation purposes.</p>
+<p>The template style is based on bootstrap with several customizations. These are built using less and gulp with node.js. These are not necessary for using the package, but for development, you can do <code>bower install</code> to get a dev environment going.</p>
+</div>
+<div id="package-size-constraint" class="section level1">
+<h1>Package Size Constraint</h1>
+<p>Compiling all of the necessary components into two self contained vignettes makes the package too large to submit to CRAN without issues. Therefore, <code>packagedocs</code> takes the approach of creating html vignettes that are submitted to CRAN that automatically redirect to the gh-pages of the github repository of the R package. This allows for documentation that directly matches the latest master branch while not over inflating the package that is submitted to CRAN. Please read the section on Deploying to Travis below for further information.</p>
+</div>
+<div id="usage" class="section level1">
+<h1>Usage</h1>
+<p><code>packagedocs</code> creates two forms of vignettes: html redirect vignettes that are submitted to CRAN and full html vignettes that are placed in the gh-pages of your github repo. I will refer to them as ‘CRAN vignettes’ and ‘gh-pages vignettes’ respectively</p>
+<div id="initialize-your-vignettes" class="section level2">
+<h2>Initialize your vignettes</h2>
+<p>I recommend initializing your vignettes once your package is no longer rapidly changing as function names are auto-generated from the current state of the package. Make sure to have your github repo stated in the <code>DESCRIPTION</code> file as one of the <code>URL</code>s. This url is needed to determine where the gh-pages vignettes are deployed.</p>
+<p>From your package directory…</p>
+<pre class="r"><code><code>packagedocs::<a href='rd.html#init_vignettes_alias'>init_vignettes</a>()</code></code></pre>
+<p>This will produce three files in the <code>vignettes</code> folder: <code>docs.Rmd</code>, <code>rd_index.yaml</code>, and <code>rd.Rmd</code>.</p>
+<ul>
+<li><code>docs.Rmd</code>
+<ul>
+<li>The <code>docs.Rmd</code> file is the home webpage for your package’s documentation. The main content has very little structure, allowing you to insert any <code>rmarkdown</code> formatted document. (Just like this one!). The <code>docs.Rmd</code> file is a great place to show off long examples that regular function documentation just can not do justice. The classic RStudio rmarkdown example has been inserted by default for inspiration.</li>
+</ul></li>
+<li><code>rd.Rmd</code>
+<ul>
+<li>This file is a shell file that will be filled with compiled <code>rd_index.yaml</code> information. The compiled <code>rd_index.yaml</code> information will be appended to the <code>rmarkdown</code> document.<br />
+</li>
+<li>Add any information about the functions that you’d like users to see first!</li>
+</ul></li>
+<li><code>rd_index.yaml</code>
+<ul>
+<li>The <code>rd_index.yaml</code> is a yaml file that contains the layout for the <code>rd.Rmd</code> file.<br />
+</li>
+<li>There are two main sections: <code>knitr</code> and <code>sections</code>.
+<ul>
+<li><code>knitr</code>
+<ul>
+<li>Is a list of <a href="http://yihui.name/knitr/options/">knitr chunk options</a></li>
+<li>These options are the default options for all topics. They may be overwritten in each topic for different behavior</li>
+</ul></li>
+<li><code>sections</code>
+<ul>
+<li>It contains a list of <code>section</code> and <code>topics</code> pairs. Editing the topics field is talked about in the next section.</li>
+<li>The section pairs in the <code>rd_index.yaml</code> file are auto-generated according to the keywords used in the package documentation. All functions that do not have a keyword will be placed in the last section. <code>internal</code> keyword functions will not be added automatically.</li>
+<li>It is okay to rename, remove, rearrange, or repeat the sections and topics! &lt;!– * <code>.install_extras</code></li>
+</ul></li>
+</ul></li>
+<li>As taken from <a href="https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-package-vignettes">Writing R Extension</a>
+<pre style="white-space: pre-wrap;">
+When R CMD build builds the vignettes, it copies these and the vignette sources from directory vignettes to inst/doc. To install any other files from the vignettes directory, include a file vignettes/.install_extras which specifies these as Perl-like regular expressions on one or more lines.
+</pre></li>
+<li>By default, only the <code>rd_index.yaml</code> file will be copied over to the <code>inst/doc</code> folder for CRAN vignettes. When building gh-pages vignettes, <code>assets</code>, <code>index_files</code>, <code>rd_files</code>, and (maybe) the <code>lazy_widgets</code> directories will be copied as well as anything in the <code>.install_extras</code> file. The extra directories are only copied when compiling for gh-pages vignettes as they are not needed for the CRAN vignettes that are shipped with the package. –&gt;</li>
+</ul></li>
+</ul>
+</div>
+<div id="editing-your-rd_index.yaml" class="section level2">
+<h2>Editing your <code>rd_index.yaml</code></h2>
+<p>This file will be auto-generated from <code>packagedocs::<a href='rd.html#init_vignettes_alias'>init_vignettes</a>()</code>. It will contain a list of <code>section_name</code> and <code>topics</code> pairs. The <code>topics</code> field is a list of items that can either be a character string or an object.</p>
+<p>A topic may be a single character string. This will be upgraded at run time. The following example will produce the same topic:</p>
+<p>The following <code>topic</code> object fields will be understood by packagedocs:</p>
+<ul>
+<li><code>title</code>
+<ul>
+<li>The <code>title</code> field is the string of text that will be displayed in the table of contents and at the top of the documentation for the specific topic.</li>
+<li>The default value is equivalent to <code>gsub(&quot;\\.Rd&quot;, &quot;&quot;, file)</code></li>
+<li>At least one of the <code>title</code> or <code>file</code> fields must be provided</li>
+</ul></li>
+<li><code>file</code>
+<ul>
+<li>The <code>file</code> field corresponds to the name of the R documentation file that will be displayed. These files can be found in your <code>man</code> folder.</li>
+<li>The default value is equivalent to <code>paste0(title, &quot;.Rd&quot;)</code>.</li>
+<li>At least one of the <code>title</code> or <code>file</code> fields must be provided</li>
+</ul></li>
+<li><code>knitr</code>
+<ul>
+<li>If you would like to override example knitr behavior for a given topic, set this field to a list of <a href="http://yihui.name/knitr/options/">knitr chunk options</a>.</li>
+<li>This field is optional</li>
+</ul></li>
+</ul>
+<p>The topics below will all produce the same information:</p>
+</div>
+<div id="checking-your-vignettes" class="section level2">
+<h2>Checking your vignettes</h2>
+To check your vignette output, run:
+<pre class="r"><code><code>packagedocs::<a href='rd.html#build_vignettes_alias'>build_vignettes</a>()</code></code></pre>
+<p>By default, this will produce all gh-pages vignettes in the <code>&quot;_gh-pages&quot;</code> folder.</p>
+</div>
+</div>
+<div id="vignette-engines" class="section level1">
+<h1>Vignette Engines</h1>
+<p>There only one packagedocs vignette engine: <code>packagedocs::redirect</code>. This engine requires an <code>.Rmd</code> file with the key <code>redirect</code> in the yaml header of the <code>.Rmd</code> file. It will produce an html vignette that automatically redirects to the website provided.</p>
+<div id="mixing-vignette-engines" class="section level2">
+<h2>Mixing Vignette Engines</h2>
+<p>Package docs may be built along side other vignette engines, such as <code>knitr</code>. <code>knitr</code> will be used as an example in the section.</p>
+<p>To include other vignette engines, set your <code>VignetteBuilder</code> line in the <code>DESCRIPTION</code> file to be <code>VignetteBuilder: packagedocs,knitr</code>. When the regular vignette build process occurs, the non-<code>packagedocs</code> vignettes will be built like normal, and the <code>packagedocs</code> vignettes will produce html redirects to the gh-pages vignettes on github. <code>packagedocs::<a href='rd.html#build_vignettes_alias'>build_vignettes</a>()</code> and <code>packagedocs::<a href='rd.html#deploy_travis_alias'>deploy_travis</a>()</code> will generate all vignette files (even non-<code>packagedocs</code> vignettes). Feel free to add your other vignettes to the <code>navpills</code> header field of <code>docs.Rmd</code> and <code>rd.Rmd</code> vignettes for in between vignette navigation.</p>
+</div>
+</div>
+<div id="deploying-to-travis" class="section level1">
+<h1>Deploying to Travis</h1>
+<div id="setting-up-travis-cli" class="section level2">
+<h2>Setting up Travis CLI</h2>
+<p>Please visit <a href="https://docs.travis-ci.com/user/encryption-keys/" class="uri">https://docs.travis-ci.com/user/encryption-keys/</a> for full documentation provided by Travis.</p>
+<p>To install Travis CLI, run the following command in the terminal: (you may need sudo)</p>
+<pre class="bash"><code>gem install travis</code></pre>
+</div>
+<div id="encrypting-your-public-key" class="section level2">
+<h2>Encrypting your public key</h2>
+<p>Visit <a href="Github%20%3E%20Settings%20%3E%20Tokens">https://github.com/settings/tokens</a> to create a new token to publish to your repo from travis. This token must be kept in a safe place and should not be shared publicly.</p>
+<p>To keep your token safe, encrypt your secret token (in your package directory) and add it to your <code>.travis.yml</code> file with:</p>
+<pre class="bash"><code>travis encrypt GITHUB_TOKEN=your_secret_github_token --add</code></pre>
+<p>This will allow travis to publish to your specific repo.</p>
+</div>
+<div id="deploy-after-success" class="section level2">
+<h2>Deploy after success</h2>
+<p><strong>!!! Using this function will STOMP the gh-pages every time <code>packagedocs::<a href='rd.html#deploy_travis_alias'>deploy_travis</a>()</code> is called. Use this function wisely! !!!</strong></p>
+<p>To deploy (all) your gh-pages vignettes, add this config to your <code>.travis.yml</code> file:</p>
+<pre><code class = "hljs">after_success:
+  - Rscript -e "<code>packagedocs::<a href='rd.html#deploy_travis_alias'>deploy_travis</a>()</code>"
+</code></pre>
+<p>By default, if it is the master branch and it is not a pull request, <code>packagedocs::<a href='rd.html#deploy_travis_alias'>deploy_travis</a>()</code> will build both the CRAN vignettes and gh-pages vignettes. <code><a href='rd.html#deploy_travis_alias'>deploy_travis</a>()</code> will then deploy the generated <code>_gh-pages</code> folder (default) from Travis to the package’s github repo. This forced commit will be done by “Travis CI” user (default).</p>
+<p>Please look at <code><a href='rd.html#deploy_travis_alias'>deploy_travis</a></code> for more information.</p>
+</div>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div class="container">
+      <div class="col-md-6">
+                <p>&copy; Barret Schloerke, 2016</p>
+              </div>
+      <div class="col-md-6">
+        <p class="pull-right">created with <a href="https://github.com/hafen/packagedocs">packagedocs</a>
+                  </p>
+      </div>
+    </div>
+  </div>
+
+  
+</body>
+</html>

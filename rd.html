@@ -1,0 +1,525 @@
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc" />
+
+    <meta name="author" content="Barret Schloerke" />
+  
+  
+  <title>packagedocs</title>
+
+    <script src="rd_files/jquery-1.11.3/jquery.min.js"></script>
+  <link href="rd_files/bootstrap-3.3.2/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="rd_files/bootstrap-3.3.2/js/bootstrap.min.js"></script>
+  <script src="rd_files/bootstrap-3.3.2/shim/html5shiv.min.js"></script>
+  <script src="rd_files/bootstrap-3.3.2/shim/respond.min.js"></script>
+  <link href="rd_files/highlight-8.4/tomorrow.css" rel="stylesheet" />
+  <script src="rd_files/highlight-8.4/highlight.pack.js"></script>
+  <link href="rd_files/fontawesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+  <script src="rd_files/stickykit-1.1.1/sticky-kit.min.js"></script>
+  <script src="rd_files/jqueryeasing-1.3/jquery.easing.min.js"></script>
+  <link href="rd_files/recliner-0.2.2/recliner.css" rel="stylesheet" />
+  <script src="rd_files/recliner-0.2.2/recliner.min.js"></script>
+  <script src="rd_files/recliner-0.2.2/onload.js"></script>
+  <link href="rd_files/packagedocs-0.0.1/pd.css" rel="stylesheet" />
+  <script src="rd_files/packagedocs-0.0.1/pd.js"></script>
+  <script src="rd_files/packagedocs-0.0.1/pd-sticky-toc.js"></script>
+  
+  
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+
+<body>
+
+  
+  <header class="navbar navbar-white navbar-fixed-top" role="banner" id="header">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+                <a href="index.html" class="navbar-brand page-scroll">
+        packagedocs - Build Website of Package Documentation
+        </a>
+      </div>
+            <nav class="collapse navbar-collapse" role="navigation">
+        <ul class="nav nav-pills pull-right">
+<li>
+<a href='docs.html'>Docs</a>
+</li>
+<li class="active">
+<a href='rd.html'>Package Ref</a>
+</li>
+<li>
+<a href='https://github.com/hafen/packagedocs'>Github <i class='fa fa-github'></i></a>
+</li>
+        </ul>
+      </nav>
+          </div>
+  </header>
+
+  <!-- Begin Body -->
+  <div class="container">
+    <div class="row">
+            <div class="col-md-3" id="sidebar-col">
+        <div id="toc">
+          <ul>
+          <li><a href="#main-functions">Main Functions</a><ul>
+          <li><a href="#init_vignettes">init_vignettes</a></li>
+          <li><a href="#build_vignettes">build_vignettes</a></li>
+          <li><a href="#deploy_travis">deploy_travis</a></li>
+          </ul></li>
+          <li><a href="#documentation-helpers">Documentation Helpers</a><ul>
+          <li><a href="#rd_link">rd_link</a></li>
+          </ul></li>
+          <li><a href="#rendering-functions">Rendering Functions</a><ul>
+          <li><a href="#vignette-engines">Vignette Engines</a></li>
+          <li><a href="#render_redirect">render_redirect</a></li>
+          <li><a href="#rd_template">rd_template</a></li>
+          <li><a href="#check_output">check_output</a></li>
+          </ul></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-9" id="content-col">
+      
+<div id="content-top"></div>
+<h1>
+Build Website of Package Documentation
+</h1>
+<p>
+<strong>Authors:</strong> <a href="mailto:rhafen@gmail.com">Ryan Hafen</a> [aut, cre],<a href="mailto:schloerke@gmail.com">Barret Schloerke</a> [aut]
+</p>
+<p>
+<strong>Version:</strong> 0.3.6.9999
+</p>
+<p>
+<strong>License:</strong> MIT + file LICENSE
+</p>
+<h4>
+Description
+</h4>
+<p>
+Use lazyrmd to build a package documentation site.
+</p>
+<h4>
+Depends
+</h4>
+<p>
+R (&gt;= 3.1.1)
+</p>
+<h4>
+Imports
+</h4>
+<p>
+crayon, devtools, digest, evaluate, highlight, htmltools, knitr, lazyrmd, magrittr, rmarkdown, stringr, tools, whisker, yaml
+</p>
+<h4>
+Suggests
+</h4>
+<p>
+testthat
+</p>
+<div id="main-functions" class="section level1">
+<h1>Main Functions</h1>
+<div id="init_vignettes" class="section level2">
+<h2>init_vignettes</h2>
+<a id="init_vignettes_alias"></a>
+<h3>
+Initialize a new packagedocs project
+</h3>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>init_vignettes(code_path&nbsp;=&nbsp;".", title&nbsp;=&nbsp;NULL, subtitle&nbsp;=&nbsp;NULL, author&nbsp;=&nbsp;NULL)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+code_path
+</dt>
+<dd class="rd-dd">
+location of R package (defaults to current directory)
+</dd>
+<dt>
+title
+</dt>
+<dd class="rd-dd">
+title of main page (will search in DESCRIPTION if NULL - can be changed later)
+</dd>
+<dt>
+subtitle
+</dt>
+<dd class="rd-dd">
+subtitle of main page (can be changed later)
+</dd>
+<dt>
+author
+</dt>
+<dd class="rd-dd">
+author (can be changed later)
+</dd>
+</dl>
+</div>
+<div id="build_vignettes" class="section level2">
+<h2>build_vignettes</h2>
+<a id="build_vignettes_alias"></a>
+<h3>
+Build CRAN and gh-pages vignettes
+</h3>
+<p class="rd-p">
+Build CRAN html redirect vignettes that are placed in inst/doc/ that redirect to the gh-pages branch of the github url provided in the DESCRIPTION file. This function is heavily inspired by <code>devtools::<a href='http://www.rdocumentation.org/packages/devtools/topics/build_vignettes'>build_vignettes</a>()</code>.
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>build_vignettes(pkg&nbsp;=&nbsp;".", dependencies&nbsp;=&nbsp;"VignetteBuilder", output_dir&nbsp;=&nbsp;"_gh-pages", index_redirect_file&nbsp;=&nbsp;"docs.html", extra_dirs&nbsp;=&nbsp;file.path("vignettes", c(lazy_widgets_dir(), assets_dir())), delete_files&nbsp;=&nbsp;file.path("vignettes", c(".build.timestamp")), include_vignette_source&nbsp;=&nbsp;FALSE)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+pkg
+</dt>
+<dd class="rd-dd">
+path to package. Provided directly to <code>devtools::<a href=http://www.rdocumentation.org/packages/devtools/topics/as.package>as.package</a>()</code>
+</dd>
+<dt>
+dependencies
+</dt>
+<dd class="rd-dd">
+supplied directly to <code>devtools::<a href=http://www.rdocumentation.org/packages/devtools/topics/install_deps>install_deps</a>()</code>
+</dd>
+<dt>
+output_dir
+</dt>
+<dd class="rd-dd">
+directory where the fully contained vignette directory should be exported
+</dd>
+<dt>
+index_redirect_file
+</dt>
+<dd class="rd-dd">
+location of file where the index.html webpage should redirect to. If no index.html file should be created, set this value to <code>FALSE</code> or <code>NULL</code>
+</dd>
+<dt>
+extra_dirs
+</dt>
+<dd class="rd-dd">
+list of directories that will be copied to the gh-pages that are not vignettes and should not be shipped with the package. Files that should be exist in both gh-pages and the package should be contained in the <code>vignettes/.install_extras</code> file.
+</dd>
+<dt>
+delete_files
+</dt>
+<dd class="rd-dd">
+list of files that should be deleted if they still exist when the function ends
+</dd>
+<dt>
+include_vignette_source
+</dt>
+<dd class="rd-dd">
+boolean to determine if the vignettes should be copied to the destination directory. Default behavior is to NOT copy the original vignettes
+</dd>
+</dl>
+</div>
+<div id="deploy_travis" class="section level2">
+<h2>deploy_travis</h2>
+<a id="deploy_travis_alias"></a>
+<h3>
+Deploy to Github Pages from Travis-CI
+</h3>
+<p class="rd-p">
+This function will generate both the CRAN vignettes and gh-pages vignettes. It will look for your personal github token (<code>GITHUB_TOKEN</code>) that the function may deploy to the gh-pages branch of the your package’s github repo.
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>deploy_travis(repo&nbsp;=&nbsp;gsub(".*://([^.]*)\\.github.io/([^/]*).*", "\\1/\\2", read_rmd_yaml(file.path("vignettes", "docs.Rmd"))$redirect), valid_branches&nbsp;=&nbsp;"master", token_key&nbsp;=&nbsp;"GITHUB_PAT", email&nbsp;=&nbsp;"travis@travis-ci.org", name&nbsp;=&nbsp;"Travis CI", push_branch&nbsp;=&nbsp;"gh-pages", output_dir&nbsp;=&nbsp;"_gh-pages", build_fn&nbsp;=&nbsp;function(ouput_dir, ...) {     build_vignettes(pkg&nbsp;=&nbsp;".", output_dir&nbsp;=&nbsp;output_dir) })</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+repo
+</dt>
+<dd class="rd-dd">
+character string that has the form USER/REPO
+</dd>
+<dt>
+valid_branches
+</dt>
+<dd class="rd-dd">
+branch name(s) that are allowed to deploy
+</dd>
+<dt>
+token_key
+</dt>
+<dd class="rd-dd">
+key name that will be autofilled
+</dd>
+<dt>
+email
+</dt>
+<dd class="rd-dd">
+email for commit
+</dd>
+<dt>
+name
+</dt>
+<dd class="rd-dd">
+name for commit
+</dd>
+<dt>
+push_branch
+</dt>
+<dd class="rd-dd">
+branch the website should be pushed to. Defaults to gh-pages
+</dd>
+<dt>
+output_dir
+</dt>
+<dd class="rd-dd">
+output directory to put the website in
+</dd>
+<dt>
+build_fn
+</dt>
+<dd class="rd-dd">
+function to build the documentation. This function must take <code>ouput_dir</code> and <code>…</code> for future expansion. Defaults to <code>packagedocs::<a href=#build_vignettes>build_vignettes</a></code>
+</dd>
+</dl>
+<h4>
+Details
+</h4>
+<p class="rd-p">
+The function is designed so that packagedocs will never ask for your token directly. It will only issue commands to the terminal which should evaluate with the necessary information.
+</p>
+</div>
+</div>
+<div id="documentation-helpers" class="section level1">
+<h1>Documentation Helpers</h1>
+<div id="rd_link" class="section level2">
+<h2>rd_link</h2>
+<a id="rd_link_alias"></a>
+<h3>
+Translate a reference to a package function into a link to that function’s documentation in rd.html
+</h3>
+<p class="rd-p">
+This is meant to be used inside your packagedocs vignette docs.Rmd and rd.Rmd files
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>rd_link(txt, rd_html&nbsp;=&nbsp;rd_file_html(), pkg&nbsp;=&nbsp;"../")</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+txt
+</dt>
+<dd class="rd-dd">
+a string or expression referencing a function or other Rd object
+</dd>
+<dt>
+rd_html
+</dt>
+<dd class="rd-dd">
+the string to be used in the href string pointing to the page where Rd documentation is provided
+</dd>
+<dt>
+pkg
+</dt>
+<dd class="rd-dd">
+path to package being documented
+</dd>
+</dl>
+<h4>
+Details
+</h4>
+<p class="rd-p">
+Instead of using <code>`myfunction()`</code> when talking about a package function <code>myfunction</code> inside your .Rmd file, you can use <code>`r rd_link(myfunction())`</code> or even things like <code>`r rd_link(myfunction(arg1 = 1, …))`</code> and it will turn it into an href pointing to the online documentation of your package function <code>myfunction</code> in the page rendered by packagedocs.
+</p>
+</div>
+</div>
+<div id="rendering-functions" class="section level1">
+<h1>Rendering Functions</h1>
+<div id="vignette-engines" class="section level2">
+<h2>Vignette Engines</h2>
+<a id="package_docs_alias"></a>
+<h3>
+Generate package docs
+</h3>
+<p class="rd-p">
+<code>rmarkdown</code> output formats for the main documentation and package reference pacakge respectively.
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>package_docs(toc&nbsp;=&nbsp;TRUE, toc_depth&nbsp;=&nbsp;2, toc_collapse&nbsp;=&nbsp;FALSE, extra_dependencies&nbsp;=&nbsp;NULL, self_contained&nbsp;=&nbsp;FALSE, fig_width&nbsp;=&nbsp;6.5, fig_height&nbsp;=&nbsp;4, mathjax&nbsp;=&nbsp;NULL, lib_dir&nbsp;=&nbsp;assets_dir(), ..., lazyrmd_render_fn&nbsp;=&nbsp;"html_document", lazyrmd_render_package&nbsp;=&nbsp;"rmarkdown")</div>
+<div>package_docs_rd(..., rd_index&nbsp;=&nbsp;"rd_index.yaml", code_path&nbsp;=&nbsp;".", exclude&nbsp;=&nbsp;NULL)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+toc
+</dt>
+<dd class="rd-dd">
+should a table of contents be included?
+</dd>
+<dt>
+toc_depth
+</dt>
+<dd class="rd-dd">
+depth of the table of contents (max is 2 for this template)
+</dd>
+<dt>
+toc_collapse
+</dt>
+<dd class="rd-dd">
+should the table of contents have collapsible subsections?
+</dd>
+<dt>
+extra_dependencies, self_contained, fig_width, fig_height, mathjax
+</dt>
+<dd class="rd-dd">
+passed to the rmarkdown rendering function
+</dd>
+<dt>
+lazyrmd_render_fn, lazyrmd_render_package, lib_dir
+</dt>
+<dd class="rd-dd">
+arguments of <code>lazyrmd::<a href=http://www.rdocumentation.org/packages/lazyrmd/topics/lazy_render>lazy_render</a></code>. Defaults to render with <code>rmarkdown::html_document</code>
+</dd>
+<dt>
+rd_index, code_path, exclude
+</dt>
+<dd class="rd-dd">
+parameters passed directly to <code><a href=#rd_template>rd_template</a></code>
+</dd>
+<dt>
+…
+</dt>
+<dd class="rd-dd">
+In <code>pacakge_docs</code>, the parameters are passed to the <code>lazyrmd::<a href=http://www.rdocumentation.org/packages/lazyrmd/topics/lazy_render>lazy_render</a></code> rendering function. In <code>package_docs_rd</code>, the parameters are passed to <code>package_docs</code>
+</dd>
+</dl>
+</div>
+<div id="render_redirect" class="section level2">
+<h2>render_redirect</h2>
+<a id="render_redirect_alias"></a>
+<h3>
+Render vignette redirect
+</h3>
+<p class="rd-p">
+Create a html redirect file that will automatically redirect to another webpage. This is useful for making a html reidrect in a vignette. By submitting a small redirect vignette, the package is not bloated in size
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>render_redirect(input_file_rmd, output_file_html)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+input_file_rmd
+</dt>
+<dd class="rd-dd">
+input file name to read its yaml header with redirect key
+</dd>
+<dt>
+output_file_html
+</dt>
+<dd class="rd-dd">
+output file name
+</dd>
+</dl>
+</div>
+<div id="rd_template" class="section level2">
+<h2>rd_template</h2>
+<a id="rd_template_alias"></a>
+<h3>
+Generate the text to put in a rd.rmd file to build a package function reference
+</h3>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>rd_template(code_path, rd_index&nbsp;=&nbsp;"rd_index.yaml", exclude&nbsp;=&nbsp;NULL)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+code_path
+</dt>
+<dd class="rd-dd">
+path to the source code directory of the package
+</dd>
+<dt>
+rd_index
+</dt>
+<dd class="rd-dd">
+path to yaml file with index layout information
+</dd>
+<dt>
+exclude
+</dt>
+<dd class="rd-dd">
+vector of Rd entry names to exclude from the resulting document
+</dd>
+</dl>
+</div>
+<div id="check_output" class="section level2">
+<h2>check_output</h2>
+<a id="check_output_alias"></a>
+<h3>
+Check output for warnings and errors
+</h3>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>check_output(ff)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+ff
+</dt>
+<dd class="rd-dd">
+path to a .html file output by <code>render()</code>
+</dd>
+</dl>
+</div>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div class="container">
+      <div class="col-md-6">
+                <p>&copy; Barret Schloerke, 2016</p>
+              </div>
+      <div class="col-md-6">
+        <p class="pull-right">created with <a href="https://github.com/hafen/packagedocs">packagedocs</a>
+                  </p>
+      </div>
+    </div>
+  </div>
+
+  
+</body>
+</html>
