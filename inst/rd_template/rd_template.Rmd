@@ -7,9 +7,11 @@
 
 {{#.}}
 
+
+
 ## {{name}}
 
-<h3>{{{title}}}</h3>
+<a id="{{{alias_name}}}"></a><h3>{{{title}}}</h3>
 
 {{#description}}
 <p class="rd-p">{{{description}}}</p>
@@ -43,7 +45,9 @@
 {{#examples}}
 
 <h4>Examples</h4>
-<pre class="r"><code>{{{ examples }}}</code></pre>
+```{r {{{ id }}}, {{{ knitr_txt }}} }
+{{{ examples }}}
+```
 {{/examples}}
 
 {{#seealso}}
@@ -60,4 +64,3 @@
 {{/entries}}
 
 {{/.}}
-

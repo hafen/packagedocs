@@ -1,0 +1,194 @@
+---
+title: "packagedocs"
+subtitle: "Build Website of Package Documentation"
+author: Barret Schloerke
+copyright: Barret Schloerke
+output:
+  packagedocs::package_docs:
+    toc: true
+    toc_collapse: false
+redirect: http://hafen.github.io/packagedocs
+vignette: |
+  %\VignetteIndexEntry{packagedocs Documentation}
+  %\VignetteEngine{packagedocs::redirect}
+navpills: |
+  <li class="active"><a href='docs.html'>Docs</a></li>
+  <li><a href='rd.html'>Package Ref</a></li>
+  <li><a href='https://github.com/hafen/packagedocs'>Github <i class='fa fa-github'></i></a></li>
+---
+
+```{r global_options, include=FALSE}
+# R output pre blocks are styled by default to indicate output
+knitr::opts_chunk$set(comment = NA, eval = FALSE)
+
+# shorthand for rd_link() - see ?packagedocs::rd_link for more information
+rdl <- function(x) packagedocs::rd_link(deparse(substitute(x)))
+```
+
+# packagedocs
+
+[![Build Status](https://travis-ci.org/hafen/packagedocs.svg?branch=master)](https://travis-ci.org/hafen/packagedocs)
+
+Build an R package documentation website using [rmarkdown](http://rmarkdown.rstudio.com).  Example [here](http://hafen.github.io/rbokeh/) or ([here](http://tessera.io/docs-datadr/)).
+
+# Installation
+
+<!-- Simple installation:
+
+```{r repo, eval = FALSE}
+options(repos = c(tessera = "http://packages.tessera.io",
+  getOption("repos")))
+install.packages("packagedocs")
+```
+-->
+
+From github with devtools:
+
+<pre class="r"><code>`r rdl(devtools::install_github("hafen/packagedocs"))`</code></pre>
+
+# Motivation
+
+This was built primarily for my purposes where the goal is to have a main page for an R package with tutorial/vignette-like content paired with a web version of the .Rd documentation.  This package is similar to (and uses) [staticdocs](https://github.com/hadley/staticdocs) and supplants an earlier similar effort, [buildDocs](https://github.com/hafen/buildDocs).  That previous effort was quite hacky.  This current effort leverages rmarkdown to make it simpler and easier to embed htmlwidgets, etc.
+
+Essentially this package provides a special template and format for rmarkdown with a few extra functions for building the web-based .Rd files.  If you like the template you can use it for non-package documentation purposes.
+
+The template style is based on bootstrap with several customizations.  These are built using less and gulp with node.js.  These are not necessary for using the package, but for development, you can do `bower install` to get a dev environment going.
+
+# Package Size Constraint
+
+Compiling all of the necessary components into two self contained vignettes makes the package too large to submit to CRAN without issues.  Therefore, `packagedocs` takes the approach of creating html vignettes that are submitted to CRAN that automatically redirect to the gh-pages of the github repository of the R package.  This allows for documentation that directly matches the latest master branch while not over inflating the package that is submitted to CRAN.  Please read the section on Deploying to Travis below for further information.
+
+# Usage
+
+`packagedocs` creates two forms of vignettes: html redirect vignettes that are submitted to CRAN and full html vignettes that are placed in the gh-pages of your github repo.  I will refer to them as 'CRAN vignettes' and 'gh-pages vignettes' respectively
+
+## Initialize your vignettes
+
+I recommend initializing your vignettes once your package is no longer rapidly changing as function names are auto-generated from the current state of the package.  Make sure to have your github repo stated in the `DESCRIPTION` file as one of the `URL`s.  This url is needed to determine where the gh-pages vignettes are deployed.
+
+From your package directory...
+
+<pre class="r"><code>`r rdl(packagedocs::init_vignettes())`</code></pre>
+
+This will produce three files in the `vignettes` folder: `docs.Rmd`, `rd_index.yaml`, and `rd.Rmd`.
+
+* `docs.Rmd`
+    * The `docs.Rmd` file is the home webpage for your package's documentation. The main content has very little structure, allowing you to insert any `rmarkdown` formatted document. (Just like this one!).  The `docs.Rmd` file is a great place to show off long examples that regular function documentation just can not do justice.  The classic RStudio rmarkdown example has been inserted by default for inspiration.
+* `rd.Rmd`
+    * This file is a shell file that will be filled with compiled `rd_index.yaml` information.  The compiled `rd_index.yaml` information will be appended to the `rmarkdown` document.  
+    * Add any information about the functions that you'd like users to see first!
+* `rd_index.yaml`
+    * The `rd_index.yaml` is a yaml file that contains the layout for the `rd.Rmd` file.  
+    * There are two main sections: `knitr` and `sections`.
+        * `knitr`
+            * Is a list of [knitr chunk options](http://yihui.name/knitr/options/)
+            * These options are the default options for all topics. They may be overwritten in each topic for different behavior
+        * `sections`
+            * It contains a list of `section` and `topics` pairs.  Editing the topics field is talked about in the next section.
+            * The section pairs in the `rd_index.yaml` file are auto-generated according to the keywords used in the package documentation.  All functions that do not have a keyword will be placed in the last section.  `internal` keyword functions will not be added automatically.
+            * It is okay to rename, remove, rearrange, or repeat the sections and topics!
+<!-- * `.install_extras`
+    * As taken from [Writing R Extension](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-package-vignettes)
+<pre style="white-space: pre-wrap;">
+When R CMD build builds the vignettes, it copies these and the vignette sources from directory vignettes to inst/doc. To install any other files from the vignettes directory, include a file vignettes/.install_extras which specifies these as Perl-like regular expressions on one or more lines.
+</pre>
+    * By default, only the `rd_index.yaml` file will be copied over to the `inst/doc` folder for CRAN vignettes.  When building gh-pages vignettes, `assets`, `index_files`, `rd_files`, and (maybe) the `lazy_widgets` directories will be copied as well as anything in the `.install_extras` file.  The extra directories are only copied when compiling for gh-pages vignettes as they are not needed for the CRAN vignettes that are shipped with the package. -->
+
+
+## Editing your `rd_index.yaml`
+
+This file will be auto-generated from `r rdl(packagedocs::init_vignettes())`.  It will contain a list of `section_name` and `topics` pairs.  The `topics` field is a list of items that can either be a character string or an object.  
+
+A topic may be a single character string.  This will be upgraded at run time.  The following example will produce the same topic:
+
+```{cat}
+- my_function
+-
+  title: my_function
+  file: my_function.Rd
+```
+
+The following `topic` object fields will be understood by packagedocs:
+
+* `title`
+    * The `title` field is the string of text that will be displayed in the table of contents and at the top of the documentation for the specific topic.
+    * The default value is equivalent to `gsub("\\.Rd", "", file)`
+    * At least one of the `title` or `file` fields must be provided
+* `file`
+    * The `file` field corresponds to the name of the R documentation file that will be displayed.  These files can be found in your `man` folder.
+    * The default value is equivalent to `paste0(title, ".Rd")`.
+    * At least one of the `title` or `file` fields must be provided
+* `knitr`
+    * If you would like to override example knitr behavior for a given topic, set this field to a list of [knitr chunk options](http://yihui.name/knitr/options/).
+    * This field is optional
+
+The topics below will all produce the same information:
+
+```{cat}
+- my_function
+-
+  title: my_function
+-
+  file: my_function.Rd
+-
+  title: my_function
+  file: my_function.Rd
+```
+
+## Checking your vignettes
+
+To check your vignette output, run:
+<pre class="r"><code>`r rdl(packagedocs::build_vignettes())`</code></pre>
+
+By default, this will produce all gh-pages vignettes in the `"_gh-pages"` folder.
+
+# Vignette Engines
+
+There only one packagedocs vignette engine: `packagedocs::redirect`.  This engine requires an `.Rmd` file with the key `redirect` in the yaml header of the `.Rmd` file.  It will produce an html vignette that automatically redirects to the website provided.
+
+
+## Mixing Vignette Engines
+
+Package docs may be built along side other vignette engines, such as `knitr`. `knitr` will be used as an example in the section.
+
+To include other vignette engines, set your `VignetteBuilder` line in the `DESCRIPTION` file to be `VignetteBuilder: packagedocs,knitr`.  When the regular vignette build process occurs, the non-`packagedocs` vignettes will be built like normal, and the `packagedocs` vignettes will produce html redirects to the gh-pages vignettes on github.  `r rdl(packagedocs::build_vignettes())` and `r rdl(packagedocs::deploy_travis())` will generate all vignette files (even non-`packagedocs` vignettes).  Feel free to add your other vignettes to the `navpills` header field of `docs.Rmd` and `rd.Rmd` vignettes for in between vignette navigation.
+
+
+# Deploying to Travis
+
+## Setting up Travis CLI
+
+Please visit [https://docs.travis-ci.com/user/encryption-keys/](https://docs.travis-ci.com/user/encryption-keys/) for full documentation provided by Travis.
+
+To install Travis CLI, run the following command in the terminal: (you may need sudo)
+
+```{bash}
+gem install travis
+```
+
+## Encrypting your public key
+
+Visit [https://github.com/settings/tokens](Github > Settings > Tokens) to create a new token to publish to your repo from travis.  This token must be kept in a safe place and should not be shared publicly.
+
+To keep your token safe, encrypt your secret token (in your package directory) and add it to your `.travis.yml` file with:
+
+```{bash}
+travis encrypt GITHUB_TOKEN=your_secret_github_token --add
+```
+
+This will allow travis to publish to your specific repo.
+
+
+## Deploy after success
+
+**!!! Using this function will STOMP the gh-pages every time `r rdl(packagedocs::deploy_travis())` is called.  Use this function wisely! !!!**
+
+To deploy (all) your gh-pages vignettes, add this config to your `.travis.yml` file:
+
+<pre><code class = "hljs">after_success:
+  - Rscript -e "`r rdl(packagedocs::deploy_travis())`"
+</code></pre>
+
+By default, if it is the master branch and it is not a pull request, `r rdl(packagedocs::deploy_travis())` will build both the CRAN vignettes and gh-pages vignettes.  `r rdl(deploy_travis())` will then deploy the generated `_gh-pages` folder (default) from Travis to the package's github repo. This forced commit will be done by "Travis CI" user (default).  
+
+Please look at `r rdl(deploy_travis)` for more information.

@@ -1,23 +1,34 @@
 Package: packagedocs
-Title: Build Webstite of Package Documentation
-Version: 0.3.6
+Title: Build Website of Package Documentation
+Version: 0.3.6.9999
 Date: 2016-04-13
-Authors@R: "Ryan Hafen <rhafen@gmail.com> [aut, cre]"
-Description: Use rmarkdown to build a package documentation site.
+Authors@R: c(
+    person("Ryan", "Hafen", email = "rhafen@gmail.com", role = c("aut", "cre")),
+    person("Barret", "Schloerke", email = "schloerke@gmail.com", role = c("aut")))
+Description: Use lazyrmd to build a package documentation site.
 Depends:
     R (>= 3.1.1)
 License: MIT + file LICENSE
+URL: http://hafen.github.io/packagedocs, https://github.com/hafen/packagedocs
 LazyData: true
 Imports:
-    rmarkdown,
+    crayon,
+    devtools,
+    digest,
+    evaluate,
+    highlight,
     htmltools,
+    knitr,
+    lazyrmd,
+    magrittr,
+    rmarkdown,
     stringr,
     tools,
-    yaml,
     whisker,
-    staticdocs,
-    knitr,
-    lazyrmd
+    yaml
 Suggests:
     testthat
+Remotes:
+    hafen/lazyrmd
 RoxygenNote: 5.0.1
+VignetteBuilder: packagedocs

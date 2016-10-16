@@ -10,3 +10,8 @@ package.json
 ^_ignore$
 ^less$
 packagedocs.sublime*
+lintr
+.travis.yml
+^_docs$
+^cran-comments\.md$
+^_gh-pages$
