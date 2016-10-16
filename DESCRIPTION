@@ -1,6 +1,6 @@
 Package: packagedocs
 Title: Build Website of Package Documentation
-Version: 0.3.6.9999
+Version: 0.3.9.9999
 Date: 2016-04-13
 Authors@R: c(
     person("Ryan", "Hafen", email = "rhafen@gmail.com", role = c("aut", "cre")),
@@ -10,6 +10,7 @@ Depends:
     R (>= 3.1.1)
 License: MIT + file LICENSE
 URL: http://hafen.github.io/packagedocs, https://github.com/hafen/packagedocs
+BugReports: https://github.com/hafen/packagedocs/issues
 LazyData: true
 Imports:
     crayon,
@@ -19,7 +20,7 @@ Imports:
     highlight,
     htmltools,
     knitr,
-    lazyrmd,
+    lazyrmd (>= 0.2.0),
     magrittr,
     rmarkdown,
     stringr,
@@ -28,7 +29,5 @@ Imports:
     yaml
 Suggests:
     testthat
-Remotes:
-    hafen/lazyrmd
 RoxygenNote: 5.0.1
 VignetteBuilder: packagedocs
