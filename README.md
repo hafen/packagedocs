@@ -34,4 +34,4 @@ To generate your vignettes, run:
 packagedocs::build_vignettes()
 ```
 
-For more information, please visit the [`packagedocs` documentation](https://hafen.github.io/packagedocs)
+For more information, please visit the [`packagedocs` documentation](http://hafen.github.io/packagedocs)
