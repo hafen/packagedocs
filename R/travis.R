@@ -28,6 +28,7 @@ deploy_travis <- function(
   push_branch = "gh-pages",
   output_dir = "_gh-pages",
   build_fn = function(ouput_dir, ...) {
+    devtools::install(".")
     build_vignettes(pkg = ".", output_dir = output_dir)
   }
 ) {
