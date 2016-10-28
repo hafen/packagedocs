@@ -14,7 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.2",
-    "bootswatch": "~3.3.2"
+    "bootstrap": "~3.3.7",
+    "bootswatch": "~3.3.7"
   }
 }

@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
-var minifyCSS = require('gulp-minify-css');
+var cleanCSS = require('gulp-clean-css');
 var notify = require('gulp-notify');
 var gutil = require('gulp-util');
 var watch = require("gulp-watch");
@@ -12,7 +12,7 @@ gulp.task('less', function () {
   return gulp.src("less/bootstrap.less")
     .pipe(less({compress: true}).on('error', gutil.log))
     .pipe(autoprefixer('last 10 versions', 'ie 9'))
-    .pipe(minifyCSS({keepBreaks: false}))
+    .pipe(cleanCSS({processImport: false}))
     .pipe(rename('bootstrap.min.css'))
     .pipe(gulp.dest("inst/html_assets/bootstrap/css"));
     // .pipe(notify('Less Compiled, Prefixed and Minified'));
