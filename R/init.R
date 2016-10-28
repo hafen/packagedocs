@@ -163,9 +163,9 @@ init_vignettes <- function(
   )
 
   cat(whisker::whisker.render(yaml_template, args),
-    file = file.path(docs_path, rd_index_file_yaml()))
+    file = file.path(docs_path, rd_index_file_yaml))
 
-  docs <- c(docs_file_rmd, rd_file_rmd, rd_index_file_yaml())
+  docs <- c(docs_file_rmd, rd_file_rmd, rd_index_file_yaml)
   # if (build_file) {
   #   docs <- append(docs, "build.R")
   # }
