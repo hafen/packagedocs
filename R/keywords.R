@@ -5,6 +5,19 @@ group_fn_by_keyword <- function(rd_info, default_value = NULL) {
   rd_list <- rd_info$rd
   rd_index <- rd_info$rd_index
 
+  if (nrow(rd_index) == 0) {
+    warning("no documentation found for package")
+    return(
+      list(
+        section_name = "no topics found",
+        topics = list(
+          title = "function_name",
+          is_unique = TRUE
+        )
+      )
+    )
+  }
+
   paste_com <- function(...) {
     paste(..., collapse = ", ")
   }
