@@ -15,3 +15,4 @@ lintr
 ^_docs$
 ^cran-comments\.md$
 ^_gh-pages$
+^\.travis\.yml$

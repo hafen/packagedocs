@@ -64,7 +64,9 @@ check_for_travis_gem <- function() {
 
 check_for_pat <- function() {
   if (is.null(devtools::github_pat())) {
-    stop("env variable GITHUB_PAT is not set. Please set this environment variable!")
+    stop("env variable GITHUB_PAT is not set. Please set this environment variable!\n",
+      "If you don't have a token, visit: https://github.com/settings/tokens\n",
+      "and create a new token with at least scope for repo > public_repo.")
   }
 }
 
@@ -83,9 +85,18 @@ secure_token <- function(add = TRUE, ...) {
   check_for_pat()
   check_for_travis_gem()
 
+  # check to make sure travis repo is enabled
+  chk <- suppressWarnings(system2("travis", "settings", stderr = TRUE))
+  if (grepl("not known", as.character(chk))) {
+    stop("This repository isn't active on travis-ci.\n",
+      "Please visit https://travis-ci.org/profile and activate the repo.")
+  }
+
   if (isTRUE(add)) {
     system("travis encrypt GITHUB_PAT=$GITHUB_PAT --add env.global", ...)
-    cat("Added to .travis file\n")
+    message("Added to .travis.yml file")
+    message("Your documentation should now be built and deployed automatically\n",
+      "to your gh_pages branch whenever you push new commits to github.")
   } else {
     system("travis encrypt GITHUB_PAT=$GITHUB_PAT", ...)
   }
