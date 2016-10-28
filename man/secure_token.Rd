@@ -4,10 +4,12 @@
 \alias{secure_token}
 \title{Secure personal access token}
 \usage{
-secure_token(add = TRUE)
+secure_token(add = TRUE, ...)
 }
 \arguments{
 \item{add}{boolean to determine if the key should be automatically added.  Default is \code{TRUE}.  This will remove custom formatting as the file will be programatically generated}
+
+\item{...}{supplied to \code{\link{system}}}
 }
 \description{
 Function to create or automatically add a secure key (GITHUB_PAT) for travis to be able to publish to the drat repo

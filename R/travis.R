@@ -1,3 +1,58 @@
+
+
+#' Use Travis CI
+#'
+#'
+#' @param pkg location of package
+#' @param add boolean that determines if all items should be added to the travis yaml file or printed on screen
+#' @export
+use_travis <- function(pkg = ".", add = TRUE) {
+  if (!isTRUE(add)) {
+    token <- secure_token(add = FALSE, intern = TRUE)
+    # remove leading quotes.  (bad parsing by system)
+    token <- gsub("^\"", "", token)
+    token <- gsub("\"$", "", token)
+
+    travis_list <- list(
+      after_success = list(
+        "Rscript -e 'packagedocs::deploy_travis()'"
+      ),
+      env = list(global = list(secure = token))
+    )
+
+    travis_yaml <- yaml::as.yaml(travis_list)
+    message("Add these fields to your .travis.yml file:\n")
+    message(travis_yaml)
+    return(invisible(travis_yaml))
+  }
+
+
+  secure_token(add = TRUE)
+
+  pkg <- as.package(pkg)
+  travis_file <- file.path(pkg$path, ".travis.yml")
+  travis_yaml <- yaml::yaml.load_file(travis_file)
+  after_success <- travis_yaml$after_success
+  if (is.null(after_success)) {
+    after_success <- list(
+      "Rscript -e \"packagedocs::deploy_travis()\""
+    )
+  } else {
+    if (!any(
+      grepl("packagedocs::deploy_travis", after_success)
+    )) {
+      after_success[length(after_success) + 1] <-
+        "Rscript -e \"packagedocs::deploy_travis()\""
+    }
+  }
+  travis_yaml$after_success <- after_success
+
+  cat(yaml::as.yaml(travis_yaml), file = travis_file)
+}
+
+
+
+
 check_for_travis_gem <- function() {
   bol <- length(suppressWarnings(system("which travis", intern = TRUE))) > 0
   if (!bol) {
@@ -18,20 +73,21 @@ check_for_pat <- function() {
 #'
 #' Function to create or automatically add a secure key (GITHUB_PAT) for travis to be able to publish to the drat repo
 #' @param add boolean to determine if the key should be automatically added.  Default is \code{TRUE}.  This will remove custom formatting as the file will be programatically generated
+#' @param ... supplied to \code{\link{system}}
 #' @export
 #' @examples
 #' \dontrun{
 #'   secure_token(FALSE)
 #' }
-secure_token <- function(add = TRUE) {
+secure_token <- function(add = TRUE, ...) {
   check_for_pat()
   check_for_travis_gem()
 
   if (isTRUE(add)) {
-    system("travis encrypt GITHUB_PAT=$GITHUB_PAT --add env.global")
+    system("travis encrypt GITHUB_PAT=$GITHUB_PAT --add env.global", ...)
     cat("Added to .travis file\n")
   } else {
-    system("travis encrypt GITHUB_PAT=$GITHUB_PAT")
+    system("travis encrypt GITHUB_PAT=$GITHUB_PAT", ...)
   }
 }
 
