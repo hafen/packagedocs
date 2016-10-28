@@ -87,7 +87,7 @@ secure_token <- function(add = TRUE, ...) {
 
   # check to make sure travis repo is enabled
   chk <- suppressWarnings(system2("travis", "settings", stderr = TRUE))
-  if (grepl("not known", as.character(chk))) {
+  if (any(grepl("not known", as.character(chk)))) {
     stop("This repository isn't active on travis-ci.\n",
       "Please visit https://travis-ci.org/profile and activate the repo.")
   }
