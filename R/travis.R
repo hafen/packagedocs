@@ -5,8 +5,9 @@
 #'
 #' @param pkg location of package
 #' @param add boolean that determines if all items should be added to the travis yaml file or printed on screen
+#' @param browse passed onto \code{devtools::\link{use_travis}}
 #' @export
-use_travis <- function(pkg = ".", add = TRUE) {
+use_travis <- function(pkg = ".", add = TRUE, browse = interactive()) {
   if (!isTRUE(add)) {
     token <- secure_token(add = FALSE, intern = TRUE)
     # remove leading quotes.  (bad parsing by system)
@@ -31,6 +32,11 @@ use_travis <- function(pkg = ".", add = TRUE) {
 
   pkg <- as.package(pkg)
   travis_file <- file.path(pkg$path, ".travis.yml")
+
+  if (!file.exists(travis_file)) {
+    devtools::use_travis(pkg, browse = browse)
+  }
+
   travis_yaml <- yaml::yaml.load_file(travis_file)
   after_success <- travis_yaml$after_success
   if (is.null(after_success)) {
