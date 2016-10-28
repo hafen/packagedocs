@@ -9,8 +9,8 @@ deploy_travis(repo = gsub(".*://([^.]*)\\\\.github.io/([^/]*).*",
   valid_branches = "master", token_key = "GITHUB_PAT",
   email = "travis@travis-ci.org", name = "Travis CI",
   push_branch = "gh-pages", output_dir = "_gh-pages",
-  build_fn = function(ouput_dir, ...) {     build_vignettes(pkg = ".",
-  output_dir = output_dir) })
+  build_fn = function(ouput_dir, ...) {     devtools::install(".")    
+  build_vignettes(pkg = ".", output_dir = output_dir) })
 }
 \arguments{
 \item{repo}{character string that has the form USER/REPO}

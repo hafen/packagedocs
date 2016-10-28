@@ -1,3 +1,43 @@
+check_for_travis_gem <- function() {
+  bol <- length(suppressWarnings(system("which travis", intern = TRUE))) > 0
+  if (!bol) {
+    cat("Please execute this command in your terminal
+      sudo gem install travis\n\n")
+    stop("travis gem is not installed. Please fix this!")
+  }
+}
+
+check_for_pat <- function() {
+  if (is.null(devtools::github_pat())) {
+    stop("env variable GITHUB_PAT is not set. Please set this environment variable!")
+  }
+}
+
+
+#' Secure personal access token
+#'
+#' Function to create or automatically add a secure key (GITHUB_PAT) for travis to be able to publish to the drat repo
+#' @param add boolean to determine if the key should be automatically added.  Default is \code{TRUE}.  This will remove custom formatting as the file will be programatically generated
+#' @export
+#' @examples
+#' \dontrun{
+#'   secure_token(FALSE)
+#' }
+secure_token <- function(add = TRUE) {
+  check_for_pat()
+  check_for_travis_gem()
+
+  if (isTRUE(add)) {
+    system("travis encrypt GITHUB_PAT=$GITHUB_PAT --add env.global")
+    cat("Added to .travis file\n")
+  } else {
+    system("travis encrypt GITHUB_PAT=$GITHUB_PAT")
+  }
+}
+
+
+
+
 
 #' Deploy to Github Pages from Travis-CI
 #'
