@@ -1,5 +1,3 @@
-
-
 #' Generate the text to put in a rd.rmd file to build a package function reference
 #'
 #' @param code_path path to the source code directory of the package
@@ -34,26 +32,7 @@ rd_template <- function(code_path, rd_index = "rd_index.yaml", exclude = NULL) {
       geterrmessage())
   }
 
-  # get all rd files from the rd_index topics
-  rd_files <- alias_files_from_index(rd_index)
-
-  missing_topics <- setdiff(rd_info$rd_index$file_in, rd_files)
-  if (length(missing_topics) > 0) {
-    message(
-      "*** topics in package that were not found in rd_index (will not be included): ",
-      paste(missing_topics, collapse = ", ")
-    )
-  }
-
-  unknown_topics <- setdiff(rd_files, rd_info$rd_index$file_in)
-  if (length(unknown_topics) > 0) {
-    message(
-      "*** topics found in rd_index that aren't in package (will not be included): ",
-      paste(unknown_topics, collapse = ", ")
-    )
-    unknown_ids <- rd_files[rd_files %in% unknown_topics] %>% names()
-    rd_index <- remove_topics_from_index(rd_index, unknown_ids)
-  }
+  check_rd_index(rd_index = rd_index, rd_info = rd_info)
 
   display_current_rd_index(rd_index)
 
