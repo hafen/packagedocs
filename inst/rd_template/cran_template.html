@@ -3,6 +3,17 @@
   <head>
     <title>{{{title}}}</title>
     <meta http-equiv="refresh" content="0; URL='{{{url}}}'" />
+    <style>
+      .fade-in {
+        animation: 0.5s 1s fadeIn;
+        animation-fill-mode: forwards;
+        visibility: hidden;
+      }
+      @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { visibility: visible; opacity: 1; }
+      }
+    </style>
   </head>
   <body>
     <h1>{{{title}}}</h1>
