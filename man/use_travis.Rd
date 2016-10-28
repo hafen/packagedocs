@@ -4,12 +4,14 @@
 \alias{use_travis}
 \title{Use Travis CI}
 \usage{
-use_travis(pkg = ".", add = TRUE)
+use_travis(pkg = ".", add = TRUE, browse = interactive())
 }
 \arguments{
 \item{pkg}{location of package}
 
 \item{add}{boolean that determines if all items should be added to the travis yaml file or printed on screen}
+
+\item{browse}{passed onto \code{devtools::\link{use_travis}}}
 }
 \description{
 Use Travis CI
