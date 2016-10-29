@@ -10,11 +10,11 @@ make_alias_id <- function(alias_file_name) {
 #'
 #' @param txt a string or expression referencing a function or other Rd object
 #' @param rd_html the string to be used in the href string pointing to the page where Rd documentation is provided
-#' @param pkg path to package being documented
+#' @param pkg path to package being documented. Works when within sub-package directories
 #'
 #' @details Instead of using \code{&#96;myfunction()&#96;} when talking about a package function \code{myfunction} inside your .Rmd file, you can use \code{&#96;r rd_link(myfunction())&#96;} or even things like \code{&#96;r rd_link(myfunction(arg1 = 1, ...))&#96;} and it will turn it into an href pointing to the online documentation of your package function \code{myfunction} in the page rendered by packagedocs.
 #' @export
-rd_link <- function(txt, rd_html = rd_file_html(), pkg = "../") {
+rd_link <- function(txt, rd_html = rd_file_html(), pkg = ".") {
   res <- try(txt, silent = TRUE)
 
   if (inherits(res, "try-error")) {

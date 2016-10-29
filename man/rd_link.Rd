@@ -4,14 +4,14 @@
 \alias{rd_link}
 \title{Translate a reference to a package function into a link to that function's documentation in rd.html}
 \usage{
-rd_link(txt, rd_html = rd_file_html(), pkg = "../")
+rd_link(txt, rd_html = rd_file_html(), pkg = ".")
 }
 \arguments{
 \item{txt}{a string or expression referencing a function or other Rd object}
 
 \item{rd_html}{the string to be used in the href string pointing to the page where Rd documentation is provided}
 
-\item{pkg}{path to package being documented}
+\item{pkg}{path to package being documented. Works when within sub-package directories}
 }
 \description{
 This is meant to be used inside your packagedocs vignette docs.Rmd and rd.Rmd files

@@ -6,21 +6,21 @@ context("rd_link")
 test_that("links", {
 
   # done to make sure the pkg_path points to the pkg source
-  pkg_path <- file.path(".")
-  if (grepl("packagedocs.Rcheck", getwd(), fixed = TRUE)) {
-    pkg_path <- file.path(pkg_path, "00_pkg_src", "packagedocs")
-  }
+  # pkg_path <- file.path("..", "..")
+  # if (grepl("packagedocs.Rcheck", getwd(), fixed = TRUE)) {
+  #   pkg_path <- file.path(pkg_path, "00_pkg_src", "packagedocs")
+  # }
+  #
+  # info <- capture.output(dput(list(
+  #   pwd = getwd(),
+  #   dir = dir(),
+  #   pkg_path = pkg_path
+  # )))
+  # stop(paste(info, collapse = "\n"))
 
-  info <- capture.output(dput(list(
-    pwd = getwd(),
-    dir = dir(),
-    pkg_path = pkg_path
-  )))
-  stop(paste(info, collapse = "\n"))
-
-  pkg_obj <- as.package(pkg_path)
+  pkg_obj <- as.package(".")
   rdl <- function(x) {
-    rd_link(deparse(substitute(x)), pkg = pkg_path)
+    rd_link(deparse(substitute(x)), pkg = pkg_obj)
   }
 
   expect_equivalent(
