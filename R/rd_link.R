@@ -18,7 +18,7 @@ rd_link <- function(txt, rd_html = rd_file_html(), pkg = ".") {
   res <- try(txt, silent = TRUE)
 
   if (inherits(res, "try-error")) {
-    txt <- deparse(substitute(txt))
+    txt <- paste(deparse(substitute(txt), 500L), collapse = "\n")
   }
 
   # get rid of quotes if it is quoted
