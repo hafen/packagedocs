@@ -5,20 +5,22 @@ context("rd_link")
 
 test_that("links", {
 
-  # done to make sure the pkg_path points to the pkg source
-  # pkg_path <- file.path("..", "..")
-  # if (grepl("packagedocs.Rcheck", getwd(), fixed = TRUE)) {
-  #   pkg_path <- file.path(pkg_path, "00_pkg_src", "packagedocs")
-  # }
-  #
+  wd <- getwd()
+  if (grepl("tests_i386|tests_x64", wd)) {
+    # done to make sure the pkg_path points to the pkg source
+    # only happens on build_win()
+    pkg_path <- pkg_path <- file.path("..", "..", "..", "packagedocs")
+  } else {
+    pkg_path <- "."
+  }
+
   # info <- capture.output(dput(list(
   #   pwd = getwd(),
-  #   dir = dir(),
-  #   pkg_path = pkg_path
+  #   dir3 = dir(file.path("..", "..", "..", "packagedocs"))
   # )))
   # stop(paste(info, collapse = "\n"))
 
-  pkg_obj <- as.package(".")
+  pkg_obj <- as.package(pkg_path)
   rdl <- function(x) {
     rd_link(deparse(substitute(x)), pkg = pkg_obj)
   }
