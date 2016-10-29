@@ -11,7 +11,17 @@ test_that("links", {
     pkg_path <- file.path(pkg_path, "00_pkg_src", "packagedocs")
   }
 
-  rdl <- function(x) rd_link(deparse(substitute(x)), pkg = pkg_path)
+  info <- capture.output(dput(list(
+    pwd = getwd(),
+    dir = dir(),
+    pkg_path = pkg_path
+  )))
+  stop(paste(info, collapse = "\n"))
+
+  pkg_obj <- as.package(pkg_path)
+  rdl <- function(x) {
+    rd_link(deparse(substitute(x)), pkg = pkg_path)
+  }
 
   expect_equivalent(
     rdl(devtools::build_vignettes(a = 2)),
