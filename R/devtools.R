@@ -241,57 +241,6 @@ build_vignettes <- function (
     file.copy(extra_dir_files, output_dir, recursive = TRUE)
   }
 
-  if (is.character(index_redirect_file)) {
-    message("Creating index.html redirect to ", index_redirect_file, " in ", output_dir)
-    redir_templ <- paste(readLines(file.path(system.file(package = "packagedocs"),
-      "rd_template", "cran_template.html")), collapse = "\n")
-
-    redir_res <- whisker.render(
-      redir_templ,
-      list(title = pkg$package, url = index_redirect_file)
-    )
-    cat(redir_res, file = file.path(output_dir, "index.html"))
-    cat("\n", file = file.path(output_dir, "index.html"), append = TRUE)
-  }
-
-  # if (isTRUE(include_vignette_source)) {
-  #   message("Copying ", paste(basename(out_cp), collapse = ", "), " to ", doc_dir)
-  #   file.copy(out_cp, doc_dir, overwrite = TRUE)
-  # }
-
-  # devtools_copy_vignettes(pkg)
-  # copy_vignettes_and_assets(
-  #   pkg,
-  #   output_dir = file.path("inst", "doc"),
-  #   extra_dirs = c(),
-  #   extra_files = c(),
-  #   include_vignette_source = include_vignette_source
-  # )
-
-  # rmd_files <- file.path("inst", "doc", c("docs.Rmd", "rd.Rmd"))
-  # rmds_exist <- file.exists(rmd_files)
-  # if (any(rmds_exist)) {
-  #   for (i in seq_along(rmd_files)) {
-  #     if (rmds_exist[i]) {
-  #       message("Removing copied ", rmd_files[i])
-  #       unlink(rmd_files[i])
-  #     }
-  #   }
-  # }
-
-
-
-
-
-  # tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = FALSE)
-  # copy_vignettes_and_assets(
-  #   pkg,
-  #   output_dir = output_dir,
-  #   extra_dirs = extra_dirs,
-  #   extra_files = c(),
-  #   include_vignette_source = include_vignette_source
-  # )
-
 
   invisible(TRUE)
 }
