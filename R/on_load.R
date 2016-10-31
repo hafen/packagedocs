@@ -157,4 +157,12 @@
     package = "packagedocs"
   )
 
+  tools::vignetteEngine(
+    name = "redirect_index",
+    weave = redirect_weaver,
+    tangle = tangler,
+    pattern = "\\.Rmd$",
+    package = "packagedocs"
+  )
+
 }
