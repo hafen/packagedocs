@@ -6,17 +6,26 @@ context("rd_link")
 test_that("links", {
 
   wd <- getwd()
+  weird_mac_loc <- file.path("..", "..", "00_pkg_src", "packagedocs")
+  weird_windows_cran_loc <- file.path("..", "..", "..", "packagedocs")
   if (grepl("tests_i386|tests_x64", wd)) {
     # done to make sure the pkg_path points to the pkg source
     # only happens on build_win()
-    pkg_path <- pkg_path <- file.path("..", "..", "..", "packagedocs")
+    pkg_path <- weird_windows_cran_loc
+  } else if (dir.exists(weird_mac_loc)) {
+    # happens with "check()" on a mac
+    pkg_path <- weird_mac_loc
   } else {
+    # works with "devtools::test()"
     pkg_path <- "."
   }
 
   # info <- capture.output(dput(list(
   #   pwd = getwd(),
-  #   dir3 = dir(file.path("..", "..", "..", "packagedocs"))
+  #   dir0 = dir(),
+  #   dirWCRAN = dir(weird_windows_cran_loc),
+  #   dir2Mac = dir(weird_mac_loc)
+  #   # dir3 = dir(file.path("..", "..", "..", "packagedocs"))
   # )))
   # stop(paste(info, collapse = "\n"))
 

@@ -1,3 +1,9 @@
+
+all_pkgdocs_engines <- function() {
+  c("packagedocs::redirect", "packagedocs::redirect_index")
+}
+
+
 devtools_copy_vignettes_two <- function (
   pkg,
   to_dir = file.path(pkg$path, "inst", "doc")
@@ -23,7 +29,7 @@ devtools_copy_vignettes_two <- function (
     })
     file.remove(out_mv)
 
-    out_cp <- out_cp[vigns$engines != "packagedocs::redirect"]
+    out_cp <- out_cp[!(vigns$engines %in% all_pkgdocs_engines())]
     if (length(out_cp) > 0) {
       lapply(to_dir, function(to_dir_) {
         message("Copying ", paste(basename(out_cp), collapse = ", "),
@@ -112,7 +118,6 @@ devtools_copy_vignettes_two <- function (
 #' @param pkg path to package. Provided directly to \code{devtools::\link[devtools]{as.package}()}
 #' @param dependencies supplied directly to \code{devtools::\link[devtools]{install_deps}()}
 #' @param output_dir directory where the fully contained vignette directory should be exported
-#' @param index_redirect_file location of file where the index.html webpage should redirect to.  If no index.html file should be created, set this value to \code{FALSE} or \code{NULL}
 #' @param extra_dirs list of directories that will be copied to the gh-pages that are not vignettes and should not be shipped with the package. Files that should be exist in both gh-pages and the package should be contained in the \code{vignettes/.install_extras} file.
 #' @param delete_files list of files that should be deleted if they still exist when the function ends
 #' @param include_vignette_source boolean to determine if the vignettes should be copied to the destination directory.  Default behavior is to NOT copy the original vignettes
@@ -121,7 +126,6 @@ build_vignettes <- function (
   pkg = ".",
   dependencies = "VignetteBuilder",
   output_dir = "_gh-pages",
-  index_redirect_file = "docs.html",
   extra_dirs = file.path("vignettes", c(
     lazy_widgets_dir(),
     assets_dir()
@@ -172,6 +176,7 @@ build_vignettes <- function (
 
   message("Building ", pkg$package, " vignettes")
 
+  # build regular vigs into inst/doc
   tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = TRUE)
   devtools_copy_vignettes_two(
     pkg,
@@ -181,23 +186,47 @@ build_vignettes <- function (
     )
   )
 
-  extra_dir_files <- c()
-
+  # get packagedocs vigs
   vigns <- tools::pkgVignettes(dir = pkg$path, output = FALSE, source = FALSE)
-  vig_files <- vigns$docs[vigns$engines == "packagedocs::redirect"]
+  vig_files <- vigns$docs[vigns$engines %in% all_pkgdocs_engines()]
+  vig_output_files <- c()
   if (length(vig_files) > 0) {
-    message("Building packagedocs::redirect vignettes")
+    message("Building packagedocs vignettes")
     for (vig_file in vig_files) {
       rmarkdown::render(vig_file)
     }
-    # lapply(vig_files, rmarkdown::render)
 
-    output_file_html <- gsub(".Rmd$", ".html", vig_files)
-    extra_dir_files <- append(extra_dir_files, output_file_html)
+    vig_output_files <- gsub(".Rmd$", ".html", vig_files)
     extra_dirs <- append(extra_dirs, gsub(".Rmd", "_files", vig_files))
-    delete_files <- append(delete_files, output_file_html)
+    delete_files <- append(delete_files, vig_output_files)
+
+    is_index_redirect <- (vigns$engines == "packagedocs::redirect_index")
+
+    if (any(is_index_redirect)) {
+      redirect_vig <- vigns$docs[is_index_redirect]
+      if (length(redirect_vig) > 1) {
+        message("Multiple packagedocs::redirect_index vignettes found.  Only the first vignette will be used. c(", paste(basename(redirect_vig), collapse = ", "), ")") # nolint
+        redirect_vig <- redirect_vig[1]
+      }
+
+      from_file <- gsub("Rmd$", "html", redirect_vig)
+      to_file <- file.path(dirname(from_file), "index.html")
+
+      message("Renaming ", basename(from_file), " to ", basename(to_file))
+      vig_output_files[vig_output_files == from_file] <- file.path(dirname(from_file), "index.html")
+      delete_files[delete_files == from_file] <- to_file
+      delete_files <- append(delete_files, file.path(output_dir, basename(from_file)))
+      file.rename(from_file, to_file)
+    }
+
   }
 
+  if (length(vig_output_files) > 0) {
+    message("Copying packagedocs vigenttes to ", output_dir, ": ", paste(basename(vig_output_files), collapse = ", ")) # nolint
+    file.copy(vig_output_files, output_dir, recursive = TRUE)
+  }
+
+  extra_dir_files <- c()
   for (dir_val in extra_dirs) {
     if (dir.exists(dir_val)) {
       extra_dir_files <- append(extra_dir_files, dir_val)
@@ -206,62 +235,11 @@ build_vignettes <- function (
   extra_dir_files <- unique(extra_dir_files)
   if (length(extra_dir_files) > 0) {
     message(
-      "Copying extra files ", paste(basename(extra_dir_files), collapse = ", "),
+      "Copying extra files: ", paste(basename(extra_dir_files), collapse = ", "),
       " to ", output_dir
     )
     file.copy(extra_dir_files, output_dir, recursive = TRUE)
   }
-
-  if (is.character(index_redirect_file)) {
-    message("Creating index.html redirect to ", index_redirect_file, " in ", output_dir)
-    redir_templ <- paste(readLines(file.path(system.file(package = "packagedocs"),
-      "rd_template", "cran_template.html")), collapse = "\n")
-
-    redir_res <- whisker.render(
-      redir_templ,
-      list(title = pkg$package, url = index_redirect_file)
-    )
-    cat(redir_res, file = file.path(output_dir, "index.html"))
-    cat("\n", file = file.path(output_dir, "index.html"), append = TRUE)
-  }
-
-  # if (isTRUE(include_vignette_source)) {
-  #   message("Copying ", paste(basename(out_cp), collapse = ", "), " to ", doc_dir)
-  #   file.copy(out_cp, doc_dir, overwrite = TRUE)
-  # }
-
-  # devtools_copy_vignettes(pkg)
-  # copy_vignettes_and_assets(
-  #   pkg,
-  #   output_dir = file.path("inst", "doc"),
-  #   extra_dirs = c(),
-  #   extra_files = c(),
-  #   include_vignette_source = include_vignette_source
-  # )
-
-  # rmd_files <- file.path("inst", "doc", c("docs.Rmd", "rd.Rmd"))
-  # rmds_exist <- file.exists(rmd_files)
-  # if (any(rmds_exist)) {
-  #   for (i in seq_along(rmd_files)) {
-  #     if (rmds_exist[i]) {
-  #       message("Removing copied ", rmd_files[i])
-  #       unlink(rmd_files[i])
-  #     }
-  #   }
-  # }
-
-
-
-
-
-  # tools::buildVignettes(dir = pkg$path, tangle = TRUE, clean = FALSE)
-  # copy_vignettes_and_assets(
-  #   pkg,
-  #   output_dir = output_dir,
-  #   extra_dirs = extra_dirs,
-  #   extra_files = c(),
-  #   include_vignette_source = include_vignette_source
-  # )
 
 
   invisible(TRUE)
