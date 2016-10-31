@@ -205,7 +205,7 @@ build_vignettes <- function (
     if (any(is_index_redirect)) {
       redirect_vig <- vigns$docs[is_index_redirect]
       if (length(redirect_vig) > 1) {
-        message("Multiple packagedocs::redirect_index vignettes found.  Only the first vignette will be used. c(", paste(basename(redirect_vig), collapse = ", "), ")")
+        message("Multiple packagedocs::redirect_index vignettes found.  Only the first vignette will be used. c(", paste(basename(redirect_vig), collapse = ", "), ")") # nolint
         redirect_vig <- redirect_vig[1]
       }
 
@@ -222,7 +222,7 @@ build_vignettes <- function (
   }
 
   if (length(vig_output_files) > 0) {
-    message("Copying packagedocs vigenttes to ", output_dir, ": ", paste(basename(vig_output_files), collapse = ", "))
+    message("Copying packagedocs vigenttes to ", output_dir, ": ", paste(basename(vig_output_files), collapse = ", ")) # nolint
     file.copy(vig_output_files, output_dir, recursive = TRUE)
   }
 
