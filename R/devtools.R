@@ -222,11 +222,13 @@ build_vignettes <- function (
 
   }
 
+  # copy packagedocs vigs
   if (length(vig_output_files) > 0) {
     message("Copying packagedocs vigenttes to ", output_dir, ": ", paste(basename(vig_output_files), collapse = ", ")) # nolint
     file.copy(vig_output_files, output_dir, recursive = TRUE)
   }
 
+  # copy extra files
   extra_dir_files <- c()
   for (dir_val in extra_dirs) {
     if (dir.exists(dir_val)) {
