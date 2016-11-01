@@ -1,6 +1,7 @@
 
 all_pkgdocs_engines <- function() {
-  c("packagedocs::redirect", "packagedocs::redirect_index")
+  # c("packagedocs::redirect", "packagedocs::redirect_index")
+  c("packagedocs::redirect")
 }
 
 
