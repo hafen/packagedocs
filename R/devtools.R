@@ -1,6 +1,7 @@
 
 all_pkgdocs_engines <- function() {
-  c("packagedocs::redirect", "packagedocs::redirect_index")
+  # c("packagedocs::redirect", "packagedocs::redirect_index")
+  c("packagedocs::redirect")
 }
 
 
@@ -192,39 +193,37 @@ build_vignettes <- function (
   if (length(vig_files) > 0) {
     message("Building packagedocs vignettes")
     for (vig_file in vig_files) {
-      rmarkdown::render(vig_file)
-    }
+      vig_output_file <- gsub(".Rmd$", ".html", vig_file)
+      vig_yaml <- read_rmd_yaml(vig_file)
 
-    vig_output_files <- gsub(".Rmd$", ".html", vig_files)
-    extra_dirs <- append(extra_dirs, gsub(".Rmd", "_files", vig_files))
-    delete_files <- append(delete_files, vig_output_files)
-
-    is_index_redirect <- (vigns$engines == "packagedocs::redirect_index")
-
-    if (any(is_index_redirect)) {
-      redirect_vig <- vigns$docs[is_index_redirect]
-      if (length(redirect_vig) > 1) {
-        message("Multiple packagedocs::redirect_index vignettes found.  Only the first vignette will be used. c(", paste(basename(redirect_vig), collapse = ", "), ")") # nolint
-        redirect_vig <- redirect_vig[1]
+      # if the redirect location does not end in html, make it point to index.html
+      if (!grepl(".html$", vig_yaml$redirect)) {
+        message("Building ", basename(vig_file), " to index.html")
+        vig_output_file <- file.path(dirname(vig_file), "index.html")
+        # delete the copied vig file that has the "old" name
+        delete_files <- append(delete_files, file.path(output_dir, basename(vig_file)))
+        # add output folder
+        extra_dirs <- append(extra_dirs, "index_files")
+      } else {
+        message("Building ", basename(vig_file), " to ", basename(vig_output_file))
+        # add output folder
+        extra_dirs <- append(extra_dirs, gsub(".Rmd", "_files", vig_file))
       }
 
-      from_file <- gsub("Rmd$", "html", redirect_vig)
-      to_file <- file.path(dirname(from_file), "index.html")
+      vig_output_files <- append(vig_output_files, vig_output_file)
+      delete_files <- append(delete_files, vig_output_file)
 
-      message("Renaming ", basename(from_file), " to ", basename(to_file))
-      vig_output_files[vig_output_files == from_file] <- file.path(dirname(from_file), "index.html")
-      delete_files[delete_files == from_file] <- to_file
-      delete_files <- append(delete_files, file.path(output_dir, basename(from_file)))
-      file.rename(from_file, to_file)
+      rmarkdown::render(vig_file, output_file = vig_output_file)
     }
-
   }
 
+  # copy packagedocs vigs
   if (length(vig_output_files) > 0) {
     message("Copying packagedocs vigenttes to ", output_dir, ": ", paste(basename(vig_output_files), collapse = ", ")) # nolint
     file.copy(vig_output_files, output_dir, recursive = TRUE)
   }
 
+  # copy extra files
   extra_dir_files <- c()
   for (dir_val in extra_dirs) {
     if (dir.exists(dir_val)) {

@@ -12,7 +12,6 @@ package.json
 packagedocs.sublime*
 lintr
 .travis.yml
-^_docs$
 ^cran-comments\.md$
 ^_gh-pages$
 ^\.travis\.yml$
