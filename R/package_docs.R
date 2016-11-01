@@ -11,6 +11,7 @@
 #' @export
 #' @import rmarkdown
 #' @import htmltools
+#' @importFrom lazyrmd html_dependency_recliner
 #' @rdname package_docs
 package_docs <- function(
   toc = TRUE,

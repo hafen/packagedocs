@@ -52,7 +52,6 @@ devtools_copy_vignettes_two <- function (
 }
 
 
-#
 # # direct copy of copy_vignettes from devtools
 # # added doc_dir as arg
 # # added extra_files to have dirs lib_dir, "docs_files", and "rd_files"
