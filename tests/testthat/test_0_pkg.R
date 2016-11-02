@@ -13,7 +13,7 @@ test_that("init", {
     # unlink(pkg_path, recursive = TRUE)
   }
 
-  dir.create(pkg_path)
+  dir.create(pkg_path, showWarnings = FALSE)
   file.copy(
     pkg_path_original,
     pkg_path_short,
@@ -21,7 +21,7 @@ test_that("init", {
   )
 
   init_output <- capture.output({
-    packagedocs::init(pkg_path)
+    packagedocs::init_vignettes(pkg_path)
   })
 
 
