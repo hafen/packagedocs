@@ -200,11 +200,14 @@ build_vignettes <- function (
       # if the redirect location does not end in html, make it point to index.html
       if (!grepl(".html$", vig_yaml$redirect)) {
         message("Building ", basename(vig_file), " to index.html")
-        vig_output_file <- file.path(dirname(vig_file), "index.html")
         # delete the copied vig file that has the "old" name
-        delete_files <- append(delete_files, file.path(output_dir, basename(vig_file)))
+        delete_files <- append(delete_files, file.path(output_dir, basename(vig_output_file)))
+
+        vig_output_file <- file.path(dirname(vig_file), "index.html")
+
         # add output folder
-        extra_dirs <- append(extra_dirs, "index_files")
+        extra_dirs <- append(extra_dirs, file.path(dirname(vig_file), "index_files"))
+
       } else {
         message("Building ", basename(vig_file), " to ", basename(vig_output_file))
         # add output folder
