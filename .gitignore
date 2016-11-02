@@ -20,3 +20,6 @@ _docs
 inst/doc
 # ignore gh-pages output
 _gh-pages
+
+
+tests/testthat/testpkg
