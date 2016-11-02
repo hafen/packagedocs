@@ -2,11 +2,11 @@
 
 [![Build Status](https://travis-ci.org/hafen/packagedocs.svg?branch=master)](https://travis-ci.org/hafen/packagedocs)
 
-packagedocs provides a mechanism for simple generation and automated deployment nice-looking online R package documentation that plugs into the traditional R package vignette system.  Example for this package [here](http://hafen.github.io/packagedocs).
+packagedocs provides a mechanism for simple generation and automated deployment of nice-looking online R package documentation that plugs into the traditional R package vignette system.  Example for this package [here](http://hafen.github.io/packagedocs).
 
 ## Features
 
-- All documentation is generated from a single file, `"vignettes/docs.Rmd"`
+- All documentation is generated from a single RMarkdown file, `"vignettes/docs.Rmd"`
 - Documentation is nicely styled and responsive for mobile viewing with a collapsible auto-scrolling table of contents
 - Simple Github / TravisCI hooks for automatically building and deploying documentation to your github pages branch after each commit
 - Github pages branch is stomped on each commit to prevent repository bloat
@@ -14,7 +14,7 @@ packagedocs provides a mechanism for simple generation and automated deployment 
 - Valid R vignettes are generated that point to the live version of the docs
 - Support for [lazy rendering](https://github.com/hafen/lazyrmd) of htmlwidget outputs, useful when embedding several visualizations in a vignette
 - Automatic generation of all R object and function documentation, called the "function reference"
-- Examples in the function reference are evaluated and the output, including graphics is included inline with the documentation
+- Examples in the function reference are evaluated and the output, including graphics, is rendered inline with the documentation
 - The function reference can be organized into groups with custom headings using a yaml configuration file
 - A convenience function is provided for linking references to functions in your vignette directly to the associated function documentation on the generated function reference page
 - Helper functions to initialize, run, and set up your docs for Github deployment
