@@ -25,7 +25,7 @@ devtools_copy_vignettes_two <- function (
     out_cp <- vigns$docs
     lapply(to_dir, function(to_dir_) {
       message("Moving ", paste(basename(out_mv), collapse = ", "),
-          " to ", to_dir_)
+          " to ", gsub(pkg$path, ".", to_dir_))
       file.copy(out_mv, to_dir_, overwrite = TRUE)
     })
     file.remove(out_mv)
@@ -34,7 +34,7 @@ devtools_copy_vignettes_two <- function (
     if (length(out_cp) > 0) {
       lapply(to_dir, function(to_dir_) {
         message("Copying ", paste(basename(out_cp), collapse = ", "),
-            " to ", to_dir_)
+            " to ", gsub(pkg$path, ".", to_dir_))
         file.copy(out_cp, to_dir_, overwrite = TRUE)
       })
     }
@@ -46,7 +46,7 @@ devtools_copy_vignettes_two <- function (
     }
     lapply(to_dir, function(to_dir_) {
       message("Copying extra files ", paste(basename(extra_files),
-          collapse = ", "), " to ", to_dir_)
+          collapse = ", "), " to ", gsub(pkg$path, ".", to_dir_))
       file.copy(extra_files, to_dir_, recursive = TRUE)
     })
     invisible()
@@ -125,12 +125,12 @@ devtools_copy_vignettes_two <- function (
 build_vignettes <- function (
   pkg = ".",
   dependencies = "VignetteBuilder",
-  output_dir = "_gh-pages",
-  extra_dirs = file.path("vignettes", c(
+  output_dir = file.path(as.package(pkg)$path, "_gh-pages"),
+  extra_dirs = file.path(as.package(pkg)$path, "vignettes", c(
     lazy_widgets_dir(),
     assets_dir()
   )),
-  delete_files = file.path("vignettes", c(
+  delete_files = file.path(as.package(pkg)$path, "vignettes", c(
     ".build.timestamp"
   )),
   include_vignette_source = FALSE
@@ -199,11 +199,14 @@ build_vignettes <- function (
       # if the redirect location does not end in html, make it point to index.html
       if (!grepl(".html$", vig_yaml$redirect)) {
         message("Building ", basename(vig_file), " to index.html")
-        vig_output_file <- file.path(dirname(vig_file), "index.html")
         # delete the copied vig file that has the "old" name
-        delete_files <- append(delete_files, file.path(output_dir, basename(vig_file)))
+        delete_files <- append(delete_files, file.path(output_dir, basename(vig_output_file)))
+
+        vig_output_file <- file.path(dirname(vig_file), "index.html")
+
         # add output folder
-        extra_dirs <- append(extra_dirs, "index_files")
+        extra_dirs <- append(extra_dirs, file.path(dirname(vig_file), "index_files"))
+
       } else {
         message("Building ", basename(vig_file), " to ", basename(vig_output_file))
         # add output folder
@@ -219,7 +222,7 @@ build_vignettes <- function (
 
   # copy packagedocs vigs
   if (length(vig_output_files) > 0) {
-    message("Copying packagedocs vigenttes to ", output_dir, ": ", paste(basename(vig_output_files), collapse = ", ")) # nolint
+    message("Copying packagedocs vigenttes to ", gsub(pkg$path, ".", output_dir), ": ", paste(basename(vig_output_files), collapse = ", ")) # nolint
     file.copy(vig_output_files, output_dir, recursive = TRUE)
   }
 
@@ -234,7 +237,7 @@ build_vignettes <- function (
   if (length(extra_dir_files) > 0) {
     message(
       "Copying extra files: ", paste(basename(extra_dir_files), collapse = ", "),
-      " to ", output_dir
+      " to ", gsub(pkg$path, ".", output_dir)
     )
     file.copy(extra_dir_files, output_dir, recursive = TRUE)
   }

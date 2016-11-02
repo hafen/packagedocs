@@ -5,8 +5,10 @@
 \title{Build CRAN and gh-pages vignettes}
 \usage{
 build_vignettes(pkg = ".", dependencies = "VignetteBuilder",
-  output_dir = "_gh-pages", extra_dirs = file.path("vignettes",
-  c(lazy_widgets_dir(), assets_dir())), delete_files = file.path("vignettes",
+  output_dir = file.path(as.package(pkg)$path, "_gh-pages"),
+  extra_dirs = file.path(as.package(pkg)$path, "vignettes",
+  c(lazy_widgets_dir(), assets_dir())),
+  delete_files = file.path(as.package(pkg)$path, "vignettes",
   c(".build.timestamp")), include_vignette_source = FALSE)
 }
 \arguments{
