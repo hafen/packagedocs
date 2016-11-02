@@ -1,0 +1,21 @@
+---
+title: "packagedocs"
+subtitle: "Build Website of Package Documentation"
+author: "Ryan Hafen, Barret Schloerke"
+copyright: "Ryan Hafen, Barret Schloerke"
+output:
+  packagedocs::package_docs_rd:
+    toc: true
+    toc_collapse: false
+redirect: http://hafen.github.io/packagedocs/rd.html
+vignette: |
+  %\VignetteIndexEntry{packagedocs Package Reference}
+  %\VignetteEngine{packagedocs::redirect}
+navpills: |
+  <li><a href='index.html'>Docs</a></li>
+  <li class="active"><a href='rd.html'>Package Ref</a></li>
+  <li><a href='https://github.com/hafen/packagedocs'>Github <i class='fa fa-github'></i></a></li>
+---
+
+```{r auto-gen-child, child="auto-generated-rd.Rmd"}
+```
