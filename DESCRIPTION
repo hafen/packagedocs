@@ -22,7 +22,3 @@ Suggests: testthat
 RoxygenNote: 5.0.1
 VignetteBuilder: packagedocs
 NeedsCompilation: no
-Packaged: 2016-11-02 06:44:15 UTC; hafen
-Author: Ryan Hafen [aut, cre],
-  Barret Schloerke [aut]
-Maintainer: Ryan Hafen <rhafen@gmail.com>
