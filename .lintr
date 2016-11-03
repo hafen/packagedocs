@@ -6,4 +6,5 @@ linters: with_defaults(
   )
 exclusions:
   list(
+    "tests/testthat/z_original_pkg"
   )

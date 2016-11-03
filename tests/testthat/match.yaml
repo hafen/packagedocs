@@ -1,0 +1,17 @@
+knitr:
+  eval: true
+sections:
+-
+  section_name: Programming
+  topics:
+    -
+      file: fn.Rd
+      title: "fn: fn_a, fn_b"
+-
+  section_name: Loess Objects
+  topics:
+    - keyword
+-
+  section_name: Debugging Tools
+  topics:
+    - not_exported
