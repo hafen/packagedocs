@@ -9,11 +9,12 @@ context("init")
 
 test_that("init", {
 
-  if (dir.exists(pkg_path)) {
-    # unlink(pkg_path, recursive = TRUE)
+  if (dir.exists(pkg_path_short)) {
+    # unlink(pkg_path_short, recursive = TRUE)
   }
 
-  dir.create(pkg_path, showWarnings = FALSE)
+  # browser()
+  dir.create(pkg_path_short, showWarnings = FALSE)
   file.copy(
     pkg_path_original,
     pkg_path_short,
