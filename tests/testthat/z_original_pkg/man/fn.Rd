@@ -18,10 +18,7 @@ fn_b(b)
 Test file
 }
 \examples{
-testpkg:::fn_a(4)
-testpkg:::fn_b("world")
 hist(rnorm(1000))
-library(rbokeh)
 }
 \keyword{programming}
 

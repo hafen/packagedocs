@@ -8,10 +8,7 @@
 #' @rdname fn
 #' @keywords programming
 #' @examples
-#' testpkg:::fn_a(4)
-#' testpkg:::fn_b("world")
 #' hist(rnorm(1000))
-#' library(rbokeh)
 fn_a <- function(a) {
   a
 }
