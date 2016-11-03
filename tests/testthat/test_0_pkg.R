@@ -31,6 +31,13 @@ test_that("init", {
 
   expect_true(!dir.exists(file.path(pkg_path, "_gh-pages")))
 
+  # install so that it may build
+  dir.create(pkg_lib, showWarnings = FALSE)
+  expect_silent({
+    install.packages(pkg_path, lib = pkg_lib, repos = NULL, verbose = FALSE, quiet = TRUE)
+  })
+  library("testpkg", character.only = TRUE, lib.loc = pkg_lib)
+
   output <- capture.output({
     build_vignettes(pkg_path)
   })
