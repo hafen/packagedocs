@@ -1,0 +1,24 @@
+
+knitr:
+  eval: true
+
+sections:
+-
+  section_name: Main Functions
+  topics:
+    - init_vignettes
+    - build_vignettes
+    - deploy_travis
+-
+  section_name: Documentation Helpers
+  topics:
+    - rd_link
+-
+  section_name: Rendering Functions
+  topics:
+    -
+      title: Vignette Engines
+      file: package_docs.Rd
+    - render_redirect
+    - rd_template
+    - check_output
