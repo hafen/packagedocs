@@ -21,25 +21,11 @@ test_that("init", {
   )
 
 
-  init_output <- capture.output(
-    {
-      init_vignettes(pkg_path)
-    },
-    type = "message"
-  )
+  expect_message({
+    init_vignettes(pkg_path)
+  })
 
-  print(init_output)
-
-  browser()
-
-
-  init_output_match <- c(
-    "* Adding `inst/doc` to ./.gitignore",
-    "* Adding `_gh-pages` to ./.gitignore",
-    "* packagedocs initialized in tests/testthat/testpkg/vignettes",
-    "* take a look at newly created vignette documents: docs.Rmd, rd.Rmd, rd_index.yaml"
-  )
-
-  expect_equal(init_output, init_output_match)
-
+  match_yaml <- yaml::yaml.load_file("match.yaml")
+  test_yaml <- yaml::yaml.load_file(file.path(pkg_path, "vignettes", "rd_index.yaml"))
+  expect_equal(test_yaml, match_yaml)
 })

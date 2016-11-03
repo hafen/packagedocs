@@ -7,9 +7,9 @@ context("delete package")
 
 test_that("delete package", {
 
-  if (dir.exists(pkg_path)) {
-    # unlink(pkg_path, recursive = TRUE)
+  if (dir.exists(pkg_path_short)) {
+    unlink(pkg_path_short, recursive = TRUE)
   }
 
-  expect_true(!dir.exists(pkg_path))
+  expect_true(!dir.exists(pkg_path_short))
 })
