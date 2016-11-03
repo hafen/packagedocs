@@ -10,10 +10,9 @@ context("init")
 test_that("init", {
 
   if (dir.exists(pkg_path_short)) {
-    # unlink(pkg_path_short, recursive = TRUE)
+    unlink(pkg_path_short, recursive = TRUE)
   }
 
-  # browser()
   dir.create(pkg_path_short, showWarnings = FALSE)
   file.copy(
     pkg_path_original,
@@ -21,9 +20,17 @@ test_that("init", {
     recursive = TRUE
   )
 
-  init_output <- capture.output({
-    packagedocs::init_vignettes(pkg_path)
-  })
+
+  init_output <- capture.output(
+    {
+      init_vignettes(pkg_path)
+    },
+    type = "message"
+  )
+
+  print(init_output)
+
+  browser()
 
 
   init_output_match <- c(
