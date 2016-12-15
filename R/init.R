@@ -92,10 +92,10 @@ init_vignettes <- function(
     author = author,
     github_ref = github_ref,
     redirect_url = redirect_url,
-    vig_text = paste(
+    vig_text = paste0(
       "  %\\VignetteIndexEntry{", package_name, " Documentation}\n",
-      "  %\\VignetteEngine{packagedocs::redirect}",
-      sep = ""
+      "  %\\VignetteEngine{packagedocs::redirect}\n",
+      "  %\\VignetteEncoding{UTF-8}"
     )
   )
   cat(whisker::whisker.render(docs_template, args),
@@ -110,10 +110,10 @@ init_vignettes <- function(
     author = author,
     github_ref = github_ref,
     redirect_url = paste(redirect_url, "rd.html", sep = "/"),
-    vig_text = paste(
+    vig_text = paste0(
       "  %\\VignetteIndexEntry{", package_name, " Package Reference}\n",
-      "  %\\VignetteEngine{packagedocs::redirect}",
-      sep = ""
+      "  %\\VignetteEngine{packagedocs::redirect}\n",
+      "  %\\VignetteEncoding{UTF-8}"
     )
   )
   cat(whisker::whisker.render(rd_template, args),
