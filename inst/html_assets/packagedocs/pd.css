@@ -62,13 +62,18 @@ html {
 }
 
 h1 {
-  margin-left: -10px !important;
+  margin-left: -15px !important;
   border-bottom: 3px solid #5d9fea;
   /*border-bottom: 1px solid #eee;*/
 }
 
 h2 {
   border-bottom: 1px solid #eee;
+  margin-left: -10px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
 }
 
 .rd-dd {
@@ -91,32 +96,32 @@ pre.r-output {
   opacity: 0.96;
 }
 
-#sidebar li.active {
+#toc>ul li.active {
   border: 0 #eee solid;
   border-left-width: 4px;
 }
 
-#sidebar li {
+#toc>ul li {
   border: 0 #fff solid;
   border-left-width: 4px;
 }
 
-#sidebar li>a {
+#toc>ul li>a {
   padding: 3px 15px;
   color: #333;
   font-weight: 300 !important;
   font-size: 17px;
 }
 
-#sidebar>li>ul {
+#toc>ul>li>ul {
   margin-left: 10px;
 }
 
-#sidebar>li>ul>li {
+#toc>ul>li>ul>li {
   list-style: none;
 }
 
-#sidebar li > ul > li > a {
+#toc>ul li > ul > li > a {
   font-size: 13px;
 }
 
