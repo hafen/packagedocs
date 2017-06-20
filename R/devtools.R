@@ -222,7 +222,7 @@ build_vignettes <- function (
 
   # copy packagedocs vigs
   if (length(vig_output_files) > 0) {
-    message("Copying packagedocs vigenttes to ", gsub(pkg$path, ".", output_dir), ": ", paste(basename(vig_output_files), collapse = ", ")) # nolint
+    message("Copying packagedocs vignettes to ", gsub(pkg$path, ".", output_dir), ": ", paste(basename(vig_output_files), collapse = ", ")) # nolint
     file.copy(vig_output_files, output_dir, recursive = TRUE)
   }
 

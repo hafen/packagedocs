@@ -79,7 +79,7 @@ A much more convenient option, however, is to configure your packagedocs to be d
 
 To initialize automatic documentation builds from TravisCI, you need to do the following:
 
-1. Get a github API key and make it available as an environment variable `GITHUB_PAT`.  This can be done by visiting [https://github.com/settings/tokens](Github > Settings > Tokens).  The minimal scope to select is "public_repo".
+1. Get a github API key and make it available as an environment variable `GITHUB_PAT`.  This can be done by visiting [Github > Settings > Tokens](https://github.com/settings/tokens).  The minimal scope to select is "public_repo".
     ![github pat](images/github_pat.png)
 2. Install the TravisCI Ruby Gem (and Ruby if it isn't installed).  On most MacOS and Linux systems, Ruby is already installed.  On Windows, a good option for Ruby is [RubyInstaller](http://rubyinstaller.org/).  Once you have Ruby, you need to install the travis Ruby gem:
     ```bash
