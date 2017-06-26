@@ -1,6 +1,6 @@
 
 docs_file_html <- function() {
-  "docs.html"
+  "index.html"
 }
 
 rd_file_html <- function() {
