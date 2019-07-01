@@ -17,8 +17,8 @@ BugReports: https://github.com/hafen/packagedocs/issues
 LazyData: true
 Imports: crayon, devtools, digest, evaluate, highlight, htmltools,
         lazyrmd (>= 0.2.0), magrittr, rmarkdown, stringr, tools,
-        whisker, yaml
+        usethis, whisker, yaml
 Suggests: testthat
-RoxygenNote: 5.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: packagedocs
 NeedsCompilation: no

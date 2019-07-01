@@ -5,7 +5,7 @@
 #'
 #' @param pkg location of package
 #' @param add boolean that determines if all items should be added to the travis yaml file or printed on screen
-#' @param browse passed onto \code{devtools::\link{use_travis}}
+#' @param browse passed onto \code{usethis::\link{use_travis}}
 #' @export
 use_travis <- function(pkg = ".", add = TRUE, browse = interactive()) {
   if (!isTRUE(add)) {
@@ -34,7 +34,9 @@ use_travis <- function(pkg = ".", add = TRUE, browse = interactive()) {
   travis_file <- file.path(pkg$path, ".travis.yml")
 
   if (!file.exists(travis_file)) {
-    devtools::use_travis(pkg, browse = browse)
+    usethis::with_project(pkg$path,
+      usethis::use_travis(browse = browse)
+    )
   }
 
   travis_yaml <- yaml::yaml.load_file(travis_file)
