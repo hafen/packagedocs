@@ -65,7 +65,7 @@ init_vignettes <- function(
   devtools_use_directory("vignettes", pkg = pkg)
   devtools_use_git_ignore("inst/doc", pkg = pkg)
   devtools_use_git_ignore("_gh-pages", pkg = pkg)
-  devtools::use_build_ignore("_gh-pages", pkg = pkg)
+  usethis::use_build_ignore("_gh-pages", pkg = pkg)
 
 
   rd_info <- as_sd_package(code_path)

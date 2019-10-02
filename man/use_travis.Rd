@@ -11,7 +11,7 @@ use_travis(pkg = ".", add = TRUE, browse = interactive())
 
 \item{add}{boolean that determines if all items should be added to the travis yaml file or printed on screen}
 
-\item{browse}{passed onto \code{devtools::\link{use_travis}}}
+\item{browse}{passed onto \code{usethis::\link{use_travis}}}
 }
 \description{
 Use Travis CI
